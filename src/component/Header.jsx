@@ -1,5 +1,4 @@
 import { Box, Image, Text, Input, InputGroup } from '@chakra-ui/react';
-
 import * as React from 'react';
 import logo from '../img/LOGO.png';
 
