@@ -4,6 +4,7 @@ import { ChakraProvider } from '@chakra-ui/react';
 import Header from './component/Header';
 import Write from './pages/Write';
 import Main from './pages/Main';
+import Join from './pages/Join';
 
 function App() {
   return (
@@ -13,7 +14,6 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<Main isLogin={false} />} />
-          <Route path="/Login" />
         </Routes>
       </Router>
     </ChakraProvider>

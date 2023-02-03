@@ -4,7 +4,7 @@ import logo from '../img/LOGO.png';
 
 function Header(isLogin) {
   return (
-    <Box h="8.125rem" display="flex" justifyContent="space-around" alignItems="center">
+    <Box border="1px solid red" h="8.125rem" display="flex" justifyContent="space-around" alignItems="center">
       <Box border="1px solid black">
         <Image src={logo} alt="logo" />
       </Box>
