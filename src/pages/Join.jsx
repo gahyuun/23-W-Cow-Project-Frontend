@@ -33,11 +33,13 @@ function Join() {
     mr: '10px',
   }; // email, password등의 text 스타일
 
+  const options = ['javascript', 'java', 'express'];
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [name, setName] = React.useState('');
   const [stack, setStack] = React.useState('');
   const [showPW, setShowPW] = React.useState(false);
+  const [isSame, setIsSame] = React.useState(false);
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
   };
@@ -46,6 +48,7 @@ function Join() {
   };
   const handleNameChange = (e) => {
     setName(e.target.value);
+    setIsSame(false);
   };
 
   const handleStackChange = (e) => {
@@ -55,6 +58,20 @@ function Join() {
   const handleShowPassword = () => {
     setShowPW(!showPW);
   };
+  const handleIsSame = () => {
+    setIsSame(true);
+    // axios
+    //   .post('/auth/nicknameSame , name')
+    //   .then(
+    //          formhelpertext 띄우기 성공
+    //  )
+    //   .catch(function (error) {
+    //     formhelpertext
+    //     setIsSame(false);
+    //   });
+    // 중복 확인
+  };
+
   return (
     <Box display="flex" justifyContent="center">
       <Card w="2xl" h="xl" mt="120px">
@@ -134,7 +151,13 @@ function Join() {
                     _focusVisible={{ borderColor: 'black' }}
                     _hover={{ borderColor: 'black' }}
                   />
-                  <Button _hover={{ backgroundColor: '#3182CE', opacity: '0.8' }} sx={buttonColor} fontWeight="400">
+                  <Button
+                    _hover={{ backgroundColor: '#3182CE', opacity: '0.8' }}
+                    sx={buttonColor}
+                    fontWeight="400"
+                    onClick={handleIsSame}
+                    isDisabled={isSame}
+                  >
                     중복
                   </Button>
                 </Box>
@@ -145,12 +168,18 @@ function Join() {
                 <Select
                   value={stack}
                   onChange={handleStackChange}
-                  placeholder="&nbsp;&nbsp;&nbsp;&nbsp;스택을 입력해주세요."
+                  placeholder="&nbsp;&nbsp;&nbsp;&nbsp;Stack"
                   variant="unstyled"
                   sx={inputStyle}
                   color="#718096"
                   w="450px"
-                />
+                >
+                  {options.map((item) => (
+                    <option key={item} value={item}>
+                      {item}
+                    </option>
+                  ))}
+                </Select>
               </Box>
             </Box>
             <Button _hover={{ backgroundColor: '#3182CE', opacity: '0.8' }} mb="20px" sx={buttonColor}>
