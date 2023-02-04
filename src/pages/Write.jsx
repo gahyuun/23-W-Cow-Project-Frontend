@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Select, Text, Box, Input, Textarea, Button, Flex, Center } from '@chakra-ui/react';
+import { Select, Text, Box, Input, Textarea, Button, Flex, Card } from '@chakra-ui/react';
 
 function Write() {
   const [title, setTitle] = React.useState('');
@@ -49,11 +49,11 @@ function Write() {
       </Box>
       <Box w="850px">
         <Flex color="white">
-          <Center border="2px solid black" borderRadius="15px" w="350px">
-            <Box>
+          <Card borderRadius="15px" w="350px">
+            <Box m="auto">
               <Button w="55px">이미지</Button>
             </Box>
-          </Center>
+          </Card>
           <Box ml="5">
             <Input value={title} onChange={handleTitle} mb="5" placeholder="프로젝트 명을 입력해주세요." size="lg" />
             <Input
