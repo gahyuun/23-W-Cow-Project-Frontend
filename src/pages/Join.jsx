@@ -1,4 +1,18 @@
-import { Box, Button, Card, CardBody, CardHeader, Input, Text, Image, InputGroup, Select } from '@chakra-ui/react';
+import {
+  Box,
+  Button,
+  Card,
+  CardBody,
+  CardHeader,
+  Input,
+  Text,
+  Image,
+  InputGroup,
+  Select,
+  FormHelperText,
+  FormControl,
+  FormLabel,
+} from '@chakra-ui/react';
 import * as React from 'react';
 import hidepw from '../img/hidePW.png';
 import showpw from '../img/showPW.png';
@@ -38,8 +52,10 @@ function Join() {
   const [password, setPassword] = React.useState('');
   const [name, setName] = React.useState('');
   const [stack, setStack] = React.useState('');
-  const [showPW, setShowPW] = React.useState(false);
-  const [isSame, setIsSame] = React.useState(false);
+  const [showPW, setShowPW] = React.useState(false); // 비밀번호 보여주기 여부
+  const [isSame, setIsSame] = React.useState(false); // 중복버튼 클릭 여부
+  const [nameError, setNameError] = React.useState(''); // 닉네임 에러 text
+
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
   };
@@ -49,6 +65,7 @@ function Join() {
   const handleNameChange = (e) => {
     setName(e.target.value);
     setIsSame(false);
+    setNameError('');
   };
 
   const handleStackChange = (e) => {
@@ -63,10 +80,10 @@ function Join() {
     // axios
     //   .post('/auth/nicknameSame , name')
     //   .then(
-    //          formhelpertext 띄우기 성공
+    //          setNameError('사용 가능한 닉네임입니다')
     //  )
     //   .catch(function (error) {
-    //     formhelpertext
+    //     setNameError('존재하는 닉네임입니다')
     //     setIsSame(false);
     //   });
     // 중복 확인
@@ -117,7 +134,7 @@ function Join() {
                 />
               </Box>
               <Box sx={groupStyle}>
-                <Text sx={TextStyle}>password</Text>
+                <Text sx={TextStyle}>Password</Text>
                 <InputGroup w="450px">
                   <Input
                     value={password}
@@ -139,29 +156,34 @@ function Join() {
                   />
                 </InputGroup>
               </Box>
-              <Box sx={groupStyle}>
-                <Text sx={TextStyle}>NickName</Text>
-                <Box w="450px" display="flex">
-                  <Input
-                    type="email"
-                    value={name}
-                    onChange={handleNameChange}
-                    placeholder="닉네임을 입력해주세요"
-                    sx={inputStyle}
-                    _focusVisible={{ borderColor: 'black' }}
-                    _hover={{ borderColor: 'black' }}
-                  />
-                  <Button
-                    _hover={{ backgroundColor: '#3182CE', opacity: '0.8' }}
-                    sx={buttonColor}
-                    fontWeight="400"
-                    onClick={handleIsSame}
-                    isDisabled={isSame}
-                  >
-                    중복
-                  </Button>
+              <FormControl sx={groupStyle}>
+                <FormLabel sx={TextStyle}>NickName</FormLabel>
+                <Box display="flex" flexDirection="column" alignItems="flex-end">
+                  <Box w="450px" display="flex">
+                    <Input
+                      type="email"
+                      value={name}
+                      onChange={handleNameChange}
+                      placeholder="닉네임을 입력해주세요"
+                      sx={inputStyle}
+                      _focusVisible={{ borderColor: 'black' }}
+                      _hover={{ borderColor: 'black' }}
+                    />
+                    <Button
+                      _hover={{ backgroundColor: '#3182CE', opacity: '0.8' }}
+                      sx={buttonColor}
+                      fontWeight="400"
+                      onClick={handleIsSame}
+                      isDisabled={isSame}
+                    >
+                      중복
+                    </Button>
+                  </Box>
+                  <FormHelperText color={isSame ? '#0AA322' : '#ff0000'} fontWeight="500" fontSize="0.813rem">
+                    {nameError}
+                  </FormHelperText>
                 </Box>
-              </Box>
+              </FormControl>
               <Box sx={groupStyle}>
                 <Text sx={TextStyle}>Stack</Text>
 
@@ -176,7 +198,7 @@ function Join() {
                 >
                   {options.map((item) => (
                     <option key={item} value={item}>
-                      {item}
+                      &nbsp;&nbsp;&nbsp;&nbsp;{item}
                     </option>
                   ))}
                 </Select>
