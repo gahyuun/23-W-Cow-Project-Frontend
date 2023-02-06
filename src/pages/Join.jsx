@@ -62,7 +62,7 @@ function Join() {
   const options = ['javascript', 'java', 'express']; // select에 들어갈 내용 예시
   const [nickname, setNickname] = React.useState('');
   const [showPW, setShowPW] = React.useState(false); // 비밀번호 보여주기 여부
-  const [isNameSame, setIsNameSame] = React.useState(false); // 중복버튼 클릭 여부
+  const [nicknameCheck, setNicknameCheck] = React.useState(false); // 중복버튼 클릭 여부
   const [nicknameError, setNicknameError] = React.useState(''); // 닉네임 에러 text
   const [emailError, setEmailError] = React.useState(''); // 이메일 에러 text
   const [passwordError, setPasswordError] = React.useState(''); // 비밀번호 에러 text
@@ -70,19 +70,19 @@ function Join() {
 
   const handleNickNameChange = (e) => {
     setNickname(e.target.value);
-    setIsNameSame(false);
+    setNicknameCheck(false);
     setNicknameError('');
   };
 
   const handleShowPassword = () => {
     setShowPW(!showPW);
   };
-  const handleIsNameSame = async () => {
+  const handlenicknameCheck = async () => {
     if (nickname === '') {
       setNicknameError('닉네임을 입력해주세요');
       return;
     } // 닉네임 입력을 안했을 시
-    setIsNameSame(true);
+    setNicknameCheck(true);
     await axios
       .get(`/auth/register/:${nickname}`)
       .then(() => {
@@ -90,7 +90,7 @@ function Join() {
       })
       .catch(() => {
         setNicknameError('존재하는 닉네임입니다');
-        setIsNameSame(false);
+        setNicknameCheck(false);
       });
   }; // 중복 확인
 
@@ -100,7 +100,7 @@ function Join() {
       /([\w-.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
     const passwordRegrex = /^(?=.*[a-zA-Z])(?=.*[0-9]).{7,}$/;
 
-    if (isNameSame) {
+    if (nicknameCheck) {
       const data = new FormData(event.currentTarget);
       const joinData = {
         email: data.get('email'),
@@ -214,13 +214,13 @@ function Join() {
                         _hover={{ backgroundColor: '#3182CE', opacity: '0.8' }}
                         sx={buttonColor}
                         fontWeight="400"
-                        onClick={handleIsNameSame}
-                        isDisabled={isNameSame}
+                        onClick={handlenicknameCheck}
+                        isDisabled={nicknameCheck}
                       >
                         중복
                       </Button>
                     </Box>
-                    <FormHelperText color={isNameSame ? '#0AA322' : '#ff0000'} fontWeight="500" fontSize="0.813rem">
+                    <FormHelperText color={nicknameCheck ? '#0AA322' : '#ff0000'} fontWeight="500" fontSize="0.813rem">
                       {nicknameError}
                     </FormHelperText>
                   </Box>
