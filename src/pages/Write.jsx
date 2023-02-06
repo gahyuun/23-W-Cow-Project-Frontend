@@ -1,92 +1,154 @@
 import * as React from 'react';
-import { Select, Text, Box, Input, Textarea, Button, Flex, Card } from '@chakra-ui/react';
+import {
+  Select,
+  Text,
+  Box,
+  Input,
+  Button,
+  Grid,
+  GridItem,
+  Card,
+  FormControl,
+  Textarea,
+} from '@chakra-ui/react';
+import axios from 'axios';
+
+const stacks = [
+  'Python',
+  'Spring',
+  'AWS',
+  'Git',
+  'iOS',
+  'HTML',
+  'MySQL',
+  'SQL',
+  'JavaScipt',
+  'Andriod',
+  'C/C++',
+  'React',
+];
 
 function Write() {
-  const [title, setTitle] = React.useState('');
-  const [detail, setDetail] = React.useState('');
-  const [summary, setSummary] = React.useState('');
-  const [period, setPeriod] = React.useState('');
-  const [techstack, setTechstack] = React.useState([]);
+  const [formData, setFormData] = React.useState({
+    title: '',
+    detail: '',
+    summary: '',
+    period: '',
+    techstack: '',
+  });
 
-  const handleTitle = (e) => {
-    setTitle(e.target.value);
-  };
-  const handleDetail = (e) => {
-    setDetail(e.target.value);
-  };
-  const handlePeriod = (e) => {
-    setPeriod(e.target.value);
-  };
-  const handleSummary = (e) => {
-    setSummary(e.target.value);
-  };
-  const handletechStack = (e) => {
-    setTechstack(e.target.value);
+  const handleChange = (e) => {
+    const newForm = {
+      ...formData,
+      [e.target.id]: e.target.value,
+    };
+    console.log(newForm);
+    setFormData(newForm);
   };
 
-  // const onSubmit = async () => {
-  //   await axios
-  //     .post('/api/mypage/write', {
-  //       title,
-  //       detail,
-  //       summary,
-  //       techStack,
-  //       period,
-  //     })
-  //     .then((res) => {
-  //       console.log(res);
-  //       navigator('/api/mypage');
-  //     })
-  //     .catch((e) => {
-  //       console.error(e);
-  //     });
-  // };
+  React.useEffect(() => {}, [formData]);
+  const onSubmit = async () => {
+    await axios
+      .post('/', {
+        formData,
+      })
+      .then((res) => {
+        console.log(res);
+        navigator('/mypage');
+      })
+      .catch((e) => {
+        console.error(e);
+      });
+  };
   return (
     <Box w="850px" m="auto" mb="5">
-      <Box mt="10" mb="20">
+      <Box mt="10" mb="10">
         <Text fontSize="3xl" as="b">
           프로젝트를 작성해주세요.
         </Text>
       </Box>
       <Box w="850px">
-        <Flex color="white">
-          <Card borderRadius="15px" w="350px">
-            <Box m="auto">
-              <Button w="55px">이미지</Button>
+        <FormControl onSubmit={onSubmit}>
+          <Grid color="white" gap={1}>
+            <Box>
+              <Card borderRadius="15px" w="350px" h="300px">
+                <Box colSpan={2} m="auto">
+                  <Button w="55px">이미지</Button>
+                </Box>
+              </Card>
             </Box>
-          </Card>
-          <Box ml="5">
-            <Input value={title} onChange={handleTitle} mb="5" placeholder="프로젝트 명을 입력해주세요." size="lg" />
-            <Input
-              value={period}
-              onChange={handlePeriod}
-              mb="5"
-              placeholder="프로젝트 기간을 입력해주세요. ex. 220503~220603"
-              size="lg"
-            />
-            <Input
-              value={summary}
-              onChange={handleSummary}
-              mb="5"
-              placeholder="프로젝트 소개를 입력해주세요."
-              size="lg"
-            />
-            <Select value={techstack} onChange={handletechStack} mb="5" placeholder="스택을 입력해주세요." size="lg" />
-            <Input
-              value={detail}
-              onChange={handleDetail}
-              mb="5"
-              placeholder="프로젝트 설명을 입력해주세요."
-              size="lg"
-            />
-          </Box>
-        </Flex>
-      </Box>
-      <Textarea mt="5" mb="5" h="250px" resize="none" placeholder="Here is a sample placeholder" />
-      <Box display="flex">
-        <Button w="350px" h="50px" m="auto" colorScheme="blue" variant="outline">
-          등록
-        </Button>
+            <GridItem colSpan={2} color="black">
+              <Box ml="4" mt="6" w="480px">
+                <Input
+                  id="title"
+                  value={formData.title}
+                  onChange={handleChange}
+                  mb="5"
+                  placeholder="프로젝트 명을 입력해주세요."
+                  size="lg"
+                />
+                <Input
+                  id="period"
+                  value={formData.period}
+                  onChange={handleChange}
+                  mb="5"
+                  placeholder="프로젝트 기간을 입력해주세요. ex. 220503~220603"
+                  size="lg"
+                />
+                <Input
+                  id="summary"
+                  value={formData.summary}
+                  onChange={handleChange}
+                  mb="5"
+                  placeholder="프로젝트 소개를 입력해주세요."
+                  size="lg"
+                />
+                <Select
+                  id="teckstack"
+                  value={formData.techstack}
+                  onChange={handleChange}
+                  mb="5"
+                  placeholder="스택을 입력해주세요."
+                  size="lg"
+                >
+                  {stacks.map((stack) => (
+                    <option key={stack} value={stack}>
+                      {stack}
+                    </option>
+                  ))}
+                </Select>
+              </Box>
+            </GridItem>
+            <GridItem colSpan={4}>
+              <Box color="black">
+                <Textarea
+                  id="detail"
+                  value={formData.detail}
+                  onChange={handleChange}
+                  mt="5"
+                  mb="5"
+                  p="5"
+                  h="350px"
+                  w="850px"
+                  resize="none"
+                  placeholder="프로젝트 설명을 입력해주세요."
+                />
+              </Box>
+              <Box w="350px" h="50px" m="auto">
+                <Button
+                  w="350px"
+                  h="50px"
+                  type="submit"
+                  onClick={onSubmit}
+                  colorScheme="blue"
+                  variant="outline"
+                >
+                  등록
+                </Button>
+              </Box>
+            </GridItem>
+          </Grid>
+        </FormControl>
       </Box>
     </Box>
   );
