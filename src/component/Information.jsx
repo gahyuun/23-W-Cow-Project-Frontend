@@ -1,5 +1,15 @@
 import * as React from 'react';
-import { Box, Center, Stack, StackDivider, Text, Card, CardHeader, Heading, CardBody } from '@chakra-ui/react';
+import {
+  Box,
+  Center,
+  Stack,
+  StackDivider,
+  Text,
+  Card,
+  CardHeader,
+  Heading,
+  CardBody,
+} from '@chakra-ui/react';
 
 function Information() {
   return (
@@ -18,17 +28,13 @@ function Information() {
                 </Text>
               </Box>
               <Box>
-                <Heading size="xs" textTransform="uppercase">
-                  Nickname
-                </Heading>
+                <Heading size="xs">Nickname</Heading>
                 <Text pt="2" fontSize="sm">
                   세빈공주
                 </Text>
               </Box>
               <Box>
-                <Heading size="xs" textTransform="uppercase">
-                  Stack
-                </Heading>
+                <Heading size="xs">Stack</Heading>
                 <Text pt="2" fontSize="sm">
                   JavaScript
                 </Text>

@@ -7,13 +7,10 @@
   "extends": ["airbnb", "plugin:prettier/recommended"],
   "rules": {
     "import/no-extraneous-dependencies": 0,
+    "import/prefer-default-export": "off",
+    "import/extensions": ["off"],
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
-    "prettier/prettier": [
-      "error",
-      {
-        "useTabs": false,
-        "endOfLine": "auto"
-      }
-    ]
+    "prettier/prettier": "off",
+    "no-console": "off"
   }
 }
