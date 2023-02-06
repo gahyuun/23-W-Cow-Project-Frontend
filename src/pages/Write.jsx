@@ -5,7 +5,7 @@ function Write() {
   const [title, setTitle] = React.useState('');
   const [detail, setDetail] = React.useState('');
   const [summary, setSummary] = React.useState('');
-  const [date, setDate] = React.useState('');
+  const [period, setPeriod] = React.useState('');
   const [techstack, setTechstack] = React.useState([]);
 
   const handleTitle = (e) => {
@@ -14,8 +14,8 @@ function Write() {
   const handleDetail = (e) => {
     setDetail(e.target.value);
   };
-  const handleDate = (e) => {
-    setDate(e.target.value);
+  const handlePeriod = (e) => {
+    setPeriod(e.target.value);
   };
   const handleSummary = (e) => {
     setSummary(e.target.value);
@@ -26,15 +26,16 @@ function Write() {
 
   // const onSubmit = async () => {
   //   await axios
-  //     .post('/write', {
+  //     .post('/api/mypage/write', {
   //       title,
   //       detail,
   //       summary,
-  //       stack,
+  //       techStack,
+  //       period,
   //     })
   //     .then((res) => {
   //       console.log(res);
-  //       navigator('/');
+  //       navigator('/api/mypage');
   //     })
   //     .catch((e) => {
   //       console.error(e);
@@ -57,8 +58,8 @@ function Write() {
           <Box ml="5">
             <Input value={title} onChange={handleTitle} mb="5" placeholder="프로젝트 명을 입력해주세요." size="lg" />
             <Input
-              value={date}
-              onChange={handleDate}
+              value={period}
+              onChange={handlePeriod}
               mb="5"
               placeholder="프로젝트 기간을 입력해주세요. ex. 220503~220603"
               size="lg"
