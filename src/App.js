@@ -5,6 +5,7 @@ import Header from './component/Header';
 import Write from './pages/Write';
 import Main from './pages/Main';
 import Join from './pages/Join';
+import My from './pages/My';
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
           <Route path="/write" element={<Write />} />
           <Route path="/" element={<Main isLogin={false} />} />
           <Route path="/join" element={<Join isLogin={false} />} />
+          <Route path="/mypage" element={<My />} />
         </Routes>
       </Router>
     </ChakraProvider>
