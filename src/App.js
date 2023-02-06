@@ -13,7 +13,7 @@ function App() {
       <Header />
       <Router>
         <Routes>
-          <Route path="/write" element={<Write />} />
+          <Route path="/portfolio" element={<Write />} />
           <Route path="/" element={<Main isLogin={false} />} />
           <Route path="/join" element={<Join isLogin={false} />} />
           <Route path="/mypage" element={<My />} />
