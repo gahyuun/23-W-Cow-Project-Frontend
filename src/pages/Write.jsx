@@ -12,21 +12,7 @@ import {
   Textarea,
 } from '@chakra-ui/react';
 import axios from 'axios';
-
-const stacks = [
-  'Python',
-  'Spring',
-  'AWS',
-  'Git',
-  'iOS',
-  'HTML',
-  'MySQL',
-  'SQL',
-  'JavaScipt',
-  'Andriod',
-  'C/C++',
-  'React',
-];
+import { stacks } from '../helper/types';
 
 function Write() {
   const [formData, setFormData] = React.useState({

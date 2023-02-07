@@ -16,6 +16,7 @@ import {
 import * as React from 'react';
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import { stacks } from '../helper/types.js';
 import hidepw from '../img/hidePW.png';
 import showpw from '../img/showPW.png';
 
@@ -59,7 +60,7 @@ function Join() {
     alignItems: 'flex-end',
   }; // input 그룹과 formhelpertext를 그룹으로 묶는 스타일
 
-  const options = ['javascript', 'java', 'express']; // select에 들어갈 내용 예시
+  // select에 들어갈 내용 예시
   const [nickname, setNickname] = React.useState('');
   const [showPW, setShowPW] = React.useState(false); // 비밀번호 보여주기 여부
   const [nicknameCheck, setNicknameCheck] = React.useState(false); // 중복버튼 클릭 여부
@@ -107,9 +108,11 @@ function Join() {
         password: data.get('password'),
         stack: data.get('stack'),
       };
-      if (!emailRegrex.test(joinData.email)) setEmailError('이메일 형식이 올바르지 않습니다');
+      if (!emailRegrex.test(joinData.email))
+        setEmailError('이메일 형식이 올바르지 않습니다');
       else setEmailError('');
-      if (!passwordRegrex.test(joinData.password)) setPasswordError('영문 숫자포함 7자 이상의 비밀번호를 설정해주세요');
+      if (!passwordRegrex.test(joinData.password))
+        setPasswordError('영문 숫자포함 7자 이상의 비밀번호를 설정해주세요');
       else setPasswordError('');
       if (joinData.stack === '') setStackError('스택을 선택해주세요');
       else setStackError('');
@@ -157,8 +160,20 @@ function Join() {
           boxShadow="10px 10px 30px #c2c2c2"
         >
           <form onSubmit={handleSubmit}>
-            <Box w="xl" h="sm" display="flex" flexDirection="column" justifyContent="space-between">
-              <FormControl w="xl" h="18.75rem" display="flex" flexDirection="column" justifyContent="space-around">
+            <Box
+              w="xl"
+              h="sm"
+              display="flex"
+              flexDirection="column"
+              justifyContent="space-between"
+            >
+              <FormControl
+                w="xl"
+                h="18.75rem"
+                display="flex"
+                flexDirection="column"
+                justifyContent="space-around"
+              >
                 <Box sx={groupStyle}>
                   <Text sx={TextStyle}>Email</Text>
                   <Box sx={inputGroupStyle}>
@@ -170,7 +185,9 @@ function Join() {
                       _focusVisible={{ borderColor: 'black' }}
                       _hover={{ borderColor: 'black' }}
                     />
-                    <FormHelperText sx={FormHelperStyle}>{emailError}</FormHelperText>
+                    <FormHelperText sx={FormHelperStyle}>
+                      {emailError}
+                    </FormHelperText>
                   </Box>
                 </Box>
                 <Box sx={groupStyle}>
@@ -195,7 +212,9 @@ function Join() {
                         w="30px"
                       />
                     </InputGroup>
-                    <FormHelperText sx={FormHelperStyle}>{passwordError}</FormHelperText>
+                    <FormHelperText sx={FormHelperStyle}>
+                      {passwordError}
+                    </FormHelperText>
                   </Box>
                 </Box>
                 <Box sx={groupStyle}>
@@ -220,7 +239,11 @@ function Join() {
                         중복
                       </Button>
                     </Box>
-                    <FormHelperText color={nicknameCheck ? '#0AA322' : '#ff0000'} fontWeight="500" fontSize="0.813rem">
+                    <FormHelperText
+                      color={nicknameCheck ? '#0AA322' : '#ff0000'}
+                      fontWeight="500"
+                      fontSize="0.813rem"
+                    >
                       {nicknameError}
                     </FormHelperText>
                   </Box>
@@ -236,13 +259,15 @@ function Join() {
                       color="#718096"
                       w="450px"
                     >
-                      {options.map((item) => (
+                      {stacks.map((item) => (
                         <option key={item} value={item}>
                           &nbsp;&nbsp;&nbsp;&nbsp;{item}
                         </option>
                       ))}
                     </Select>
-                    <FormHelperText sx={FormHelperStyle}>{stackError}</FormHelperText>
+                    <FormHelperText sx={FormHelperStyle}>
+                      {stackError}
+                    </FormHelperText>
                   </Box>
                 </Box>
               </FormControl>
