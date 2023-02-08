@@ -19,3 +19,11 @@ code {
 .css-rngjpw[data-hover] {
   border-color: 'none !important';
 }
+@keyframes shakingBoard {
+  25% {
+      transform: rotate(-1deg);
+    }
+  50% {
+      transform: rotate(1deg);
+    }
+}
