@@ -14,6 +14,7 @@ import {
 import * as React from 'react';
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import { useNavigate } from 'react-router-dom';
 import { stacks } from '../helper/types.js';
 import hidepw from '../img/hidePW.png';
 import showpw from '../img/showPW.png';
@@ -52,6 +53,15 @@ function Join() {
     flexDirection: 'column',
     alignItems: 'flex-end',
   }; // input 그룹과 formhelpertext를 그룹으로 묶는 스타일
+  const swalFire = {
+    width: 400,
+    height: 260,
+    showConfirmButton: false,
+    cancelButtonText: '확인',
+    cancelButtonColor: '#CF5E53',
+    showCancelButton: true,
+    timer: 3000,
+  };
 
   // select에 들어갈 내용 예시
   const [nickname, setNickname] = React.useState('');
@@ -61,22 +71,23 @@ function Join() {
   const [emailError, setEmailError] = React.useState(''); // 이메일 에러 text
   const [passwordError, setPasswordError] = React.useState(''); // 비밀번호 에러 text
   const [stackError, setStackError] = React.useState(''); // 스택 에러 text
+  const navigate = useNavigate();
 
   const handleNickNameChange = (e) => {
     setNickname(e.target.value);
     setNicknameCheck(false);
     setNicknameError('');
-  };
+  }; // 닉네임이 바뀌면 다시 중복을 확인해야 하도록 변경하는 함수
 
   const handlenicknameCheck = async () => {
     if (nickname === '') {
       setNicknameError('닉네임을 입력해주세요');
       return;
     } // 닉네임 입력을 안했을 시
-    setNicknameCheck(true);
     await axios
       .get(`/auth/register/:${nickname}`)
       .then(() => {
+        setNicknameCheck(true);
         setNicknameError('사용 가능한 닉네임입니다');
       })
       .catch(() => {
@@ -84,7 +95,22 @@ function Join() {
         setNicknameCheck(false);
         setEmailError();
       });
-  }; // 중복 확인
+  }; // 닉네임 중복 확인
+
+  const handlePost = async (joinData) => {
+    await axios
+      .get(`/auth/register`, { joinData })
+      .then(() => {
+        Swal.fire({ ...swalFire, html: '회원가입 성공' });
+        navigate('/login');
+      })
+      .catch(() => {
+        Swal.fire({
+          ...swalFire,
+          html: '이미 사용중인 이메일입니다',
+        });
+      });
+  }; // 백엔드 post 하는 함수
 
   const formValidate = (event) => {
     event.preventDefault();
@@ -92,34 +118,43 @@ function Join() {
       /([\w-.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
     const passwordRegrex = /^(?=.*[a-zA-Z])(?=.*[0-9]).{7,}$/;
 
-    if (nicknameCheck) {
-      const data = new FormData(event.currentTarget);
-      const joinData = {
-        email: data.get('email'),
-        password: data.get('password'),
-        stack: data.get('stack'),
-      };
-      if (!emailRegrex.test(joinData.email))
-        setEmailError('이메일 형식이 올바르지 않습니다');
-      else setEmailError('');
-      if (!passwordRegrex.test(joinData.password))
-        setPasswordError('영문 숫자포함 7자 이상의 비밀번호를 설정해주세요');
-      else setPasswordError('');
-      if (joinData.stack === '') setStackError('스택을 선택해주세요');
-      else setStackError('');
+    if (!nicknameCheck) {
+      Swal.fire({
+        ...swalFire,
+        html: '닉네임 중복을 먼저 확인해주세요',
+      });
+
       return;
+    } // 현재 닉네임으로 닉네임 체크 안한 경우
+
+    const data = new FormData(event.currentTarget);
+    const joinData = {
+      email: data.get('email'),
+      password: data.get('password'),
+      nickname: data.get('nickname'),
+      stack: data.get('stack'),
+    };
+
+    if (!emailRegrex.test(joinData.email))
+      setEmailError('이메일 형식이 올바르지 않습니다');
+    else setEmailError('');
+
+    if (!passwordRegrex.test(joinData.password))
+      setPasswordError('영문 숫자포함 7자 이상의 비밀번호를 설정해주세요');
+    else setPasswordError('');
+
+    if (joinData.stack === '') setStackError('스택을 선택해주세요');
+    else setStackError('');
+    // 유효성 검사
+    if (
+      emailRegrex.test(joinData.email) &&
+      passwordRegrex.test(joinData.password) &&
+      !joinData.stack === ''
+    ) {
+      handlePost(joinData);
     }
 
-    Swal.fire({
-      width: 400,
-      height: 260,
-      html: '닉네임 중복을 먼저 확인해주세요',
-      showConfirmButton: false,
-      cancelButtonText: '확인',
-      cancelButtonColor: '#CF5E53',
-      showCancelButton: true,
-      timer: 3000,
-    });
+    // 유효성 검사가 완료되면 백엔드로 post
   };
 
   return (
@@ -148,7 +183,7 @@ function Join() {
               justifyContent="space-around"
             >
               <Box sx={groupStyle}>
-                <Text sx={TextStyle}>Email</Text>
+                <Text className={TextStyle}>Email</Text>
                 <Box sx={inputGroupStyle}>
                   <Input
                     name="email"
@@ -199,6 +234,7 @@ function Join() {
                     <Input
                       value={nickname}
                       onChange={handleNickNameChange}
+                      name="nickname"
                       placeholder="닉네임을 입력해주세요"
                       sx={inputStyle}
                       _focusVisible={{ borderColor: 'black' }}
@@ -234,9 +270,9 @@ function Join() {
                     color="#718096"
                     w="450px"
                   >
-                    {stacks.map((item) => (
-                      <option key={item} value={item}>
-                        &nbsp;&nbsp;&nbsp;&nbsp;{item}
+                    {Object.keys(stacks).map((stack) => (
+                      <option key={stack} value={stack}>
+                        &nbsp;&nbsp;&nbsp;&nbsp; {stack}
                       </option>
                     ))}
                   </Select>

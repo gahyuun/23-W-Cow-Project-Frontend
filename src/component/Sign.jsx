@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 function Sign({ children, page }) {
   const navigate = useNavigate();
   const notShowHeaderStyle = {
-    borderRadius: ' 0.625rem',
+    borderRadius: ' sm',
     w: 'xl',
     display: 'flex',
     alignItems: 'center',
@@ -22,7 +22,7 @@ function Sign({ children, page }) {
     backgroundColor: '#3182CE',
     opacity: '0.6',
     h: '6rem',
-    borderRadius: '0.625rem',
+    borderRadius: 'sm',
     blendMode: 'normal',
     fontSize: 'xl',
     fontWeight: '600',
