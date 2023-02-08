@@ -10,18 +10,20 @@ import {
 } from '@chakra-ui/react';
 import { EditIcon, DeleteIcon } from '@chakra-ui/icons';
 import Information from '../component/Information';
+import Board from '../component/Board';
 
 function My() {
+  const testarr=[1,2,3];
   return (
-    <Box w="850px" m="auto" mt="20" mb="5">
-      <Flex>
+    <Box w="60%" m="auto" mt="20" mb="5">
+      <Flex >
         <Information />
-        <Box w="600px">
-          <Box ml="10" w="600px">
+        <Box  maxW="80%">
+          <Box ml="10">
             <VStack
-              w="560px"
               divider={<StackDivider border="solid 1px grey" />}
               spacing={4}
+              w='fit-content'
               align="stretch"
             >
               <Box display="flex">
@@ -35,7 +37,9 @@ function My() {
                   <Icon w="7" h="7" as={DeleteIcon} />
                 </Button>
               </Box>
-              <Box>프로젝트</Box>
+              <Flex mx={3} justifyContent='space-around' wrap='wrap'>{testarr.map((index)=>
+                    <Box my={5} key={`mypage__board-${index}`}><Board/></Box>)}
+              </Flex>
             </VStack>
           </Box>
         </Box>
