@@ -1,10 +1,9 @@
 import * as React from 'react';
 import { Box, Card, CardHeader } from '@chakra-ui/react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
-function Sign({ children }) {
+function Sign({ children, page }) {
   const navigate = useNavigate();
-  const url = useLocation();
   const notShowHeaderStyle = {
     borderRadius: ' 0.625rem',
     w: 'xl',
@@ -37,9 +36,7 @@ function Sign({ children }) {
       <Card w="2xl" h="xl" mt="120px" border="1px solid blue">
         <CardHeader w="2xl" h="6rem" display="flex" padding="0px">
           <Box
-            sx={
-              url.pathname === '/login' ? showHeaderStyle : notShowHeaderStyle
-            }
+            sx={page === 'login' ? showHeaderStyle : notShowHeaderStyle}
             onClick={() => {
               navigate('/login');
             }}
@@ -49,7 +46,7 @@ function Sign({ children }) {
           </Box>
 
           <Box
-            sx={url.pathname === '/join' ? showHeaderStyle : notShowHeaderStyle}
+            sx={page === 'join' ? showHeaderStyle : notShowHeaderStyle}
             onClick={() => {
               navigate('/join');
             }}

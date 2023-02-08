@@ -123,7 +123,7 @@ function Join() {
   };
 
   return (
-    <Sign>
+    <Sign page="join">
       <CardBody
         display="flex"
         justifyContent="center"

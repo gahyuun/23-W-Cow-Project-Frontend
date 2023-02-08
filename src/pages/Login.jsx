@@ -5,7 +5,7 @@ import Sign from '../component/Sign.jsx';
 
 function Login() {
   return (
-    <Sign>
+    <Sign page="login">
       <CardBody>login</CardBody>
     </Sign>
   );
