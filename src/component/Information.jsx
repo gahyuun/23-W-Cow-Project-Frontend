@@ -13,7 +13,7 @@ import {
 
 function Information() {
   return (
-    <Box w="850px">
+    <Box w="350px">
       <Center w="250px">
         <Card w="250px">
           <CardHeader>

@@ -97,7 +97,7 @@ function Write() {
                   placeholder="스택을 입력해주세요."
                   size="lg"
                 >
-                  {stacks.map((stack) => (
+                  {Object.keys(stacks).map((stack) => (
                     <option key={stack} value={stack}>
                       {stack}
                     </option>
