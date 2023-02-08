@@ -14,7 +14,7 @@ import {
 } from '@chakra-ui/react';
  import none from '../img/none.png';
 
-function Project() {
+function Detail() {
   const stackStyle = {
     'margin-right': '0.2rem',
   }
@@ -81,4 +81,4 @@ function Project() {
 );
 }
 
-export default Project;
+export default Detail;

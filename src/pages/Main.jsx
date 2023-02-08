@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 function Main() {
-  return <h1>dfsdffdfs</h1>;
+  return <div> main page </div>
 }
 
 export default Main;
