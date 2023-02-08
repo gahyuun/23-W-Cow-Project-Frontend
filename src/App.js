@@ -5,10 +5,11 @@ import Header from './component/Header';
 import Write from './pages/Write';
 import Main from './pages/Main';
 import My from './pages/My';
-import Sign from './pages/Sign';
+// import Sign from './pages/Sign';
+import Join from './pages/Join';
+import Login from './pages/Login';
 
 function App() {
-  const [loginButton, setLoginButton] = React.useState(false);
   return (
     <ChakraProvider>
       <Header />
@@ -16,12 +17,8 @@ function App() {
         <Routes>
           <Route path="/portfolio" element={<Write />} />
           <Route path="/" element={<Main isLogin={false} />} />
-          <Route
-            path="/sign"
-            element={
-              <Sign loginButton={loginButton} setLoginButton={setLoginButton} />
-            }
-          />
+          <Route path="/login" element={<Login />} />
+          <Route path="/join" element={<Join />} />
           <Route path="/mypage" element={<My />} />
         </Routes>
       </Router>
