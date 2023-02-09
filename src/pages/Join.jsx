@@ -165,7 +165,6 @@ function Join() {
         alignItems="center"
         borderRadius="1.25rem"
         boxShadow="10px 10px 30px #c2c2c2"
-        border="1px solid red"
       >
         <form onSubmit={formValidate}>
           <Box
@@ -183,7 +182,7 @@ function Join() {
               justifyContent="space-around"
             >
               <Box sx={groupStyle}>
-                <Text className={TextStyle}>Email</Text>
+                <Text sx={TextStyle}>Email</Text>
                 <Box sx={inputGroupStyle}>
                   <Input
                     name="email"

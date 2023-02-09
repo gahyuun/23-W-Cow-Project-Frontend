@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 function Sign({ children, page }) {
   const navigate = useNavigate();
   const notShowHeaderStyle = {
-    borderRadius: ' sm',
+    borderRadius: ' md',
     w: 'xl',
     display: 'flex',
     alignItems: 'center',
@@ -22,7 +22,7 @@ function Sign({ children, page }) {
     backgroundColor: '#3182CE',
     opacity: '0.6',
     h: '6rem',
-    borderRadius: 'sm',
+    borderRadius: 'md',
     blendMode: 'normal',
     fontSize: 'xl',
     fontWeight: '600',
@@ -33,7 +33,7 @@ function Sign({ children, page }) {
   };
   return (
     <Box display="flex" justifyContent="center">
-      <Card w="2xl" h="xl" mt="120px" border="1px solid blue">
+      <Card w="2xl" mt="120px" border="1px solid red">
         <CardHeader w="2xl" h="6rem" display="flex" padding="0px">
           <Box
             sx={page === 'login' ? showHeaderStyle : notShowHeaderStyle}
