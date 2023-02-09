@@ -3,7 +3,7 @@ import * as React from 'react';
 import none from '../img/none.png';
  import Stack from './Stack';
 
-function Board() {
+function Board({edit}) {
   const content = {
     title: '프로폴리오 Pro-Folio',
     image: '이미지 주소',
@@ -11,9 +11,17 @@ function Board() {
     summary: '포트폴리오 저장소를 구현한 웹 사이트입니다. 혹시 엄청엄청 이 내용이 길어지면 어떻게 될까?',
     techstack: ['java','JavaScipt', 'AWS','Python','node'],
     detail: '2022년 12월 ~ 2023년 1월 까지 진행한 사이드 프로젝트',
+    id:145,
   };
-
-  return <Box w="450px" h='430px' p="4" boxShadow='2xl' rounded='md'>
+  
+  const handleClickBtn = () => {
+    // 상태값으로 action 설정 
+    console.log(edit,content.id);
+    // 수정
+    // 삭제
+    // 상세페이지로 이동
+	}
+  return <Box w="450px" h='450px' p="4" boxShadow='2xl' rounded='md' onClick={handleClickBtn}>
             <Box h="200px" mb="5">
                 <Image src={none} objectFit="fill" w="100%" h="100%" />
             </Box>
@@ -23,5 +31,8 @@ function Board() {
                            <Box key={`board-${stack}`}><Stack stack={stack}/></Box>)}</Flex>
           </Box>;
 }
+Board.defaultProps = {
+  edit: false,
+};
 
 export default Board;
