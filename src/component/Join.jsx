@@ -231,7 +231,7 @@ function Join() {
                   color="#718096"
                   w="450px"
                 >
-                  {stacks.map((item) => (
+                  {Object.keys(stacks).map((item) => (
                     <option key={item} value={item}>
                       &nbsp;&nbsp;&nbsp;&nbsp;{item}
                     </option>

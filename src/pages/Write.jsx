@@ -10,9 +10,11 @@ import {
   Card,
   FormControl,
   Textarea,
+  Image,
 } from '@chakra-ui/react';
 import axios from 'axios';
 import { stacks } from '../helper/types';
+import image from '../img/BsImage.png';
 
 function Write() {
   const [formData, setFormData] = React.useState({
@@ -32,7 +34,6 @@ function Write() {
     setFormData(newForm);
   };
 
-  React.useEffect(() => {}, [formData]);
   const onSubmit = async () => {
     await axios
       .post('/', {
@@ -48,7 +49,7 @@ function Write() {
   };
   return (
     <Box w="850px" m="auto" mb="5">
-      <Box mt="10" mb="10">
+      <Box my="10">
         <Text fontSize="3xl" as="b">
           프로젝트를 작성해주세요.
         </Text>
@@ -59,7 +60,9 @@ function Write() {
             <Box>
               <Card borderRadius="15px" w="350px" h="300px">
                 <Box colSpan={2} m="auto">
-                  <Button w="55px">이미지</Button>
+                  <Button w="55px">
+                    <Image src={image} alt="logo" />
+                  </Button>
                 </Box>
               </Card>
             </Box>
@@ -91,7 +94,7 @@ function Write() {
                 />
                 <Select
                   id="teckstack"
-                  value={formData.techstack}
+                  maxLength="30"
                   onChange={handleChange}
                   mb="5"
                   placeholder="스택을 입력해주세요."
