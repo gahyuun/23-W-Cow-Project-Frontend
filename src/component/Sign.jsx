@@ -1,10 +1,11 @@
 import * as React from 'react';
 import { Box, Card, CardHeader } from '@chakra-ui/react';
-import Join from '../component/Join';
+import { useNavigate } from 'react-router-dom';
 
-function Sign({ loginButton, setLoginButton }) {
+function Sign({ children, page }) {
+  const navigate = useNavigate();
   const notShowHeaderStyle = {
-    borderRadius: ' 0.625rem',
+    borderRadius: ' md',
     w: 'xl',
     display: 'flex',
     alignItems: 'center',
@@ -21,37 +22,40 @@ function Sign({ loginButton, setLoginButton }) {
     backgroundColor: '#3182CE',
     opacity: '0.6',
     h: '6rem',
-    borderRadius: '0.625rem',
+    borderRadius: 'md',
     blendMode: 'normal',
     fontSize: 'xl',
     fontWeight: '600',
     color: '#fff',
   }; // 보여지는 컴포넌트의 헤더 스타일
-
-  const handleLogin = () => {
-    setLoginButton(true);
-  };
-  const handleJoin = () => {
-    setLoginButton(false);
+  const hoverStyle = {
+    boxShadow: '10px 10px 30px #c2c2c2',
   };
   return (
     <Box display="flex" justifyContent="center">
-      <Card w="2xl" h="xl" mt="120px" border="1px solid blue">
+      <Card w="2xl" mt="120px" border="1px solid red">
         <CardHeader w="2xl" h="6rem" display="flex" padding="0px">
           <Box
-            sx={loginButton ? showHeaderStyle : notShowHeaderStyle}
-            onClick={handleLogin}
+            sx={page === 'login' ? showHeaderStyle : notShowHeaderStyle}
+            onClick={() => {
+              navigate('/login');
+            }}
+            _hover={hoverStyle}
           >
             로그인
           </Box>
+
           <Box
-            sx={loginButton ? notShowHeaderStyle : showHeaderStyle}
-            onClick={handleJoin}
+            sx={page === 'join' ? showHeaderStyle : notShowHeaderStyle}
+            onClick={() => {
+              navigate('/join');
+            }}
+            _hover={hoverStyle}
           >
             회원가입
           </Box>
         </CardHeader>
-        {loginButton ? <div>로그인 컴포넌트</div> : <Join />}
+        {children}
       </Card>
     </Box>
   );

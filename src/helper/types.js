@@ -22,3 +22,9 @@ export const stacks = {
     'django':'green',
     'flutter':'blue',
 };
+
+export const editMode ={
+    delete : 'delete',
+    modify : 'modify',
+    unEdit : false,
+};
