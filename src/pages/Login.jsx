@@ -41,7 +41,7 @@ function Login() {
   }; // input 그룹과 formhelpertext를 그룹으로 묶는 스타일
 
   return (
-    <Sign page="join">
+    <Sign page="login">
       <CardBody
         display="flex"
         justifyContent="center"
@@ -69,7 +69,7 @@ function Login() {
                 <Box sx={inputGroupStyle}>
                   <Input
                     name="email"
-                    w="450px"
+                    w="28.125rem"
                     placeholder="이메일 입력 ex)abc@gmail.com"
                     sx={inputStyle}
                     _focusVisible={{ borderColor: 'black' }}
@@ -82,8 +82,8 @@ function Login() {
                 <Box sx={inputGroupStyle}>
                   <Input
                     name="email"
-                    w="450px"
-                    placeholder="이메일 입력 ex)abc@gmail.com"
+                    w="28.125rem"
+                    placeholder="비밀번호를 입력해주세요"
                     sx={inputStyle}
                     _focusVisible={{ borderColor: 'black' }}
                     _hover={{ borderColor: 'black' }}
@@ -93,12 +93,12 @@ function Login() {
             </FormControl>
             <Button
               _hover={{ backgroundColor: '#3182CE', opacity: '0.8' }}
-              mb="20px"
+              mb="1.25rem"
               type="submit"
               id="submit"
               sx={buttonColor}
             >
-              Join
+              Login
             </Button>
           </Box>
         </form>
