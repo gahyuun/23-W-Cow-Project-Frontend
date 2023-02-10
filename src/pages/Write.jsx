@@ -1,6 +1,5 @@
 import * as React from 'react';
 import {
-  Select,
   Text,
   Box,
   Input,
@@ -15,6 +14,7 @@ import {
 } from '@chakra-ui/react';
 import axios from 'axios';
 import DatePicker from 'react-datepicker';
+import { MultiSelect } from 'chakra-multiselect';
 import { ko } from 'date-fns/esm/locale';
 import { stacks } from '../helper/types';
 import image from '../img/BsImage.png';
@@ -29,8 +29,9 @@ function Write() {
     alignItems: 'center',
   };
   const inputdate = {
+    width: 200,
     height: 10,
-    padding: 1,
+    padding: 1.5,
     border: '1px solid grey',
     borderRadius: 4,
   };
@@ -38,11 +39,12 @@ function Write() {
     title: '',
     detail: '',
     summary: '',
-    techstack: '',
+    techstack: [],
   });
   const [startDate, setStartDate] = React.useState();
   const [endDate, setEndDate] = React.useState();
 
+  // const isError = formData.title === '' || formData.detail === '';
   const handleChange = (e) => {
     const newForm = {
       ...formData,
@@ -112,13 +114,14 @@ function Write() {
                       selectsStart
                       startDate={startDate}
                       endDate={endDate}
-                      placeholderText="시작일"
+                      placeholderText="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;시작일"
                       customInput={
                         <FormControl
                           as="input"
                           rows={1}
                           style={{
-                            width: '200px',
+                            width: '100px',
+                            marginLeft: '40px',
                             outline: 'none',
                           }}
                         />
@@ -136,13 +139,14 @@ function Write() {
                       startDate={startDate}
                       endDate={endDate}
                       minDate={startDate}
-                      placeholderText="종료일"
+                      placeholderText="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;종료일"
                       customInput={
                         <FormControl
                           as="input"
                           rows={1}
                           style={{
-                            width: '200px',
+                            width: '100px',
+                            marginLeft: '40px',
                             outline: 'none',
                           }}
                         />
@@ -159,8 +163,10 @@ function Write() {
                   placeholder="프로젝트 소개를 입력해주세요."
                   size="lg"
                 />
-                <Select
+                <MultiSelect
                   id="teckstack"
+                  value={formData.techstack}
+                  options={Object.keys(stacks)}
                   onChange={handleChange}
                   mb="5"
                   placeholder="스택을 입력해주세요."
@@ -171,7 +177,7 @@ function Write() {
                       {stack}
                     </option>
                   ))}
-                </Select>
+                </MultiSelect>
               </Box>
             </GridItem>
             <GridItem colSpan={4}>
