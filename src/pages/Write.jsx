@@ -11,19 +11,37 @@ import {
   FormControl,
   Textarea,
   Image,
+  Stack,
 } from '@chakra-ui/react';
 import axios from 'axios';
+import DatePicker from 'react-datepicker';
+import { ko } from 'date-fns/esm/locale';
 import { stacks } from '../helper/types';
 import image from '../img/BsImage.png';
+import 'react-datepicker/dist/react-datepicker.css';
 
 function Write() {
+  const dateStyle = {
+    display: 'flex',
+    justifyContent: 'space-between',
+    marginBottom: 5,
+    fontSize: 'lg',
+    alignItems: 'center',
+  };
+  const inputdate = {
+    height: 10,
+    padding: 1,
+    border: '1px solid grey',
+    borderRadius: 4,
+  };
   const [formData, setFormData] = React.useState({
     title: '',
     detail: '',
     summary: '',
-    period: '',
     techstack: '',
   });
+  const [startDate, setStartDate] = React.useState();
+  const [endDate, setEndDate] = React.useState();
 
   const handleChange = (e) => {
     const newForm = {
@@ -55,7 +73,7 @@ function Write() {
         </Text>
       </Box>
       <Box w="850px">
-        <FormControl onSubmit={onSubmit}>
+        <FormControl isRequired>
           <Grid color="white" gap={1}>
             <Box>
               <Card borderRadius="15px" w="350px" h="300px">
@@ -76,25 +94,73 @@ function Write() {
                   placeholder="프로젝트 명을 입력해주세요."
                   size="lg"
                 />
-                <Input
+                {/* <Input
                   id="period"
                   value={formData.period}
                   onChange={handleChange}
                   mb="5"
                   placeholder="프로젝트 기간을 입력해주세요. ex. 220503~220603"
                   size="lg"
-                />
+                /> */}
+                <Box sx={dateStyle}>
+                  <Stack sx={inputdate}>
+                    <DatePicker
+                      locale={ko}
+                      dateFormat="yyyy/MM/dd"
+                      selected={startDate}
+                      onChange={(date) => setStartDate(date)}
+                      selectsStart
+                      startDate={startDate}
+                      endDate={endDate}
+                      placeholderText="시작일"
+                      customInput={
+                        <FormControl
+                          as="input"
+                          rows={1}
+                          style={{
+                            width: '200px',
+                            outline: 'none',
+                          }}
+                        />
+                      }
+                    />
+                  </Stack>
+                  ~
+                  <Stack sx={inputdate}>
+                    <DatePicker
+                      dateFormat="yyyy/MM/dd"
+                      locale={ko}
+                      selected={endDate}
+                      onChange={(date) => setEndDate(date)}
+                      selectsEnd
+                      startDate={startDate}
+                      endDate={endDate}
+                      minDate={startDate}
+                      placeholderText="종료일"
+                      customInput={
+                        <FormControl
+                          as="input"
+                          rows={1}
+                          style={{
+                            width: '200px',
+                            outline: 'none',
+                          }}
+                        />
+                      }
+                    />
+                  </Stack>
+                </Box>
                 <Input
                   id="summary"
                   value={formData.summary}
                   onChange={handleChange}
                   mb="5"
+                  maxLength="30"
                   placeholder="프로젝트 소개를 입력해주세요."
                   size="lg"
                 />
                 <Select
                   id="teckstack"
-                  maxLength="30"
                   onChange={handleChange}
                   mb="5"
                   placeholder="스택을 입력해주세요."
