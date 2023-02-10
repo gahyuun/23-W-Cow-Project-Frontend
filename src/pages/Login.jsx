@@ -6,11 +6,14 @@ import {
   Text,
   FormControl,
 } from '@chakra-ui/react';
+import axios from 'axios';
+import Swal from 'sweetalert2';
 import * as React from 'react';
-
+import { Cookies } from 'react-cookie';
+import { useNavigate } from 'react-router-dom';
 import Sign from '../component/Sign.jsx';
 
-function Login() {
+function Login({ setIsLogin }) {
   const inputStyle = {
     borderBottom: '1px solid black',
     borderTop: 'none',
@@ -39,6 +42,52 @@ function Login() {
     flexDirection: 'column',
     alignItems: 'flex-end',
   }; // input 그룹과 formhelpertext를 그룹으로 묶는 스타일
+  const swalFire = {
+    width: 400,
+    height: 260,
+    showConfirmButton: false,
+    cancelButtonText: '확인',
+    cancelButtonColor: '#CF5E53',
+    showCancelButton: true,
+    timer: 3000,
+  };
+  const navigate = useNavigate();
+  const cookies = new Cookies();
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
+    const loginData = {
+      email: data.get('email'),
+      password: data.get('password'),
+    };
+    await axios
+      .get(`/auth/login`, { loginData })
+      .then((res) => {
+        cookies.set('accessToken', res.data.token);
+        // API 요청하는 콜마다 헤더에 accessToken 담아 보내도록 설정
+        axios.defaults.headers.common.Authorization = `Bearer ${cookies.get(
+          'accessToken',
+        )}`;
+        setIsLogin(true);
+        Swal.fire({ ...swalFire, html: '로그인 성공' });
+        navigate('/');
+      })
+      .catch((err) => {
+        if (err.code === 409) {
+          Swal.fire({
+            ...swalFire,
+            html: '등록되지 않은 이메일입니다',
+          });
+        }
+        if (err.code === 401) {
+          Swal.fire({
+            ...swalFire,
+            html: '잘못된 정보입니다',
+          });
+        }
+      });
+  };
 
   return (
     <Sign page="login">
@@ -49,7 +98,7 @@ function Login() {
         borderRadius="1.25rem"
         boxShadow="10px 10px 30px #c2c2c2"
       >
-        <form>
+        <form onSubmit={handleSubmit}>
           <Box
             w="xl"
             h="sm"
@@ -81,7 +130,7 @@ function Login() {
                 <Text sx={TextStyle}>Password</Text>
                 <Box sx={inputGroupStyle}>
                   <Input
-                    name="email"
+                    name="password"
                     w="28.125rem"
                     placeholder="비밀번호를 입력해주세요"
                     sx={inputStyle}
