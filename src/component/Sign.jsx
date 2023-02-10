@@ -33,7 +33,7 @@ function Sign({ children, page }) {
   };
   return (
     <Box display="flex" justifyContent="center">
-      <Card w="2xl" mt="120px" border="1px solid red">
+      <Card w="2xl" mt="120px">
         <CardHeader w="2xl" h="6rem" display="flex" padding="0px">
           <Box
             sx={page === 'login' ? showHeaderStyle : notShowHeaderStyle}
