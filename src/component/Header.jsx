@@ -1,8 +1,10 @@
-import { Box, Image, Text, Input, InputGroup } from '@chakra-ui/react';
+import { Box, Image, Text } from '@chakra-ui/react';
 import * as React from 'react';
+import { MultiSelect } from 'chakra-multiselect';
 import logo from '../img/LOGO.png';
 
 function Header({ isLogin, setIsLogin }) {
+  const [value, setValue] = React.useState([]);
   const textStyle = {
     fontWeight: '600',
     fontSize: '1.7rem',
@@ -11,9 +13,16 @@ function Header({ isLogin, setIsLogin }) {
   const handleLogout = () => {
     localStorage.clear();
     setIsLogin(false);
+    setValue('d');
     window.location.replace('http://localhost:3000/');
   };
+  const stacks = ['rk', 'sk', 'ek', 'ee'];
 
+  console.log(setValue);
+
+  const handleChange = (e) => {
+    setValue(e);
+  };
   return (
     <Box
       borderBottom="1px solid #C2C2C2"
@@ -32,9 +41,12 @@ function Header({ isLogin, setIsLogin }) {
           <Image src={logo} alt="logo" />
         </Box>
         <Box>
-          <InputGroup size="sm">
-            <Input placeholder="검색" />
-          </InputGroup>
+          <MultiSelect
+            options={stacks}
+            value={value}
+            onChange={handleChange}
+            label="Choose an item"
+          />
         </Box>
 
         <Box>
