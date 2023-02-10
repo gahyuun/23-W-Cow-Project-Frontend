@@ -66,33 +66,34 @@ function Join() {
   const [nickname, setNickname] = React.useState('');
   const [showPW, setShowPW] = React.useState(false); // 비밀번호 보여주기 여부
   const [nicknameCheck, setNicknameCheck] = React.useState(false); // 중복버튼 클릭 여부
-  const [nicknameError, setNicknameError] = React.useState(''); // 닉네임 에러 text
-  const [emailError, setEmailError] = React.useState(''); // 이메일 에러 text
-  const [passwordError, setPasswordError] = React.useState(''); // 비밀번호 에러 text
-  const [stackError, setStackError] = React.useState(''); // 스택 에러 text
   const navigate = useNavigate();
+  const [error, setError] = React.useState({
+    Email: '',
+    name: '',
+    password: '',
+    stack: '',
+  }); // error text
 
   const handleNickNameChange = (e) => {
     setNickname(e.target.value);
     setNicknameCheck(false);
-    setNicknameError('');
+    setError({ ...error, name: '' });
   }; // 닉네임이 바뀌면 다시 중복을 확인해야 하도록 변경하는 함수
 
   const handlenicknameCheck = async () => {
     if (nickname === '') {
-      setNicknameError('닉네임을 입력해주세요');
+      setError({ ...error, name: '닉네임을 입력해주세요' });
       return;
     } // 닉네임 입력을 안했을 시
     await axios
       .get(`/auth/register/:${nickname}`)
       .then(() => {
         setNicknameCheck(true);
-        setNicknameError('사용 가능한 닉네임입니다');
+        setError({ ...error, name: '사용가능한 닉네임입니다' });
       })
       .catch(() => {
-        setNicknameError('존재하는 닉네임입니다');
         setNicknameCheck(false);
-        setEmailError();
+        setError({ ...error, name: '존재하는 닉네임입니다' });
       });
   }; // 닉네임 중복 확인
 
@@ -135,15 +136,19 @@ function Join() {
     };
 
     if (!emailRegrex.test(joinData.email))
-      setEmailError('이메일 형식이 올바르지 않습니다');
-    else setEmailError('');
+      setError({ ...error, email: '이메일 형식이 올바르지 않습니다' });
+    else setError({ ...error, email: '' });
 
     if (!passwordRegrex.test(joinData.password))
-      setPasswordError('영문 숫자포함 7자 이상의 비밀번호를 설정해주세요');
-    else setPasswordError('');
+      setError({
+        ...error,
+        password: '영문 숫자포함 7자 이상의 비밀번호를 설정해주세요',
+      });
+    else setError({ ...error, password: '' });
 
-    if (joinData.stack === '') setStackError('스택을 선택해주세요');
-    else setStackError('');
+    if (joinData.stack === '')
+      setError({ ...error, stack: '스택을 선택해주세요' });
+    else setError({ ...error, stack: '' });
     // 유효성 검사
     if (
       emailRegrex.test(joinData.email) &&
@@ -163,7 +168,7 @@ function Join() {
         justifyContent="center"
         alignItems="center"
         borderRadius="1.25rem"
-        boxShadow="10px 10px 30px #c2c2c2"
+        boxShadow="0.625rem 0.625rem 1.875rem #c2c2c2"
       >
         <form onSubmit={formValidate}>
           <Box
@@ -192,7 +197,7 @@ function Join() {
                     _hover={{ borderColor: 'black' }}
                   />
                   <FormHelperText sx={FormHelperStyle}>
-                    {emailError}
+                    {error.email}
                   </FormHelperText>
                 </Box>
               </Box>
@@ -219,7 +224,7 @@ function Join() {
                     />
                   </InputGroup>
                   <FormHelperText sx={FormHelperStyle}>
-                    {passwordError}
+                    {error.password}
                   </FormHelperText>
                 </Box>
               </Box>
@@ -251,7 +256,7 @@ function Join() {
                     fontWeight="500"
                     fontSize="0.813rem"
                   >
-                    {nicknameError}
+                    {error.name}
                   </FormHelperText>
                 </Box>
               </Box>
@@ -273,7 +278,7 @@ function Join() {
                     ))}
                   </Select>
                   <FormHelperText sx={FormHelperStyle}>
-                    {stackError}
+                    {error.stack}
                   </FormHelperText>
                 </Box>
               </Box>
