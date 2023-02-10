@@ -4,20 +4,19 @@ import {
   CardBody,
   Input,
   Text,
-  Image,
   InputGroup,
   Select,
   FormHelperText,
   FormControl,
   FormLabel,
+  Icon,
 } from '@chakra-ui/react';
 import * as React from 'react';
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import { useNavigate } from 'react-router-dom';
 import { stacks } from '../helper/types.js';
-import hidepw from '../img/hidePW.png';
-import showpw from '../img/showPW.png';
 import Sign from '../component/Sign.jsx';
 
 function Join() {
@@ -209,16 +208,14 @@ function Join() {
                       _focusVisible={{ borderColor: 'black' }}
                       _hover={{ borderColor: 'black' }}
                     />
-
-                    <Image
-                      src={showPW ? showpw : hidepw}
-                      alt="눈"
+                    <Icon
+                      w="30px"
+                      h="30px"
+                      mt="12px"
+                      as={showPW ? ViewIcon : ViewOffIcon}
                       onClick={() => {
                         setShowPW(!showPW);
                       }}
-                      h="30px"
-                      mt="12px"
-                      w="30px"
                     />
                   </InputGroup>
                   <FormHelperText sx={FormHelperStyle}>
