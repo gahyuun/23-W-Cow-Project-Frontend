@@ -22,7 +22,7 @@ function App() {
 
   return (
     <ChakraProvider>
-      <Header />
+      <Header isLogin={isLogin} setIsLogin={setIsLogin} />
       <Router>
         <Routes>
           <Route path="*" element={<>404</>} />

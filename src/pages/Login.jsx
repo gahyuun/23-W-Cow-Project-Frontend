@@ -9,7 +9,6 @@ import {
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import * as React from 'react';
-import { Cookies } from 'react-cookie';
 import { useNavigate } from 'react-router-dom';
 import Sign from '../component/Sign.jsx';
 
@@ -51,8 +50,8 @@ function Login({ setIsLogin }) {
     showCancelButton: true,
     timer: 3000,
   };
+
   const navigate = useNavigate();
-  const cookies = new Cookies();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -64,11 +63,10 @@ function Login({ setIsLogin }) {
     await axios
       .get(`/auth/login`, { loginData })
       .then((res) => {
-        cookies.set('accessToken', res.data.token);
         // API 요청하는 콜마다 헤더에 accessToken 담아 보내도록 설정
-        axios.defaults.headers.common.Authorization = `Bearer ${cookies.get(
-          'accessToken',
-        )}`;
+        localStorage.setItem('token', res.data.token);
+        axios.defaults.headers.common.Authorization = `Bearer ${res.data.token}`;
+        // Bearer 기본적인 의미는 정보의 신호 전달을 네트워크 단에서 손실 없이 있는 그대로 전달하는 서비스를 말한다
         setIsLogin(true);
         Swal.fire({ ...swalFire, html: '로그인 성공' });
         navigate('/');
@@ -87,7 +85,7 @@ function Login({ setIsLogin }) {
           });
         }
       });
-  };
+  }; // 로그인 submit 시 백엔드한테 post
 
   return (
     <Sign page="login">
@@ -119,7 +117,7 @@ function Login({ setIsLogin }) {
                   <Input
                     name="email"
                     w="28.125rem"
-                    placeholder="이메일 입력 ex)abc@gmail.com"
+                    placeholder="이메일을 입력해주세요"
                     sx={inputStyle}
                     _focusVisible={{ borderColor: 'black' }}
                     _hover={{ borderColor: 'black' }}
