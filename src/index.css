@@ -1,13 +1,15 @@
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans',
-    'Droid Sans', 'Helvetica Neue', sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
 }
 .css-rngjpw:focus-visible,
 .css-rngjpw[data-focus-visible] {
@@ -21,9 +23,14 @@ code {
 }
 @keyframes shakingBoard {
   25% {
-      transform: rotate(-1deg);
-    }
+    transform: rotate(-1deg);
+  }
   50% {
-      transform: rotate(1deg);
-    }
+    transform: rotate(1deg);
+  }
+}
+.multi-select {
+  --rmsc-h: 48px !important;
+  --rmsc-p: 15px !important;
+  --rmsc-gray: #718096 !important;
 }
