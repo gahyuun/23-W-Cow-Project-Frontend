@@ -15,16 +15,15 @@ import { editMode } from '../helper/types';
 
 function My() {
   const [edit, setEdit] = React.useState(editMode.unEdit);
-  const testarr = [1, 2, 3];
-  const style = edit
-    ? {
-        animation: 'shakingBoard 1s',
-        margin: '1rem 0',
-        color: 'grey',
-        backgroundColor: 'rgba(0, 0, 0, 0.01)',
-        // border:'5px outset rgba(0, 0, 0, 0.05)', //넣을까 말까요.. 구려요..?
-      }
-    : { margin: '1rem 0' };
+  const testarr=[1,2,3];
+  const style= edit
+    ?{
+      animation:'shakingBoard 1s infinite',
+      color:'grey',
+      backgroundColor:'rgba(0, 0, 0, 0.01)',
+    } 
+    :{}
+ 
   return (
     <Box w="60%" m="auto" mt="20" mb="5">
       <Flex>
@@ -71,7 +70,7 @@ function My() {
               <Flex mx={3} justifyContent="space-around" wrap="wrap">
                 {testarr.map((index) => (
                   <div style={style} key={`mypage__board-${index}`}>
-                    <Board edit={edit} setEdit={setEdit} />
+                    <Board edit={edit} />
                   </div>
                 ))}
               </Flex>
