@@ -1,28 +1,35 @@
 import { Box, Image, Text } from '@chakra-ui/react';
 import * as React from 'react';
-import { MultiSelect } from 'chakra-multiselect';
+import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 import logo from '../img/LOGO.png';
 
 function Header({ isLogin, setIsLogin }) {
-  const [value, setValue] = React.useState([]);
+  const navigate = useNavigate('');
   const textStyle = {
     fontWeight: '600',
     fontSize: '1.7rem',
     mr: '2rem',
   };
   const handleLogout = () => {
-    localStorage.clear();
-    setIsLogin(false);
-    setValue('d');
-    window.location.replace('http://localhost:3000/');
+    Swal.fire({
+      width: 400,
+      height: 260,
+      html: '로그아웃 하시겠습니까?',
+      showDenyButton: false,
+      showCancelButton: true,
+      confirmButtonText: 'Yes',
+      confirmButtonColor: '#CF5E53',
+      timer: 3000,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        localStorage.clear();
+        setIsLogin(false);
+        navigate('/');
+      }
+    });
   };
-  const stacks = ['rk', 'sk', 'ek', 'ee'];
 
-  console.log(setValue);
-
-  const handleChange = (e) => {
-    setValue(e);
-  };
   return (
     <Box
       borderBottom="1px solid #C2C2C2"
@@ -40,14 +47,7 @@ function Header({ isLogin, setIsLogin }) {
         <Box border="1px solid black">
           <Image src={logo} alt="logo" />
         </Box>
-        <Box>
-          <MultiSelect
-            options={stacks}
-            value={value}
-            onChange={handleChange}
-            label="Choose an item"
-          />
-        </Box>
+        <Box>sdf</Box>
 
         <Box>
           {isLogin ? (
@@ -63,7 +63,7 @@ function Header({ isLogin, setIsLogin }) {
                 }}
                 sx={textStyle}
                 onClick={() => {
-                  window.location.replace('http://localhost:3000/mypage');
+                  navigate('/mypage');
                 }}
               >
                 My
@@ -90,25 +90,27 @@ function Header({ isLogin, setIsLogin }) {
                   textDecoration: 'underline',
                   textDecorationColor: '#A1CCF4',
                 }}
-                onClick={() => {
-                  window.location.replace('http://localhost:3000/login');
-                }}
                 sx={textStyle}
+                onClick={() => {
+                  navigate('/login');
+                }}
               >
                 Login
               </Text>
-              <Text
-                _hover={{
-                  textDecoration: 'underline',
-                  textDecorationColor: '#A1CCF4',
-                }}
-                sx={textStyle}
-                onClick={() => {
-                  window.location.replace('http://localhost:3000/join');
-                }}
-              >
-                Join
-              </Text>
+              <a href="http://localhost:3000/join">
+                <Text
+                  _hover={{
+                    textDecoration: 'underline',
+                    textDecorationColor: '#A1CCF4',
+                  }}
+                  sx={textStyle}
+                  onClick={() => {
+                    navigate('/join');
+                  }}
+                >
+                  Join
+                </Text>
+              </a>
             </Box>
           )}
         </Box>

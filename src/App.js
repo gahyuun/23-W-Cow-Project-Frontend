@@ -18,12 +18,13 @@ import Login from './pages/Login';
 // 비로그인 상태에서 /mypage, /portfolio 페이지 접근 불가. Login 페이지로 이동
 
 function App() {
-  const [isLogin, setIsLogin] = React.useState(true);
+  const [isLogin, setIsLogin] = React.useState(false);
+  console.log(isLogin, 'iis');
 
   return (
     <ChakraProvider>
-      <Header isLogin={isLogin} setIsLogin={setIsLogin} />
       <Router>
+        <Header isLogin={isLogin} setIsLogin={setIsLogin} />
         <Routes>
           <Route path="*" element={<>404</>} />
           <Route path="/" element={<Main isLogin={false} />} />
