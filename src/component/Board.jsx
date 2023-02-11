@@ -21,34 +21,16 @@ function Board({ edit }) {
     // 수정
     // 삭제
     // 상세페이지로 이동
-  };
-  return (
-    <Box
-      w="450px"
-      h="450px"
-      p="4"
-      boxShadow="2xl"
-      rounded="md"
-      onClick={handleClickBtn}
-    >
-      <Box h="200px" mb="5">
-        <Image src={none} objectFit="fill" w="100%" h="100%" />
-      </Box>
-      <Heading size="md" textTransform="uppercase" noOfLines={1}>
-        {content.title}
-      </Heading>
-      <Text pt="2" fontSize="s" mb="10">
-        {content.summary}
-      </Text>
-      <Flex pt="2" fontSize="sm" maxH="70px" overflow="hidden" wrap="wrap">
-        {content.techstack.map((stack) => (
-          <Box key={`board-${stack}`}>
-            <Stack stack={stack} />
-          </Box>
-        ))}
-      </Flex>
-    </Box>
-  );
+	}
+  return <Box w="450px"  h='450px' p={5} m={5} boxShadow='2xl' rounded='md' onClick={handleClickBtn}  _hover={{ fontWeight: 'semibold', boxShadow:'dark-lg' }}>
+            <Box mb="5" display='flex' alignItems='center' justifyContent='center'>
+                <Image src={none}  w='auto' h='auto' maxW='400px' maxH='200px' objectFit='contain'/>
+            </Box>
+                <Heading size='md' textTransform='uppercase' noOfLines={1}> {content.title} </Heading>
+                <Text pt='2' fontSize='s' mb='10'> {content.summary} </Text>
+                <Flex pt='2' fontSize='sm' maxH='70px' overflow='hidden' wrap='wrap'>{content.techstack.map((stack)=>
+                           <Box key={`board-${stack}`}><Stack stack={stack}/></Box>)}</Flex>
+          </Box>;
 }
 Board.defaultProps = {
   edit: false,
