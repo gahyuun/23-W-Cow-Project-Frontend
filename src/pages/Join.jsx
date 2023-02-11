@@ -66,13 +66,13 @@ function Join() {
   const [nickname, setNickname] = React.useState('');
   const [showPW, setShowPW] = React.useState(false); // 비밀번호 보여주기 여부
   const [nicknameCheck, setNicknameCheck] = React.useState(false); // 중복버튼 클릭 여부
-  const navigate = useNavigate();
   const [error, setError] = React.useState({
     Email: '',
     name: '',
     password: '',
     stack: '',
   }); // error text
+  const navigate = useNavigate();
 
   const handleNickNameChange = (e) => {
     setNickname(e.target.value);
