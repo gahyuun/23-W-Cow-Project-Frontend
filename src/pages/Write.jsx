@@ -15,6 +15,7 @@ import {
 import axios from 'axios';
 import DatePicker from 'react-datepicker';
 import Swal from 'sweetalert2';
+// eslint-disable-next-line import/no-unresolved
 import { MultiSelect } from 'react-multi-select-component';
 import { ko } from 'date-fns/esm/locale';
 import { stacks } from '../helper/types';

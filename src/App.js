@@ -20,6 +20,13 @@ import Login from './pages/Login';
 function App() {
   const [isLogin, setIsLogin] = React.useState(false);
   console.log(isLogin, 'iis');
+  React.useEffect(() => {
+    if (localStorage.getItem('token')) {
+      setIsLogin(true);
+      return;
+    }
+    setIsLogin(false);
+  }, []);
 
   return (
     <ChakraProvider>
