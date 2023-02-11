@@ -14,7 +14,8 @@ import {
 } from '@chakra-ui/react';
 import axios from 'axios';
 import DatePicker from 'react-datepicker';
-import { MultiSelect } from 'chakra-multiselect';
+import Swal from 'sweetalert2';
+import { MultiSelect } from 'react-multi-select-component';
 import { ko } from 'date-fns/esm/locale';
 import { stacks } from '../helper/types';
 import image from '../img/BsImage.png';
@@ -32,19 +33,39 @@ function Write() {
     width: 200,
     height: 10,
     padding: 1.5,
-    border: '1px solid grey',
+    border: '1px solid #ccc',
     borderRadius: 4,
+  };
+  const swalFire = {
+    width: 400,
+    height: 260,
+    showConfirmButton: false,
+    cancelButtonText: '확인',
+    cancelButtonColor: '#CF5E53',
+    showCancelButton: true,
+    timer: 3000,
   };
   const [formData, setFormData] = React.useState({
     title: '',
     detail: '',
     summary: '',
-    techstack: [],
   });
-  const [startDate, setStartDate] = React.useState();
-  const [endDate, setEndDate] = React.useState();
+  const [startDate, setStartDate] = React.useState('');
+  const [endDate, setEndDate] = React.useState('');
+  const [techstack, setTechstack] = React.useState([]);
+  const options = [];
+  Object.keys(stacks).map((stack) =>
+    options.push({ label: stack, value: stack }),
+  );
+  console.log(options);
 
-  // const isError = formData.title === '' || formData.detail === '';
+  const isError =
+    techstack === [] ||
+    formData.title === '' ||
+    formData.detail === '' ||
+    formData.summary === '' ||
+    startDate === '' ||
+    endDate === '';
   const handleChange = (e) => {
     const newForm = {
       ...formData,
@@ -95,6 +116,9 @@ function Write() {
                   mb="5"
                   placeholder="프로젝트 명을 입력해주세요."
                   size="lg"
+                  _focusVisible={{
+                    border: '2px solid #4285f4',
+                  }}
                 />
                 {/* <Input
                   id="period"
@@ -105,7 +129,12 @@ function Write() {
                   size="lg"
                 /> */}
                 <Box sx={dateStyle}>
-                  <Stack sx={inputdate}>
+                  <Stack
+                    sx={inputdate}
+                    _hover={{
+                      border: '2px solid #4285f4',
+                    }}
+                  >
                     <DatePicker
                       locale={ko}
                       dateFormat="yyyy/MM/dd"
@@ -129,7 +158,12 @@ function Write() {
                     />
                   </Stack>
                   ~
-                  <Stack sx={inputdate}>
+                  <Stack
+                    sx={inputdate}
+                    _hover={{
+                      border: '2px solid #4285f4',
+                    }}
+                  >
                     <DatePicker
                       dateFormat="yyyy/MM/dd"
                       locale={ko}
@@ -162,22 +196,18 @@ function Write() {
                   maxLength="30"
                   placeholder="프로젝트 소개를 입력해주세요."
                   size="lg"
+                  _focusVisible={{ border: '2px solid #4285f4' }}
                 />
                 <MultiSelect
-                  id="teckstack"
-                  value={formData.techstack}
-                  options={Object.keys(stacks)}
-                  onChange={handleChange}
+                  value={techstack}
+                  options={options}
+                  onChange={setTechstack}
                   mb="5"
-                  placeholder="스택을 입력해주세요."
-                  size="lg"
-                >
-                  {Object.keys(stacks).map((stack) => (
-                    <option key={stack} value={stack}>
-                      {stack}
-                    </option>
-                  ))}
-                </MultiSelect>
+                  selectSomeItems="선택"
+                  overrideStrings={{
+                    selectSomeItems: '스택을 입력해주세요.',
+                  }}
+                />
               </Box>
             </GridItem>
             <GridItem colSpan={4}>
@@ -193,6 +223,9 @@ function Write() {
                   w="850px"
                   resize="none"
                   placeholder="프로젝트 설명을 입력해주세요."
+                  _focusVisible={{
+                    border: '2px solid #4285f4',
+                  }}
                 />
               </Box>
               <Box w="350px" h="50px" m="auto">
@@ -200,7 +233,14 @@ function Write() {
                   w="350px"
                   h="50px"
                   type="submit"
-                  onClick={onSubmit}
+                  onClick={() =>
+                    isError
+                      ? Swal.fire({
+                          ...swalFire,
+                          html: '모든 항목을 입력해주세요!',
+                        })
+                      : onSubmit
+                  }
                   colorScheme="blue"
                   variant="outline"
                 >
