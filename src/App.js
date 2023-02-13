@@ -18,15 +18,15 @@ import Login from './pages/Login';
 // 비로그인 상태에서 /mypage, /portfolio 페이지 접근 불가. Login 페이지로 이동
 
 function App() {
-  const [isLogin, setIsLogin] = React.useState(false);
+  const [isLogin, setIsLogin] = React.useState(true);
   console.log(isLogin, 'iis');
-  React.useEffect(() => {
-    if (localStorage.getItem('token')) {
-      setIsLogin(true);
-      return;
-    }
-    setIsLogin(false);
-  }, []);
+  // React.useEffect(() => {
+  //   if (localStorage.getItem('token')) {
+  //     setIsLogin(true);
+  //     return;
+  //   }
+  //   setIsLogin(false);
+  // }, []);
 
   return (
     <ChakraProvider>
@@ -35,10 +35,11 @@ function App() {
         <Routes>
           <Route path="*" element={<>404</>} />
           <Route path="/" element={<Main isLogin={false} />} />
-          <Route
+          {/* <Route
             path="/portfolio"
             element={isLogin ? <Write /> : <Navigate to="/login" />}
-          />
+          /> */}
+          <Route path="/portfolio" element={<Write />} />
           <Route
             path="/login"
             element={
