@@ -5,7 +5,6 @@ import {
   Input,
   Text,
   InputGroup,
-  Select,
   FormHelperText,
   FormControl,
   FormLabel,
@@ -16,7 +15,6 @@ import axios from 'axios';
 import Swal from 'sweetalert2';
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import { useNavigate } from 'react-router-dom';
-import { stacks } from '../helper/types.js';
 import Sign from '../component/Sign.jsx';
 
 function Join() {
@@ -70,7 +68,6 @@ function Join() {
     Email: '',
     name: '',
     password: '',
-    stack: '',
   }); // error text
   const navigate = useNavigate();
 
@@ -132,7 +129,6 @@ function Join() {
       email: data.get('email'),
       password: data.get('password'),
       nickname: data.get('nickname'),
-      stack: data.get('stack'),
     };
 
     if (!emailRegrex.test(joinData.email))
@@ -145,15 +141,10 @@ function Join() {
         password: '영문 숫자포함 7자 이상의 비밀번호를 설정해주세요',
       });
     else setError({ ...error, password: '' });
-
-    if (joinData.stack === '')
-      setError({ ...error, stack: '스택을 선택해주세요' });
-    else setError({ ...error, stack: '' });
     // 유효성 검사
     if (
       emailRegrex.test(joinData.email) &&
-      passwordRegrex.test(joinData.password) &&
-      !joinData.stack === ''
+      passwordRegrex.test(joinData.password)
     ) {
       handlePost(joinData);
     }
@@ -257,28 +248,6 @@ function Join() {
                     fontSize="0.813rem"
                   >
                     {error.name}
-                  </FormHelperText>
-                </Box>
-              </Box>
-              <Box sx={groupStyle}>
-                <Text sx={TextStyle}>Stack</Text>
-                <Box sx={inputGroupStyle}>
-                  <Select
-                    name="stack"
-                    placeholder="&nbsp;&nbsp;&nbsp;&nbsp;Stack"
-                    variant="unstyled"
-                    sx={inputStyle}
-                    color="#718096"
-                    w="450px"
-                  >
-                    {Object.keys(stacks).map((stack) => (
-                      <option key={stack} value={stack}>
-                        &nbsp;&nbsp;&nbsp;&nbsp; {stack}
-                      </option>
-                    ))}
-                  </Select>
-                  <FormHelperText sx={FormHelperStyle}>
-                    {error.stack}
                   </FormHelperText>
                 </Box>
               </Box>
