@@ -35,10 +35,11 @@ function App() {
         <Routes>
           <Route path="*" element={<>404</>} />
           <Route path="/" element={<Main isLogin={false} />} />
-          <Route
+          {/* <Route
             path="/portfolio"
             element={isLogin ? <Write /> : <Navigate to="/login" />}
-          />
+          /> */}
+          <Route path="/portfolio" element={<Write />} />
           <Route
             path="/login"
             element={
