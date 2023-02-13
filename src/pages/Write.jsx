@@ -9,17 +9,17 @@ import {
   Card,
   FormControl,
   Textarea,
-  Image,
   Stack,
+  FormLabel,
+  Image,
 } from '@chakra-ui/react';
 import axios from 'axios';
 import DatePicker from 'react-datepicker';
 import Swal from 'sweetalert2';
-// eslint-disable-next-line import/no-unresolved
 import { MultiSelect } from 'react-multi-select-component';
 import { ko } from 'date-fns/esm/locale';
 import { stacks } from '../helper/types';
-import image from '../img/BsImage.png';
+import imageIcon from '../img/BsImage.png';
 import 'react-datepicker/dist/react-datepicker.css';
 
 function Write() {
@@ -27,7 +27,7 @@ function Write() {
     display: 'flex',
     justifyContent: 'space-between',
     marginBottom: 5,
-    fontSize: 'lg',
+    fontSize: '16',
     alignItems: 'center',
   };
   const inputdate = {
@@ -51,14 +51,26 @@ function Write() {
     detail: '',
     summary: '',
   });
+  const imgRef = React.useRef();
   const [startDate, setStartDate] = React.useState('');
   const [endDate, setEndDate] = React.useState('');
   const [techstack, setTechstack] = React.useState([]);
+  const [img, setImg] = React.useState('');
+
   const options = [];
   Object.keys(stacks).map((stack) =>
     options.push({ label: stack, value: stack }),
   );
   console.log(options);
+
+  const uploadImg = () => {
+    const file = imgRef.current.files[0];
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onloadend = () => {
+      setImg(reader.result);
+    };
+  };
 
   const isError =
     techstack === [] ||
@@ -80,6 +92,9 @@ function Write() {
     await axios
       .post('/', {
         formData,
+        img,
+        startDate,
+        endDate,
       })
       .then((res) => {
         console.log(res);
@@ -97,14 +112,40 @@ function Write() {
         </Text>
       </Box>
       <Box w="850px">
-        <FormControl isRequired>
+        <FormControl>
           <Grid color="white" gap={1}>
             <Box>
               <Card borderRadius="15px" w="350px" h="300px">
                 <Box colSpan={2} m="auto">
-                  <Button w="55px">
-                    <Image src={image} alt="logo" />
-                  </Button>
+                  <FormLabel htmlFor="imageinput">
+                    {img ? (
+                      <Box w="350px" h="300px">
+                        <Button
+                          float="right"
+                          w="7"
+                          h="7"
+                          type="button"
+                          onClick={() => setImg(null)}
+                        >
+                          Edit
+                        </Button>
+                        <Image m="auto" src={img} w="350px" h="250px" />
+                      </Box>
+                    ) : (
+                      <Box>
+                        <Input
+                          type="file"
+                          alt="image"
+                          accept="image/*"
+                          onChange={uploadImg}
+                          ref={imgRef}
+                          id="imageinput"
+                          display="none"
+                        />
+                        <Image m="auto" src={imageIcon} alt="image" />
+                      </Box>
+                    )}
+                  </FormLabel>
                 </Box>
               </Card>
             </Box>
@@ -117,18 +158,12 @@ function Write() {
                   mb="5"
                   placeholder="프로젝트 명을 입력해주세요."
                   size="lg"
+                  fontSize="16"
+                  border="1px solid #ccc;"
                   _focusVisible={{
                     border: '2px solid #4285f4',
                   }}
                 />
-                {/* <Input
-                  id="period"
-                  value={formData.period}
-                  onChange={handleChange}
-                  mb="5"
-                  placeholder="프로젝트 기간을 입력해주세요. ex. 220503~220603"
-                  size="lg"
-                /> */}
                 <Box sx={dateStyle}>
                   <Stack
                     sx={inputdate}
@@ -144,7 +179,7 @@ function Write() {
                       selectsStart
                       startDate={startDate}
                       endDate={endDate}
-                      placeholderText="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;시작일"
+                      placeholderText="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;시작일"
                       customInput={
                         <FormControl
                           as="input"
@@ -174,7 +209,7 @@ function Write() {
                       startDate={startDate}
                       endDate={endDate}
                       minDate={startDate}
-                      placeholderText="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;종료일"
+                      placeholderText="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;종료일"
                       customInput={
                         <FormControl
                           as="input"
@@ -196,7 +231,9 @@ function Write() {
                   mb="5"
                   maxLength="30"
                   placeholder="프로젝트 소개를 입력해주세요."
+                  border="1px solid #ccc;"
                   size="lg"
+                  fontSize="16"
                   _focusVisible={{ border: '2px solid #4285f4' }}
                 />
                 <MultiSelect
@@ -222,6 +259,7 @@ function Write() {
                   p="5"
                   h="350px"
                   w="850px"
+                  border="1px solid #ccc;"
                   resize="none"
                   placeholder="프로젝트 설명을 입력해주세요."
                   _focusVisible={{
