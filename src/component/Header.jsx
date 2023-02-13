@@ -1,12 +1,14 @@
 import { Box, Image, Select, Text } from '@chakra-ui/react';
 import * as React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import logo from '../img/LOGO.png';
 import { stacks } from '../helper/types.js';
 
 function Header({ isLogin, setIsLogin }) {
   const navigate = useNavigate('');
+  const location = useLocation();
+  const [techstack, setTechstack] = React.useState('');
   const textStyle = {
     fontWeight: '600',
     fontSize: '1.7rem',
@@ -34,12 +36,19 @@ function Header({ isLogin, setIsLogin }) {
     e.preventDefault();
     const searchValue = e.target.value;
     if (searchValue === '') {
-      console.log('빈값입니당 검색하세용');
+      setTechstack('');
       return;
     }
-    navigate(`/api/portfolio?searchWord=${searchValue}`);
+    navigate(`/api/search?searchWord=${searchValue}`);
+    setTechstack(searchValue);
   };
 
+  React.useEffect(() => {
+    if (location.pathname === '/api/search') {
+      return;
+    }
+    setTechstack('');
+  });
   return (
     <Box
       borderBottom="1px solid #C2C2C2"
@@ -70,6 +79,7 @@ function Header({ isLogin, setIsLogin }) {
             color="#718096"
             w="28.125rem"
             onChange={handleSearch}
+            value={techstack}
           >
             {Object.keys(stacks).map((stack) => (
               <option key={stack} value={stack}>
