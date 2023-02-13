@@ -129,35 +129,33 @@ function Write() {
             <Box>
               <Card borderRadius="15px" w="350px" h="300px">
                 <Box colSpan={2} m="auto">
-                  <FormLabel htmlFor="imageinput">
-                    {image ? (
-                      <Box w="350px" h="300px">
-                        <Button
-                          float="right"
-                          w="7"
-                          h="7"
-                          type="button"
-                          onClick={() => setImage(null)}
-                        >
-                          Edit
-                        </Button>
-                        <Image m="auto" src={image} w="350px" h="250px" />
-                      </Box>
-                    ) : (
-                      <Box>
-                        <Input
-                          type="file"
-                          alt="image"
-                          accept="image/*"
-                          onChange={uploadImg}
-                          ref={imgRef}
-                          id="imageinput"
-                          display="none"
-                        />
-                        <Image m="auto" src={imageIcon} alt="image" />
-                      </Box>
-                    )}
-                  </FormLabel>
+                  {image ? (
+                    <Box w="350px" h="300px">
+                      <Button
+                        float="right"
+                        w="7"
+                        h="7"
+                        type="button"
+                        onClick={() => setImage(null)}
+                      >
+                        Delete
+                      </Button>
+                      <Image m="auto" src={image} w="350px" h="250px" />
+                    </Box>
+                  ) : (
+                    <FormLabel htmlFor="imageinput">
+                      <Input
+                        type="file"
+                        alt="image"
+                        accept="image/*"
+                        onChange={uploadImg}
+                        ref={imgRef}
+                        id="imageinput"
+                        display="none"
+                      />
+                      <Image m="auto" src={imageIcon} alt="image" />
+                    </FormLabel>
+                  )}
                 </Box>
               </Card>
             </Box>
