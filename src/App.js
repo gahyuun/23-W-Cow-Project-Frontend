@@ -39,23 +39,23 @@ function App() {
             path="/portfolio"
             element={isLogin ? <Write /> : <Navigate to="/login" />}
           /> */}
-          <Route path="/portfolio" element={<Write />} />
+          <Route path="/portfolio/write" element={<Write />} />
           <Route
             path="/login"
             element={
               !isLogin ? (
                 <Login setIsLogin={setIsLogin} />
               ) : (
-                <Navigate to="/mypage" />
+                <Navigate to="/my" />
               )
             }
           />
           <Route
             path="/join"
-            element={!isLogin ? <Join /> : <Navigate to="/mypage" />}
+            element={!isLogin ? <Join /> : <Navigate to="/my" />}
           />
           <Route
-            path="/mypage"
+            path="/my"
             element={isLogin ? <My /> : <Navigate to="/login" />}
           />
         </Routes>
