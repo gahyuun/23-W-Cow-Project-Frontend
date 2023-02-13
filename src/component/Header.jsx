@@ -1,8 +1,9 @@
-import { Box, Image, Text } from '@chakra-ui/react';
+import { Box, Image, Select, Text } from '@chakra-ui/react';
 import * as React from 'react';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import logo from '../img/LOGO.png';
+import { stacks } from '../helper/types.js';
 
 function Header({ isLogin, setIsLogin }) {
   const navigate = useNavigate('');
@@ -29,6 +30,15 @@ function Header({ isLogin, setIsLogin }) {
       }
     });
   };
+  const handleSearch = (e) => {
+    e.preventDefault();
+    const searchValue = e.target.value;
+    if (searchValue === '') {
+      console.log('빈값입니당 검색하세용');
+      return;
+    }
+    navigate(`/api/portfolio?searchWord=${searchValue}`);
+  };
 
   return (
     <Box
@@ -37,6 +47,7 @@ function Header({ isLogin, setIsLogin }) {
       display="flex"
       justifyContent="space-around"
       alignItems="center"
+      w="100%"
     >
       <Box
         w="7xl"
@@ -44,10 +55,29 @@ function Header({ isLogin, setIsLogin }) {
         justifyContent="space-between"
         alignItems="center"
       >
-        <Box border="1px solid black">
+        <Box
+          border="1px solid black"
+          onClick={() => {
+            navigate('/');
+          }}
+        >
           <Image src={logo} alt="logo" />
         </Box>
-        <Box>sdf</Box>
+
+        <Box>
+          <Select
+            placeholder="Stack"
+            color="#718096"
+            w="28.125rem"
+            onChange={handleSearch}
+          >
+            {Object.keys(stacks).map((stack) => (
+              <option key={stack} value={stack}>
+                {stack}
+              </option>
+            ))}
+          </Select>
+        </Box>
 
         <Box>
           {isLogin ? (
@@ -97,20 +127,18 @@ function Header({ isLogin, setIsLogin }) {
               >
                 Login
               </Text>
-              <a href="http://localhost:3000/join">
-                <Text
-                  _hover={{
-                    textDecoration: 'underline',
-                    textDecorationColor: '#A1CCF4',
-                  }}
-                  sx={textStyle}
-                  onClick={() => {
-                    navigate('/join');
-                  }}
-                >
-                  Join
-                </Text>
-              </a>
+              <Text
+                _hover={{
+                  textDecoration: 'underline',
+                  textDecorationColor: '#A1CCF4',
+                }}
+                sx={textStyle}
+                onClick={() => {
+                  navigate('/join');
+                }}
+              >
+                Join
+              </Text>
             </Box>
           )}
         </Box>
