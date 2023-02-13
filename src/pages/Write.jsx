@@ -54,31 +54,32 @@ function Write() {
   const imgRef = React.useRef();
   const [startDate, setStartDate] = React.useState('');
   const [endDate, setEndDate] = React.useState('');
-  const [techstack, setTechstack] = React.useState([]);
-  const [img, setImg] = React.useState('');
+  const [techStack, setTechStack] = React.useState([]);
+  const [image, setImage] = React.useState('');
 
   const options = [];
   Object.keys(stacks).map((stack) =>
     options.push({ label: stack, value: stack }),
   );
-  console.log(options);
 
   const uploadImg = () => {
     const file = imgRef.current.files[0];
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onloadend = () => {
-      setImg(reader.result);
+      setImage(reader.result);
     };
   };
 
   const isError =
-    techstack === [] ||
+    techStack === [''] ||
+    image === '' ||
     formData.title === '' ||
     formData.detail === '' ||
     formData.summary === '' ||
     startDate === '' ||
     endDate === '';
+
   const handleChange = (e) => {
     const newForm = {
       ...formData,
@@ -92,7 +93,7 @@ function Write() {
     await axios
       .post('/', {
         formData,
-        img,
+        image,
         startDate,
         endDate,
       })
@@ -100,8 +101,19 @@ function Write() {
         console.log(res);
         navigator('/mypage');
       })
-      .catch((e) => {
-        console.error(e);
+      .catch((err) => {
+        if (err.code === 419) {
+          Swal.fire({
+            ...swalFire,
+            html: '토큰이 만료되었습니다.',
+          });
+        }
+        if (err.code === 500) {
+          Swal.fire({
+            ...swalFire,
+            html: '포트폴리오 작성에 실패하였습니다.',
+          });
+        }
       });
   };
   return (
@@ -118,18 +130,18 @@ function Write() {
               <Card borderRadius="15px" w="350px" h="300px">
                 <Box colSpan={2} m="auto">
                   <FormLabel htmlFor="imageinput">
-                    {img ? (
+                    {image ? (
                       <Box w="350px" h="300px">
                         <Button
                           float="right"
                           w="7"
                           h="7"
                           type="button"
-                          onClick={() => setImg(null)}
+                          onClick={() => setImage(null)}
                         >
                           Edit
                         </Button>
-                        <Image m="auto" src={img} w="350px" h="250px" />
+                        <Image m="auto" src={image} w="350px" h="250px" />
                       </Box>
                     ) : (
                       <Box>
@@ -229,7 +241,7 @@ function Write() {
                   value={formData.summary}
                   onChange={handleChange}
                   mb="5"
-                  maxLength="30"
+                  maxLength={30}
                   placeholder="프로젝트 소개를 입력해주세요."
                   border="1px solid #ccc;"
                   size="lg"
@@ -237,9 +249,9 @@ function Write() {
                   _focusVisible={{ border: '2px solid #4285f4' }}
                 />
                 <MultiSelect
-                  value={techstack}
+                  value={techStack}
                   options={options}
-                  onChange={setTechstack}
+                  onChange={setTechStack}
                   mb="5"
                   selectSomeItems="선택"
                   overrideStrings={{
