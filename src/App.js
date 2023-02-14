@@ -19,14 +19,6 @@ import Login from './pages/Login';
 
 function App() {
   const [isLogin, setIsLogin] = React.useState(localStorage.getItem('token'));
-  // console.log(isLogin, 'iis');
-  // React.useEffect(() => {
-  //   if (localStorage.getItem('token')) {
-  //     setIsLogin(true);
-  //     return;
-  //   }
-  //   setIsLogin(false);
-  // }, []);
 
   return (
     <ChakraProvider>
@@ -36,26 +28,25 @@ function App() {
           <Route path="*" element={<>404</>} />
           <Route path="/" element={<Main isLogin={false} />} />
           <Route
-            path="/portfolio"
+            path="/portfolio/write"
             element={isLogin ? <Write /> : <Navigate to="/login" />}
           />
-          {/* <Route path="/portfolio" element={<Write />} /> */}
           <Route
             path="/login"
             element={
               !isLogin ? (
                 <Login setIsLogin={setIsLogin} />
               ) : (
-                <Navigate to="/mypage" />
+                <Navigate to="/my" />
               )
             }
           />
           <Route
             path="/join"
-            element={!isLogin ? <Join /> : <Navigate to="/mypage" />}
+            element={!isLogin ? <Join /> : <Navigate to="/my" />}
           />
           <Route
-            path="/mypage"
+            path="/my"
             element={isLogin ? <My /> : <Navigate to="/login" />}
           />
         </Routes>

@@ -33,12 +33,6 @@ function Information() {
                   세빈공주
                 </Text>
               </Box>
-              <Box>
-                <Heading size="xs">Stack</Heading>
-                <Text pt="2" fontSize="sm">
-                  JavaScript
-                </Text>
-              </Box>
             </Stack>
           </CardBody>
         </Card>
