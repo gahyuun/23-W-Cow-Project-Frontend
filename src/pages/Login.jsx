@@ -54,7 +54,6 @@ function Login({ setIsLogin }) {
   const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
-    setIsLogin(true);
     navigate('/');
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -63,11 +62,13 @@ function Login({ setIsLogin }) {
       password: data.get('password'),
     };
     await axios
-      .post(`/auth/login`, { loginData })
+      .post('/auth/login', loginData)
       .then((res) => {
         // API 요청하는 콜마다 헤더에 accessToken 담아 보내도록 설정
-        localStorage.setItem('token', res.data.token);
-        axios.defaults.headers.common.Authorization = `Bearer ${res.data.token}`;
+        const userToken = res.data.data.token;
+        console.log(userToken);
+        localStorage.setItem('token', userToken);
+        axios.defaults.headers.common.Authorization = `Bearer ${userToken}`;
         // Bearer 기본적인 의미는 정보의 신호 전달을 네트워크 단에서 손실 없이 있는 그대로 전달하는 서비스를 말한다
         setIsLogin(true);
         Swal.fire({ ...swalFire, html: '로그인 성공' });
