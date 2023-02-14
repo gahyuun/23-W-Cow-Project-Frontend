@@ -40,15 +40,17 @@ function Header({ isLogin, setIsLogin }) {
       return;
     }
     navigate(`/api/search?searchWord=${searchValue}`);
-    setTechstack(searchValue);
   };
-
   React.useEffect(() => {
-    if (location.pathname === '/api/search') {
+    const urlSearch = new URLSearchParams(location.search);
+    const searchWord = urlSearch.get('searchWord');
+    if (searchWord === null) {
+      setTechstack('');
       return;
     }
-    setTechstack('');
+    setTechstack(searchWord);
   });
+
   return (
     <Box
       borderBottom="1px solid #C2C2C2"
