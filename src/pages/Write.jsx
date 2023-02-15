@@ -50,12 +50,13 @@ function Write() {
     title: '',
     detail: '',
     summary: '',
+    image:'',
   });
   const imgRef = React.useRef();
   const [startDate, setStartDate] = React.useState('');
   const [endDate, setEndDate] = React.useState('');
   const [techStack, setTechStack] = React.useState([]);
-  const [image, setImage] = React.useState('');
+   const [image, setImage] = React.useState('');
 
   const options = [];
   Object.keys(stacks).map((stack) =>
@@ -71,15 +72,6 @@ function Write() {
     };
   };
 
-  const isError =
-    techStack === [''] ||
-    image === '' ||
-    formData.title === '' ||
-    formData.detail === '' ||
-    formData.summary === '' ||
-    startDate === '' ||
-    endDate === '';
-
   const handleChange = (e) => {
     const newForm = {
       ...formData,
@@ -90,13 +82,14 @@ function Write() {
   };
 
   const onSubmit = async () => {
+    console.log(formData)
+    console.log(localStorage.getItem('token'));
     await axios
-      .post('/', {
-        formData,
-        image,
-        startDate,
-        endDate,
-      })
+      .post('/api/portfolio/write',
+       {...formData}, { headers: {
+				Authorization: localStorage.getItem('token'),
+       }}
+      )
       .then((res) => {
         console.log(res);
         navigator('/mypage');
@@ -136,7 +129,7 @@ function Write() {
                         w="7"
                         h="7"
                         type="button"
-                        onClick={() => setImage(null)}
+                        onClick={() =>  setImage(null)}
                       >
                         Delete
                       </Button>
@@ -282,13 +275,8 @@ function Write() {
                   w="350px"
                   h="50px"
                   type="submit"
-                  onClick={() =>
-                    isError
-                      ? Swal.fire({
-                          ...swalFire,
-                          html: '모든 항목을 입력해주세요!',
-                        })
-                      : onSubmit
+                  onClick={
+                    onSubmit
                   }
                   colorScheme="blue"
                   variant="outline"

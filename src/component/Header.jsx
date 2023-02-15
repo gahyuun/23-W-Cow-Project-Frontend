@@ -105,7 +105,7 @@ function Header({ isLogin, setIsLogin }) {
                 }}
                 sx={textStyle}
                 onClick={() => {
-                  navigate('/mypage');
+                  navigate('/my');
                 }}
               >
                 My
