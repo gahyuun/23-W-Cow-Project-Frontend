@@ -87,22 +87,16 @@ function Write() {
       ...formData,
       [e.target.id]: e.target.value,
     };
+    console.log(newForm);
     setFormData(newForm);
   };
 
   const onSubmit = async () => {
-    if (isError) {
-      Swal.fire({
-        ...swalFire,
-        html: '모든 항목을 입력해주세요!',
-      });
-    }
-    console.log(formData)
-    console.log(localStorage.getItem('token'));
     await axios
-      .post('/', {
+      .post('/write', {
         formData,
         image,
+        techStack,
         startDate,
         endDate,
       })
@@ -298,15 +292,7 @@ function Write() {
                 <Button
                   w="350px"
                   h="50px"
-                  type="submit"
-                  onClick={() =>
-                    isError
-                      ? Swal.fire({
-                          ...swalFire,
-                          html: '모든 항목을 입력해주세요!',
-                        })
-                      : onSubmit
-                  }
+                  onClick={onSubmit}
                   colorScheme="blue"
                   variant="outline"
                 >
