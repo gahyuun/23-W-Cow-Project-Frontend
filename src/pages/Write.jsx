@@ -63,6 +63,16 @@ function Write() {
     options.push({ label: stack, value: stack }),
   );
 
+  const isError =
+    techStack === [''] ||
+    image === '' ||
+    formData.title === '' ||
+    formData.detail === '' ||
+    formData.summary === '' ||
+    startDate === '' ||
+    endDate === '';
+
+
   const uploadImg = () => {
     const file = imgRef.current.files[0];
     const reader = new FileReader();
@@ -77,19 +87,25 @@ function Write() {
       ...formData,
       [e.target.id]: e.target.value,
     };
-    console.log(newForm);
     setFormData(newForm);
   };
 
   const onSubmit = async () => {
+    if (isError) {
+      Swal.fire({
+        ...swalFire,
+        html: '모든 항목을 입력해주세요!',
+      });
+    }
     console.log(formData)
     console.log(localStorage.getItem('token'));
     await axios
-      .post('/api/portfolio/write',
-       {...formData}, { headers: {
-				Authorization: localStorage.getItem('token'),
-       }}
-      )
+      .post('/', {
+        formData,
+        image,
+        startDate,
+        endDate,
+      })
       .then((res) => {
         console.log(res);
         navigator('/mypage');
@@ -107,6 +123,7 @@ function Write() {
             html: '포트폴리오 작성에 실패하였습니다.',
           });
         }
+        console.log(err);
       });
   };
   return (
@@ -126,14 +143,20 @@ function Write() {
                     <Box w="350px" h="300px">
                       <Button
                         float="right"
-                        w="7"
+                        w="13"
                         h="7"
                         type="button"
                         onClick={() =>  setImage(null)}
                       >
                         Delete
                       </Button>
-                      <Image m="auto" src={image} w="350px" h="250px" />
+                      <Image
+                        m="auto"
+                        src={image}
+                        w="350px"
+                        h="250px"
+                        objectFit="scale-down"
+                      />
                     </Box>
                   ) : (
                     <FormLabel htmlFor="imageinput">
@@ -161,6 +184,7 @@ function Write() {
                   mb="5"
                   placeholder="프로젝트 명을 입력해주세요."
                   size="lg"
+                  maxLength={20}
                   fontSize="16"
                   border="1px solid #ccc;"
                   _focusVisible={{
@@ -275,8 +299,13 @@ function Write() {
                   w="350px"
                   h="50px"
                   type="submit"
-                  onClick={
-                    onSubmit
+                  onClick={() =>
+                    isError
+                      ? Swal.fire({
+                          ...swalFire,
+                          html: '모든 항목을 입력해주세요!',
+                        })
+                      : onSubmit
                   }
                   colorScheme="blue"
                   variant="outline"
