@@ -50,26 +50,18 @@ function Write() {
     title: '',
     detail: '',
     summary: '',
+    image:'',
   });
   const imgRef = React.useRef();
   const [startDate, setStartDate] = React.useState('');
   const [endDate, setEndDate] = React.useState('');
   const [techStack, setTechStack] = React.useState([]);
-  const [image, setImage] = React.useState('');
+   const [image, setImage] = React.useState('');
 
   const options = [];
   Object.keys(stacks).map((stack) =>
     options.push({ label: stack, value: stack }),
   );
-
-  const uploadImg = () => {
-    const file = imgRef.current.files[0];
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onloadend = () => {
-      setImage(reader.result);
-    };
-  };
 
   const isError =
     techStack === [''] ||
@@ -79,6 +71,16 @@ function Write() {
     formData.summary === '' ||
     startDate === '' ||
     endDate === '';
+
+
+  const uploadImg = () => {
+    const file = imgRef.current.files[0];
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onloadend = () => {
+      setImage(reader.result);
+    };
+  };
 
   const handleChange = (e) => {
     const newForm = {
@@ -143,7 +145,7 @@ function Write() {
                         w="13"
                         h="7"
                         type="button"
-                        onClick={() => setImage(null)}
+                        onClick={() =>  setImage(null)}
                       >
                         Delete
                       </Button>
