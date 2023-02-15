@@ -54,8 +54,8 @@ function Header({ isLogin, setIsLogin }) {
   return (
     <Box
       borderBottom="1px solid #C2C2C2"
-      h="8.125rem"
       display="flex"
+      h={{ base: '3rem', md: '8rem' }}
       justifyContent="space-around"
       alignItems="center"
       w="100%"
