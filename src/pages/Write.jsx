@@ -87,11 +87,16 @@ function Write() {
       ...formData,
       [e.target.id]: e.target.value,
     };
-    console.log(newForm);
     setFormData(newForm);
   };
 
   const onSubmit = async () => {
+    if (isError) {
+      Swal.fire({
+        ...swalFire,
+        html: '모든 항목을 입력해주세요!',
+      });
+    }
     await axios
       .post('/write', {
         formData,
