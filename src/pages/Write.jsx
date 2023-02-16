@@ -48,9 +48,7 @@ function Write() {
     title: '',
     detail: '',
     summary: '',
-    imageUrl: '',
-    startDate: '',
-    endDate: '',
+ 
   });
 
   const navigate = useNavigate();
@@ -59,21 +57,19 @@ function Write() {
   const [techStack, setTechStack] = React.useState([]);
   const [file, setFile] = React.useState(null);
   const [imageUrl, setImageUrl] = React.useState(null);
-
+  const temp = [];
   const handleList = (e) => {
-    const temp = [];
-    setTechStack(...setTechStack, e.target.value) // 중복배열 제거 
-    techStack.map((stack) => temp.push(stack.label));
+    setTechStack(e.target.value);
+    // techStack.map((stack) =>);
+    temp.push(techStack.label)
     console.log(temp);
   };
 
   const handleFileChange = (event) => {
     const selectedFile = event.target.files[0];
     setFile(selectedFile);
-    console.log(`시발1 :${file}`);
-    const fileUrl = URL.createObjectURL(selectedFile);
-    setImageUrl(fileUrl);
-    console.log(`시발2 :${fileUrl}`);
+     const fileUrl = URL.createObjectURL(selectedFile);
+     setImageUrl(fileUrl);
   };
 
   const options = [];
@@ -81,14 +77,14 @@ function Write() {
     options.push({ label: stack, value: stack }),
   );
 
-  const isError =
-    techStack === [''] ||
-    imageUrl === '' ||
-    formData.title === '' ||
-    formData.detail === '' ||
-    formData.summary === '' ||
-    startDate === '' ||
-    endDate === '';
+  // const isError =
+  //   techStack === [''] ||
+  //   file === '' ||
+  //   formData.title === '' ||
+  //   formData.detail === '' ||
+  //   formData.summary === '' ||
+  //   startDate === '' ||
+  //   endDate === '';
 
   const handleChange = (e) => {
     const newForm = {
@@ -98,33 +94,44 @@ function Write() {
     console.log(newForm);
     setFormData(newForm);
   };
-
+	// eslint-disable-next-line prefer-const
+	let data = new FormData();
   const onSubmit = async () => {
-    if (isError) {
-      Swal.fire({
-        ...swalFire,
-        html: '모든 항목을 입력해주세요!',
-      });
-    }
+      data.append('portfolioimg', file);
+      // eslint-disable-next-line no-restricted-syntax
+      for (const key of data.keys()) {
+        console.log(key);
+      }
+      // eslint-disable-next-line no-restricted-syntax
+      for (const value of data.values()) {
+        console.log(value);
+      }
+      console.log(file)
+
+    // if (isError) {
+    //   Swal.fire({
+    //     ...swalFire,
+    //     html: '모든 항목을 입력해주세요!',
+    //   });
+    // }
     await axios
       .post(
-        '/api/portfolio/write',
+        '/api/portfolio/write', 
         {
-          ...formData,
-          imageUrl,
-          techStack,
-          startDate,
-          endDate,
+          // ...formData,
+            portfolioimg:file,
         },
         {
           headers: {
             Authorization: localStorage.getItem('token'),
+            'Content-Type': 'multipart/form-data',
           },
+          
         },
       )
       .then((res) => {
         console.log(res);
-        navigate('/my');
+        navigate('/');
       })
       .catch((err) => {
         if (err.code === 419) {
