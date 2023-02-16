@@ -5,14 +5,18 @@ import {
   Input,
   Text,
   FormControl,
+  Icon,
+  InputGroup,
 } from '@chakra-ui/react';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import * as React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import Sign from '../component/Sign.jsx';
 
 function Login({ setIsLogin }) {
+  const [showPW, setShowPW] = React.useState(false); // 비밀번호 보여주기 여부
   const inputStyle = {
     borderBottom: '1px solid black',
     borderTop: 'none',
@@ -130,14 +134,26 @@ function Login({ setIsLogin }) {
               <Box sx={groupStyle}>
                 <Text sx={TextStyle}>Password</Text>
                 <Box sx={inputGroupStyle}>
-                  <Input
-                    name="password"
-                    w="28.125rem"
-                    placeholder="비밀번호를 입력해주세요"
-                    sx={inputStyle}
-                    _focusVisible={{ borderColor: 'black' }}
-                    _hover={{ borderColor: 'black' }}
-                  />
+                  <InputGroup w="450px">
+                    <Input
+                      name="password"
+                      w="28.125rem"
+                      placeholder="비밀번호를 입력해주세요"
+                      sx={inputStyle}
+                      type={showPW ? 'text' : 'password'}
+                      _focusVisible={{ borderColor: 'black' }}
+                      _hover={{ borderColor: 'black' }}
+                    />
+                    <Icon
+                      w="30px"
+                      h="30px"
+                      mt="12px"
+                      as={showPW ? ViewIcon : ViewOffIcon}
+                      onClick={() => {
+                        setShowPW(!showPW);
+                      }}
+                    />
+                  </InputGroup>
                 </Box>
               </Box>
             </FormControl>
