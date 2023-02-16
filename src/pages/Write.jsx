@@ -9,14 +9,11 @@ import {
   Card,
   FormControl,
   Textarea,
-  Stack,
 } from '@chakra-ui/react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import DatePicker from 'react-datepicker';
 import Swal from 'sweetalert2';
 import { MultiSelect } from 'react-multi-select-component';
-import { ko } from 'date-fns/esm/locale';
 import { stacks } from '../helper/types';
 import 'react-datepicker/dist/react-datepicker.css';
 
@@ -28,13 +25,7 @@ function Write() {
     fontSize: '16',
     alignItems: 'center',
   };
-  const inputdate = {
-    width: 200,
-    height: 10,
-    padding: 1.5,
-    border: '1px solid #ccc',
-    borderRadius: 4,
-  };
+
   const swalFire = {
     width: 400,
     height: 260,
@@ -48,28 +39,27 @@ function Write() {
     title: '',
     detail: '',
     summary: '',
- 
+    startDate: '',
+    endDate: '',
   });
 
   const navigate = useNavigate();
-  const [startDate, setStartDate] = React.useState('');
-  const [endDate, setEndDate] = React.useState('');
   const [techStack, setTechStack] = React.useState([]);
   const [file, setFile] = React.useState(null);
   const [imageUrl, setImageUrl] = React.useState(null);
   const temp = [];
   const handleList = (e) => {
     setTechStack(e.target.value);
-    // techStack.map((stack) =>);
-    temp.push(techStack.label)
+
+    temp.push(techStack.label);
     console.log(temp);
   };
 
   const handleFileChange = (event) => {
     const selectedFile = event.target.files[0];
     setFile(selectedFile);
-     const fileUrl = URL.createObjectURL(selectedFile);
-     setImageUrl(fileUrl);
+    const fileUrl = URL.createObjectURL(selectedFile);
+    setImageUrl(fileUrl);
   };
 
   const options = [];
@@ -94,19 +84,19 @@ function Write() {
     console.log(newForm);
     setFormData(newForm);
   };
-	// eslint-disable-next-line prefer-const
-	let data = new FormData();
+  // eslint-disable-next-line prefer-const
+  let data = new FormData();
   const onSubmit = async () => {
-      data.append('portfolioimg', file);
-      // eslint-disable-next-line no-restricted-syntax
-      for (const key of data.keys()) {
-        console.log(key);
-      }
-      // eslint-disable-next-line no-restricted-syntax
-      for (const value of data.values()) {
-        console.log(value);
-      }
-      console.log(file)
+    data.append('portfolioimg', file);
+    // eslint-disable-next-line no-restricted-syntax
+    // for (const key of data.keys()) {
+    //   console.log(key);
+    // }
+    // // eslint-disable-next-line no-restricted-syntax
+    // for (const value of data.values()) {
+    //   console.log(value);
+    // }
+    // console.log(file);
 
     // if (isError) {
     //   Swal.fire({
@@ -116,17 +106,16 @@ function Write() {
     // }
     await axios
       .post(
-        '/api/portfolio/write', 
+        '/api/portfolio/write',
         {
-          // ...formData,
-            portfolioimg:file,
+          ...formData,
+          portfolioimg: file,
         },
         {
           headers: {
             Authorization: localStorage.getItem('token'),
             'Content-Type': 'multipart/form-data',
           },
-          
         },
       )
       .then((res) => {
@@ -169,7 +158,6 @@ function Write() {
                     accept="image/*"
                     textDecoration="none"
                     style={{ color: 'white', borderBox: 'white' }}
-                    required
                     onChange={handleFileChange}
                   />
                   {file && <img src={imageUrl} alt="selected" />}
@@ -194,68 +182,31 @@ function Write() {
                   }}
                 />
                 <Box sx={dateStyle}>
-                  <Stack
-                    sx={inputdate}
-                    _hover={{
-                      border: '2px solid #4285f4',
-                    }}
-                  >
-                    <DatePicker
-                      locale={ko}
-                      dateFormat="yyyy/MM/dd"
-                      selected={startDate}
-                      onChange={(date) => setStartDate(date)}
-                      selectsStart
-                      name='start'
-                      id='start'
-                      startDate={startDate}
-                      endDate={endDate}
-                      placeholderText="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;시작일"
-                      customInput={
-                        <FormControl
-                          as="input"
-                          rows={1}
-                          style={{
-                            width: '100px',
-                            marginLeft: '40px',
-                            outline: 'none',
-                          }}
-                        />
-                      }
-                    />
-                  </Stack>
+                  <Input
+                    id="startDate"
+                    name="startDate"
+                    size="lg"
+                    type="date"
+                    fontSize="16"
+                    value={formData.startDate}
+                    // sx={inputDate}
+                    onChange={handleChange}
+                    border="1px solid #ccc;"
+                    _focusVisible={{ border: '2px solid #4285f4' }}
+                  />
                   ~
-                  <Stack
-                    sx={inputdate}
-                    _hover={{
-                      border: '2px solid #4285f4',
-                    }}
-                  >
-                    <DatePicker
-                      dateFormat="yyyy/MM/dd"
-                      locale={ko}
-                      id='endDate'
-                      name="endDate"
-                      selected={endDate}
-                      onChange={(date) => setEndDate(date)}
-                      selectsEnd
-                      startDate={startDate}
-                      endDate={endDate}
-                      minDate={startDate}
-                      placeholderText="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;종료일"
-                      customInput={
-                        <FormControl
-                          as="input"
-                          rows={1}
-                          style={{
-                            width: '100px',
-                            marginLeft: '40px',
-                            outline: 'none',
-                          }}
-                        />
-                      }
-                    />
-                  </Stack>
+                  <Input
+                    id="endDate"
+                    name="endDate"
+                    size="lg"
+                    type="date"
+                    fontSize="16"
+                    value={formData.endDate}
+                    // sx={inputDate}
+                    onChange={handleChange}
+                    border="1px solid #ccc;"
+                    _focusVisible={{ border: '2px solid #4285f4' }}
+                  />
                 </Box>
                 <Input
                   id="summary"
@@ -286,7 +237,7 @@ function Write() {
               <Box color="black">
                 <Textarea
                   id="detail"
-                  name='detail'
+                  name="detail"
                   value={formData.detail}
                   onChange={handleChange}
                   mt="5"
