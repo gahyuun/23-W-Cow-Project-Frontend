@@ -10,16 +10,14 @@ import {
   FormControl,
   Textarea,
   Stack,
-  FormLabel,
-  Image,
 } from '@chakra-ui/react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import DatePicker from 'react-datepicker';
 import Swal from 'sweetalert2';
 import { MultiSelect } from 'react-multi-select-component';
 import { ko } from 'date-fns/esm/locale';
 import { stacks } from '../helper/types';
-import imageIcon from '../img/BsImage.png';
 import 'react-datepicker/dist/react-datepicker.css';
 
 function Write() {
@@ -50,13 +48,33 @@ function Write() {
     title: '',
     detail: '',
     summary: '',
-    image:'',
+    imageUrl: '',
+    startDate: '',
+    endDate: '',
   });
-  const imgRef = React.useRef();
+
+  const navigate = useNavigate();
   const [startDate, setStartDate] = React.useState('');
   const [endDate, setEndDate] = React.useState('');
   const [techStack, setTechStack] = React.useState([]);
-   const [image, setImage] = React.useState('');
+  const [file, setFile] = React.useState(null);
+  const [imageUrl, setImageUrl] = React.useState(null);
+
+  const handleList = (e) => {
+    const temp = [];
+    setTechStack(...setTechStack, e.target.value) // 중복배열 제거 
+    techStack.map((stack) => temp.push(stack.label));
+    console.log(temp);
+  };
+
+  const handleFileChange = (event) => {
+    const selectedFile = event.target.files[0];
+    setFile(selectedFile);
+    console.log(`시발1 :${file}`);
+    const fileUrl = URL.createObjectURL(selectedFile);
+    setImageUrl(fileUrl);
+    console.log(`시발2 :${fileUrl}`);
+  };
 
   const options = [];
   Object.keys(stacks).map((stack) =>
@@ -65,28 +83,19 @@ function Write() {
 
   const isError =
     techStack === [''] ||
-    image === '' ||
+    imageUrl === '' ||
     formData.title === '' ||
     formData.detail === '' ||
     formData.summary === '' ||
     startDate === '' ||
     endDate === '';
 
-
-  const uploadImg = () => {
-    const file = imgRef.current.files[0];
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onloadend = () => {
-      setImage(reader.result);
-    };
-  };
-
   const handleChange = (e) => {
     const newForm = {
       ...formData,
-      [e.target.id]: e.target.value,
+      [e.target.name]: e.target.value,
     };
+    console.log(newForm);
     setFormData(newForm);
   };
 
@@ -98,16 +107,24 @@ function Write() {
       });
     }
     await axios
-      .post('/write', {
-        formData,
-        image,
-        techStack,
-        startDate,
-        endDate,
-      })
+      .post(
+        '/api/portfolio/write',
+        {
+          ...formData,
+          imageUrl,
+          techStack,
+          startDate,
+          endDate,
+        },
+        {
+          headers: {
+            Authorization: localStorage.getItem('token'),
+          },
+        },
+      )
       .then((res) => {
         console.log(res);
-        navigator('/mypage');
+        navigate('/my');
       })
       .catch((err) => {
         if (err.code === 419) {
@@ -138,39 +155,17 @@ function Write() {
             <Box>
               <Card borderRadius="15px" w="350px" h="300px">
                 <Box colSpan={2} m="auto">
-                  {image ? (
-                    <Box w="350px" h="300px">
-                      <Button
-                        float="right"
-                        w="13"
-                        h="7"
-                        type="button"
-                        onClick={() =>  setImage(null)}
-                      >
-                        Delete
-                      </Button>
-                      <Image
-                        m="auto"
-                        src={image}
-                        w="350px"
-                        h="250px"
-                        objectFit="scale-down"
-                      />
-                    </Box>
-                  ) : (
-                    <FormLabel htmlFor="imageinput">
-                      <Input
-                        type="file"
-                        alt="image"
-                        accept="image/*"
-                        onChange={uploadImg}
-                        ref={imgRef}
-                        id="imageinput"
-                        display="none"
-                      />
-                      <Image m="auto" src={imageIcon} alt="image" />
-                    </FormLabel>
-                  )}
+                  <input
+                    type="file"
+                    id="file"
+                    name="file"
+                    accept="image/*"
+                    textDecoration="none"
+                    style={{ color: 'white', borderBox: 'white' }}
+                    required
+                    onChange={handleFileChange}
+                  />
+                  {file && <img src={imageUrl} alt="selected" />}
                 </Box>
               </Card>
             </Box>
@@ -178,6 +173,7 @@ function Write() {
               <Box ml="4" mt="6" w="480px">
                 <Input
                   id="title"
+                  name="title"
                   value={formData.title}
                   onChange={handleChange}
                   mb="5"
@@ -203,6 +199,8 @@ function Write() {
                       selected={startDate}
                       onChange={(date) => setStartDate(date)}
                       selectsStart
+                      name='start'
+                      id='start'
                       startDate={startDate}
                       endDate={endDate}
                       placeholderText="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;시작일"
@@ -229,6 +227,8 @@ function Write() {
                     <DatePicker
                       dateFormat="yyyy/MM/dd"
                       locale={ko}
+                      id='endDate'
+                      name="endDate"
                       selected={endDate}
                       onChange={(date) => setEndDate(date)}
                       selectsEnd
@@ -252,6 +252,7 @@ function Write() {
                 </Box>
                 <Input
                   id="summary"
+                  name="summary"
                   value={formData.summary}
                   onChange={handleChange}
                   mb="5"
@@ -265,7 +266,7 @@ function Write() {
                 <MultiSelect
                   value={techStack}
                   options={options}
-                  onChange={setTechStack}
+                  onChange={handleList}
                   mb="5"
                   selectSomeItems="선택"
                   overrideStrings={{
@@ -278,6 +279,7 @@ function Write() {
               <Box color="black">
                 <Textarea
                   id="detail"
+                  name='detail'
                   value={formData.detail}
                   onChange={handleChange}
                   mt="5"
