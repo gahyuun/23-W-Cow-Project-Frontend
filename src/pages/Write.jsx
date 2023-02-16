@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-syntax */
 import * as React from 'react';
 import {
   Text,
@@ -44,17 +45,18 @@ function Write() {
   });
 
   const navigate = useNavigate();
-  const [techStack, setTechStack] = React.useState([]);
+  const [stack, setStack] = React.useState([]);
   const [file, setFile] = React.useState(null);
   const [imageUrl, setImageUrl] = React.useState(null);
-  const temp = [];
-  const handleList = (e) => {
-    setTechStack(e.target.value);
-
-    temp.push(techStack.label);
-    console.log(temp);
-  };
-
+  // const temp = [];
+  // const handleList = (e) => {
+  //   console.log(stack);
+  //   console.log(e);
+  //   setStack(e.target.value);
+  //   temp.push(stack.label);
+  //   console.log(temp);
+  // };
+  console.log(stack);
   const handleFileChange = (event) => {
     const selectedFile = event.target.files[0];
     setFile(selectedFile);
@@ -63,12 +65,13 @@ function Write() {
   };
 
   const options = [];
+  // eslint-disable-next-line no-shadow
   Object.keys(stacks).map((stack) =>
     options.push({ label: stack, value: stack }),
   );
 
   // const isError =
-  //   techStack === [''] ||
+  //   stack === [''] ||
   //   file === '' ||
   //   formData.title === '' ||
   //   formData.detail === '' ||
@@ -104,12 +107,21 @@ function Write() {
     //     html: '모든 항목을 입력해주세요!',
     //   });
     // }
+    // eslint-disable-next-line guard-for-in
+    const techStack = [];
+    // eslint-disable-next-line guard-for-in
+    for (const i in stack) {
+      console.log(stack[i].value);
+      techStack.push(stack[i].value);
+    }
+    console.log(techStack);
     await axios
       .post(
         '/api/portfolio/write',
         {
           ...formData,
           portfolioimg: file,
+          techStack,
         },
         {
           headers: {
@@ -222,9 +234,9 @@ function Write() {
                   _focusVisible={{ border: '2px solid #4285f4' }}
                 />
                 <MultiSelect
-                  value={techStack}
+                  value={stack}
                   options={options}
-                  onChange={handleList}
+                  onChange={setStack}
                   mb="5"
                   selectSomeItems="선택"
                   overrideStrings={{
