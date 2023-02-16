@@ -64,33 +64,31 @@ function Join() {
   const [nickname, setNickname] = React.useState('');
   const [showPW, setShowPW] = React.useState(false); // 비밀번호 보여주기 여부
   const [nicknameCheck, setNicknameCheck] = React.useState(false); // 중복버튼 클릭 여부
-  const [error, setError] = React.useState({
-    email: '',
-    name: '',
-    password: '',
-  }); // error text
+  const [nicknameError, setNicknameError] = React.useState('');
+  const [emailError, setEmailError] = React.useState('');
+  const [passwordError, setPasswordError] = React.useState('');
   const navigate = useNavigate();
 
   const handleNickNameChange = (e) => {
     setNickname(e.target.value);
     setNicknameCheck(false);
-    setError({ ...error, name: '' });
+    setNicknameError('');
   }; // 닉네임이 바뀌면 다시 중복을 확인해야 하도록 변경하는 함수
 
   const handlenicknameCheck = async () => {
     if (nickname === '') {
-      setError({ ...error, name: '닉네임을 입력해주세요' });
+      setNicknameError('닉네임을 입력해주세요');
       return;
     } // 닉네임 입력을 안했을 시
     await axios
       .get(`/auth/register/${nickname}`)
       .then(() => {
         setNicknameCheck(true);
-        setError({ ...error, name: '사용가능한 닉네임입니다' });
+        setNicknameError('사용가능한 닉네임입니다');
       })
       .catch(() => {
         setNicknameCheck(false);
-        setError({ ...error, name: '존재하는 닉네임입니다' });
+        setNicknameError('존재하는 닉네임입니다');
       });
   }; // 닉네임 중복 확인
 
@@ -98,7 +96,6 @@ function Join() {
     await axios
       .post('/auth/register', joinData)
       .then(() => {
-        setError({ email: '', name: '', password: '' });
         Swal.fire({ ...swalFire, html: '회원가입 성공' });
         navigate('/login');
       })
@@ -121,6 +118,7 @@ function Join() {
         ...swalFire,
         html: '닉네임 중복을 먼저 확인해주세요',
       });
+      return;
     } // 현재 닉네임으로 닉네임 체크 안한 경우
 
     const data = new FormData(event.currentTarget);
@@ -130,23 +128,14 @@ function Join() {
       nickname: data.get('nickname'),
     };
     if (!emailRegrex.test(joinData.email)) {
-      setError({ dd: 'd' });
-      console.log(error);
-      setError({
-        ...error,
-        email: '이메일 형식이 올바르지 않습니다',
-      });
+      setEmailError('이메일 형식이 올바르지 않습니다');
     } else {
-      setError({ ...error, email: '' });
-      console.log('응 안들어와~');
+      setEmailError('');
     }
 
     if (!passwordRegrex.test(joinData.password)) {
-      setError({
-        ...error,
-        password: '영문 숫자포함 7자 이상의 비밀번호를 설정해주세요',
-      });
-    } else setError({ ...error, password: '' });
+      setPasswordError('영문 숫자포함 7자 이상의 비밀번호를 설정해주세요');
+    } else setPasswordError('');
     // 유효성 검사
     if (
       nicknameCheck &&
@@ -195,7 +184,7 @@ function Join() {
                     _hover={{ borderColor: 'black' }}
                   />
                   <FormHelperText sx={FormHelperStyle}>
-                    {error.email}
+                    {emailError}
                   </FormHelperText>
                 </Box>
               </Box>
@@ -222,7 +211,7 @@ function Join() {
                     />
                   </InputGroup>
                   <FormHelperText sx={FormHelperStyle}>
-                    {error.password}
+                    {passwordError}
                   </FormHelperText>
                 </Box>
               </Box>
@@ -254,7 +243,7 @@ function Join() {
                     fontWeight="500"
                     fontSize="0.813rem"
                   >
-                    {error.name}
+                    {nicknameError}
                   </FormHelperText>
                 </Box>
               </Box>

@@ -54,8 +54,8 @@ function Header({ isLogin, setIsLogin }) {
   return (
     <Box
       borderBottom="1px solid #C2C2C2"
-      h="8.125rem"
       display="flex"
+      h={{ base: '3rem', md: '8rem' }}
       justifyContent="space-around"
       alignItems="center"
       w="100%"
@@ -71,6 +71,7 @@ function Header({ isLogin, setIsLogin }) {
           onClick={() => {
             navigate('/');
           }}
+          style={{ cursor: 'pointer' }}
         >
           <Image src={logo} alt="logo" />
         </Box>
@@ -107,6 +108,7 @@ function Header({ isLogin, setIsLogin }) {
                 onClick={() => {
                   navigate('/my');
                 }}
+                style={{ cursor: 'pointer' }}
               >
                 My
               </Text>
@@ -117,6 +119,7 @@ function Header({ isLogin, setIsLogin }) {
                 }}
                 onClick={handleLogout}
                 sx={textStyle}
+                style={{ cursor: 'pointer' }}
               >
                 Logout
               </Text>
@@ -136,6 +139,7 @@ function Header({ isLogin, setIsLogin }) {
                 onClick={() => {
                   navigate('/login');
                 }}
+                style={{ cursor: 'pointer' }}
               >
                 Login
               </Text>
