@@ -2,7 +2,7 @@ import { Box, Image, Select, Text } from '@chakra-ui/react';
 import * as React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
-import logo from '../img/LOGO.png';
+import logo from '../img/pofolLogo.png';
 import { stacks } from '../helper/types.js';
 
 function Header({ isLogin, setIsLogin }) {
@@ -10,9 +10,9 @@ function Header({ isLogin, setIsLogin }) {
   const location = useLocation();
   const [techstack, setTechstack] = React.useState('');
   const textStyle = {
-    fontWeight: '600',
-    fontSize: '1.7rem',
-    mr: '2rem',
+    fontWeight: { sm: '500', md: '500', lg: '600' },
+    fontSize: { sm: '1rem', md: '1.2rem', lg: '1.7rem' },
+    mr: { sm: '1rem', md: '1.5rem', lg: '2rem' },
   };
   const handleLogout = () => {
     Swal.fire({
@@ -55,32 +55,38 @@ function Header({ isLogin, setIsLogin }) {
     <Box
       borderBottom="1px solid #C2C2C2"
       display="flex"
-      h={{ base: '3rem', md: '8rem' }}
+      h={{ sm: '3rem', md: '6rem', lg: '8.15rem' }}
       justifyContent="space-around"
       alignItems="center"
-      w="100%"
+      w="100vw"
     >
       <Box
-        w="7xl"
+        w={{ sm: 'lg', md: '3xl', lg: '7xl' }}
         display="flex"
         justifyContent="space-between"
         alignItems="center"
       >
         <Box
-          border="1px solid black"
           onClick={() => {
             navigate('/');
           }}
           style={{ cursor: 'pointer' }}
+          w={{ sm: '4rem', md: '8rem', lg: '12.5rem' }}
+          height={{ sm: '3rem', md: '6rem', lg: '8.125rem' }}
         >
-          <Image src={logo} alt="logo" />
+          <Image
+            w={{ sm: '4rem', md: '8rem', lg: '12.5rem' }}
+            height={{ sm: '3rem', md: '6rem', lg: '8.125rem' }}
+            src={logo}
+            alt="logo"
+          />
         </Box>
 
         <Box>
           <Select
             placeholder="Stack"
             color="#718096"
-            w="28.125rem"
+            w={{ sm: '8rem', md: '20rem ', lg: '28rem' }}
             onChange={handleSearch}
             value={techstack}
           >
