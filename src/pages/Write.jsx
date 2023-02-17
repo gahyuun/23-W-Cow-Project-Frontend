@@ -18,9 +18,12 @@ import { MultiSelect } from 'react-multi-select-component';
 import { useLocation } from 'react-router';
 import { stacks, swalFire } from '../helper/types';
 import 'react-datepicker/dist/react-datepicker.css';
+import StackItem  from '../component/StackItem';
+
 
 function Write() {
   const { state } = useLocation();
+  console.log(state)
   const dateStyle = {
     display: 'flex',
     justifyContent: 'space-between',
@@ -28,7 +31,6 @@ function Write() {
     fontSize: '16',
     alignItems: 'center',
   };
-
   const [formData, setFormData] = React.useState(
     state || {
       title: '',
@@ -36,7 +38,8 @@ function Write() {
       summary: '',
       startDate: '',
       endDate: '',
-    },
+      image:'',
+  },
   );
   const navigate = useNavigate();
   const [stack, setStack] = React.useState([]);
@@ -50,7 +53,7 @@ function Write() {
   //   temp.push(stack.label);
   //   console.log(temp);
   // };
-  // console.log(stack);
+  console.log(stack);
   const handleFileChange = (event) => {
     const selectedFile = event.target.files[0];
     setFile(selectedFile);
@@ -92,7 +95,6 @@ function Write() {
     //     html: '모든 항목을 입력해주세요!',
     //   });
     // }
-    // eslint-disable-next-line guard-for-in
     const techStack = [];
     // eslint-disable-next-line guard-for-in
     for (const i in stack) {
@@ -148,7 +150,7 @@ function Write() {
             <Box>
               <Card borderRadius="15px" w="350px" h="300px">
                 <Box colSpan={2} m="auto">
-                  <input
+                  {!state ? <input
                     type="file"
                     id="file"
                     name="file"
@@ -157,8 +159,8 @@ function Write() {
                     style={{ color: 'white', borderBox: 'white' }}
                     onChange={handleFileChange}
                     objectFit="scale-down"
-                  />
-                  {file && <img src={imageUrl} alt="selected" />}
+                  />:  ``}
+                  {(state||file) && <img src={state?state.image:imageUrl} alt="selected" />}
                 </Box>
               </Card>
             </Box>
@@ -217,6 +219,15 @@ function Write() {
                   fontSize="16"
                   _focusVisible={{ border: '2px solid #4285f4' }}
                 />
+               
+                {state? 
+                 <Box pt="2" fontSize="sm" display="flex">
+                 {state &&
+                   state.techStack.map((stackitem) => (
+                     <StackItem key={`detial-key-${stackitem}`} stack={stackitem}/>
+                   ))}
+               </Box>
+                  :
                 <MultiSelect
                   value={stack}
                   options={options}
@@ -227,7 +238,8 @@ function Write() {
                     selectSomeItems: '스택을 입력해주세요.',
                   }}
                 />
-              </Box>
+             }
+           </Box>
             </GridItem>
             <GridItem colSpan={4}>
               <Box color="black">
@@ -257,7 +269,7 @@ function Write() {
                   colorScheme="blue"
                   variant="outline"
                 >
-                  등록
+                  {state?`수정`:`등록`}
                 </Button>
               </Box>
             </GridItem>

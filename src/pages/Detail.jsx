@@ -9,16 +9,15 @@ import {
   CardHeader,
   Heading,
   CardBody,
-  Stack,
   StackDivider,
+  Stack,
 } from '@chakra-ui/react';
-import { useLocation } from 'react-router';
+ import { useLocation } from "react-router";
+ import StackItem  from '../component/StackItem';
 
 function Detail() {
   const { state } = useLocation();
-  const stackStyle = {
-    'margin-right': '0.2rem',
-  };
+ console.log(state)
 
   return (
     <Box w="850px" m="auto" mb="5" key={`detailpage-${state.id}`}>
@@ -60,12 +59,12 @@ function Detail() {
                     <Heading size="s" textTransform="uppercase">
                       techstack
                     </Heading>
-                    <Text pt="2" fontSize="sm" display="flex">
-                      {state.techStack &&
+                    <Box pt="2" fontSize="sm" display="flex">
+                      {state &&
                         state.techStack.map((stack) => (
-                          <div style={stackStyle}>{stack}</div>
+                          <StackItem key={`detial-key-${stack}`} stack={stack}/>
                         ))}
-                    </Text>
+                    </Box>
                   </Box>
                 </Stack>
               </CardBody>
