@@ -17,22 +17,26 @@ import BoardApi from '../api/portfolio';
 
 function My() {
   const [edit, setEdit] = useState(editMode.unEdit);
-  const [myList,setList]=useState([]);
+  const [myList, setList] = useState([]);
+  const [deleteMode, setDeleteMode] = useState('');
 
   const fetchMyBoardList = async () => {
     const res = await BoardApi.getMyBoardList();
     res ? setList(res) : console.log(res);
-}
-  useEffect(()=>{fetchMyBoardList()},[]);
+  };
+  useEffect(() => {
+    console.log('실행');
+    fetchMyBoardList();
+  }, [deleteMode]);
 
-  const style= edit
-    ?{
-      animation:'shakingBoard 1s infinite',
-      color:'grey',
-      backgroundColor:'rgba(0, 0, 0, 0.01)',
-    } 
-    :{}
- 
+  const style = edit
+    ? {
+        animation: 'shakingBoard 1s infinite',
+        color: 'grey',
+        backgroundColor: 'rgba(0, 0, 0, 0.01)',
+      }
+    : {};
+
   return (
     <Box w="60%" m="auto" mt="20" mb="5">
       <Flex>
@@ -79,7 +83,11 @@ function My() {
               <Flex mx={3} justifyContent="space-around" wrap="wrap">
                 {myList.map((list) => (
                   <div style={style} key={`mypage__board-${list.id}`}>
-                    <Board edit={edit} board={list}/>
+                    <Board
+                      edit={edit}
+                      board={list}
+                      setDeleteMode={setDeleteMode}
+                    />
                   </div>
                 ))}
               </Flex>
