@@ -9,7 +9,5 @@ axios.defaults.headers['Access-Control-Allow-Origin'] = '*';
 axios.defaults.baseURL = 'http://localhost:8080';
 axios.defaults.withCredentials = true;
 root.render(
-  <React.StrictMode>
     <App />
-  </React.StrictMode>,
 );

@@ -23,12 +23,22 @@ const BoardApi = {
         });
         return res;
     },
-    // async modifyBoard (id)  { 
-    //     const res = await axios.put(`/api/portfolio/${id}`,{
-    //         headers:{ Authorization }
-    //     });
-    //     return res;
-    // },
+    async updateBoard (id, form)  {
+        const res = await axios.put(`/api/portfolio/${id}`,form,{
+            headers: { Authorization }
+        });
+        console.log(res)
+        return res.data.data;
+    },
+    async uploadBoard (form)  { 
+        const res = await axios.post('/api/portfolio/write',form,{
+            headers:{
+                Authorization,
+                'Content-Type': 'multipart/form-data',
+            }
+        });
+        return res;
+    }
 };
 
-  export default BoardApi;
+export default BoardApi;
