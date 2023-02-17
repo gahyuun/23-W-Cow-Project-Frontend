@@ -11,19 +11,17 @@ import {
   FormControl,
   Textarea,
 } from '@chakra-ui/react';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import Swal from 'sweetalert2';
 import { MultiSelect } from 'react-multi-select-component';
 import { useLocation } from 'react-router';
-import { stacks, swalFire } from '../helper/types';
+import { stacks } from '../helper/types';
 import 'react-datepicker/dist/react-datepicker.css';
 import StackItem  from '../component/StackItem';
-
+import BoardApi from '../api/portfolio';
 
 function Write() {
   const { state } = useLocation();
-  console.log(state)
+
   const dateStyle = {
     display: 'flex',
     justifyContent: 'space-between',
@@ -31,6 +29,7 @@ function Write() {
     fontSize: '16',
     alignItems: 'center',
   };
+
   const [formData, setFormData] = React.useState(
     state || {
       title: '',
@@ -38,21 +37,14 @@ function Write() {
       summary: '',
       startDate: '',
       endDate: '',
-      image:'',
-  },
+  }
   );
+
   const navigate = useNavigate();
   const [stack, setStack] = React.useState([]);
   const [file, setFile] = React.useState(null);
   const [imageUrl, setImageUrl] = React.useState(null);
-  // const temp = [];
-  // const handleList = (e) => {
-  //   console.log(stack);
-  //   console.log(e);
-  //   setStack(e.target.value);
-  //   temp.push(stack.label);
-  //   console.log(temp);
-  // };
+ 
   console.log(stack);
   const handleFileChange = (event) => {
     const selectedFile = event.target.files[0];
@@ -67,76 +59,36 @@ function Write() {
     options.push({ label: stack, value: stack }),
   );
 
-  // const isError =
-  //   stack === [''] ||
-  //   file === '' ||
-  //   formData.title === '' ||
-  //   formData.detail === '' ||
-  //   formData.summary === '' ||
-  //   startDate === '' ||
-  //   endDate === '';
-
   const handleChange = (e) => {
     const newForm = {
       ...formData,
       [e.target.name]: e.target.value,
     };
-    console.log(newForm);
     setFormData(newForm);
   };
-  // eslint-disable-next-line prefer-const
-  let data = new FormData();
-  const onSubmit = async () => {
-    data.append('portfolioimg', file);
 
-    // if (isError) {
-    //   Swal.fire({
-    //     ...swalFire,
-    //     html: '모든 항목을 입력해주세요!',
-    //   });
-    // }
-    const techStack = [];
-    // eslint-disable-next-line guard-for-in
-    for (const i in stack) {
-      console.log(stack[i].value);
-      techStack.push(stack[i].value);
+  const data = new FormData();
+  const techStack = [];
+
+  const fetchUploadBoard = async () => {
+    data.append('portfolioimg', file);
+    stack.map((stackitem)=> techStack.push(stackitem.value));
+    const form = {
+         ...formData,
+        portfolioimg: file,
+        techStack,
     }
-    console.log(techStack);
-    await axios
-      .post(
-        '/api/portfolio/write',
-        {
-          ...formData,
-          portfolioimg: file,
-          techStack,
-        },
-        {
-          headers: {
-            Authorization: localStorage.getItem('token'),
-            'Content-Type': 'multipart/form-data',
-          },
-        },
-      )
-      .then((res) => {
-        console.log(res);
-        navigate('/');
-      })
-      .catch((err) => {
-        if (err.code === 419) {
-          Swal.fire({
-            ...swalFire,
-            html: '토큰이 만료되었습니다.',
-          });
-        }
-        if (err.code === 500) {
-          Swal.fire({
-            ...swalFire,
-            html: '포트폴리오 작성에 실패하였습니다.',
-          });
-        }
-        console.log(err);
-      });
+    const res = await BoardApi.uploadBoard(form);
+    res ? navigate('/'): console.log(res);
   };
+  const fetchUpdateBoard = async () => {
+      const res = await BoardApi.updateBoard(state.id, formData);
+      res ? navigate('/'): console.log(res);
+  };
+  const onSubmit = async () => {
+    state ? fetchUpdateBoard() : fetchUploadBoard();
+  };
+  
   return (
     <Box w="850px" m="auto" mb="5">
       <Box my="10">
@@ -219,8 +171,7 @@ function Write() {
                   fontSize="16"
                   _focusVisible={{ border: '2px solid #4285f4' }}
                 />
-               
-                {state? 
+                {state ? 
                  <Box pt="2" fontSize="sm" display="flex">
                  {state &&
                    state.techStack.map((stackitem) => (
@@ -269,7 +220,7 @@ function Write() {
                   colorScheme="blue"
                   variant="outline"
                 >
-                  {state?`수정`:`등록`}
+                  {state ? `수정`:`등록`}
                 </Button>
               </Box>
             </GridItem>
