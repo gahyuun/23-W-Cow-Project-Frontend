@@ -13,6 +13,8 @@
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
     "prettier/prettier": "off",
     "no-console": "off",
-    "react/prop-types": "off"
+    "no-nested-ternary" : "off",
+    "react/prop-types": "off",
+    "no-unused-expressions": "off"
   }
 }

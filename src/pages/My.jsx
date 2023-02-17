@@ -9,13 +9,22 @@ import {
   Button,
 } from '@chakra-ui/react';
 import { EditIcon, DeleteIcon } from '@chakra-ui/icons';
+import { useState, useEffect } from 'react';
 import Information from '../component/Information';
 import Board from '../component/Board';
 import { editMode } from '../helper/types';
+import BoardApi from '../api/portfolio';
 
 function My() {
-  const [edit, setEdit] = React.useState(editMode.unEdit);
-  const testarr=[1,2,3];
+  const [edit, setEdit] = useState(editMode.unEdit);
+  const [myList,setList]=useState([]);
+
+  const fetchMyBoardList = async () => {
+    const res = await BoardApi.getMyBoardList();
+    res ? setList(res) : console.log(res);
+}
+  useEffect(()=>{fetchMyBoardList()},[]);
+
   const style= edit
     ?{
       animation:'shakingBoard 1s infinite',
@@ -68,9 +77,9 @@ function My() {
                 )}
               </Box>
               <Flex mx={3} justifyContent="space-around" wrap="wrap">
-                {testarr.map((index) => (
-                  <div style={style} key={`mypage__board-${index}`}>
-                    <Board edit={edit} />
+                {myList.map((list) => (
+                  <div style={style} key={`mypage__board-${list.id}`}>
+                    <Board edit={edit} board={list}/>
                   </div>
                 ))}
               </Flex>
