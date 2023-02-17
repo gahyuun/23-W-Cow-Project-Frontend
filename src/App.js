@@ -33,7 +33,7 @@ function App() {
           <Route path="*" element={<>404</>} />
           <Route path="/" element={<Main isLogin={false} />} />
           <Route
-            path="/portfolio/write"
+            path="/write"
             element={isLogin ? <Write /> : <Navigate to="/login" />}
           />
           <Route
