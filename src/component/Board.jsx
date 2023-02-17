@@ -17,7 +17,7 @@ function Board({ edit, board, setDeleteMode }) {
   const deleteBoard = (id) => {
     Swal.fire({
       ...swalFire,
-      html: `${board.title} 프로젝트를 삭제합니다.`,
+      html: `해당 프로젝트를 삭제합니다.`,
     }).then(async () => {
       await BoardApi.deleteBoard(id);
       setDeleteMode(true);
