@@ -28,3 +28,13 @@ export const editMode = {
   modify: 'modify',
   unEdit: false,
 };
+
+export const swalFire ={
+    width: 400,
+    height: 260,
+    showDenyButton: false,
+    showCancelButton: true,
+    confirmButtonText: 'Yes',
+    confirmButtonColor: '#CF5E53',
+    timer: 3000
+}
