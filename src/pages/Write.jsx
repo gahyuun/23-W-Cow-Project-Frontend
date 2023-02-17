@@ -14,12 +14,10 @@ import {
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
-// import { MultiSelect } from 'react-multi-select-component';
-import { useLocation } from "react-router";
-import { stacks , swalFire } from '../helper/types';
+import { MultiSelect } from 'react-multi-select-component';
+import { useLocation } from 'react-router';
+import { stacks, swalFire } from '../helper/types';
 import 'react-datepicker/dist/react-datepicker.css';
-
-
 
 function Write() {
   const { state } = useLocation();
@@ -31,16 +29,17 @@ function Write() {
     alignItems: 'center',
   };
 
-
-  const [formData, setFormData] = React.useState(state || {
-    title: '',
-    detail: '',
-    summary: '',
-    startDate: '',
-    endDate: '',
-  });
+  const [formData, setFormData] = React.useState(
+    state || {
+      title: '',
+      detail: '',
+      summary: '',
+      startDate: '',
+      endDate: '',
+    },
+  );
   const navigate = useNavigate();
-  // const [stack, setStack] = React.useState([]);
+  const [stack, setStack] = React.useState([]);
   const [file, setFile] = React.useState(null);
   const [imageUrl, setImageUrl] = React.useState(null);
   // const temp = [];
@@ -86,15 +85,6 @@ function Write() {
   let data = new FormData();
   const onSubmit = async () => {
     data.append('portfolioimg', file);
-    // eslint-disable-next-line no-restricted-syntax
-    // for (const key of data.keys()) {
-    //   console.log(key);
-    // }
-    // // eslint-disable-next-line no-restricted-syntax
-    // for (const value of data.values()) {
-    //   console.log(value);
-    // }
-    // console.log(file);
 
     // if (isError) {
     //   Swal.fire({
@@ -105,11 +95,11 @@ function Write() {
     // eslint-disable-next-line guard-for-in
     const techStack = [];
     // eslint-disable-next-line guard-for-in
-    // for (const i in stack) {
-    //   console.log(stack[i].value);
-    //   techStack.push(stack[i].value);
-    // }
-    // console.log(techStack);
+    for (const i in stack) {
+      console.log(stack[i].value);
+      techStack.push(stack[i].value);
+    }
+    console.log(techStack);
     await axios
       .post(
         '/api/portfolio/write',
@@ -166,6 +156,7 @@ function Write() {
                     textDecoration="none"
                     style={{ color: 'white', borderBox: 'white' }}
                     onChange={handleFileChange}
+                    objectFit="scale-down"
                   />
                   {file && <img src={imageUrl} alt="selected" />}
                 </Box>
@@ -196,7 +187,6 @@ function Write() {
                     type="date"
                     fontSize="16"
                     value={formData.startDate}
-                    // sx={inputDate}
                     onChange={handleChange}
                     border="1px solid #ccc;"
                     _focusVisible={{ border: '2px solid #4285f4' }}
@@ -209,7 +199,6 @@ function Write() {
                     type="date"
                     fontSize="16"
                     value={formData.endDate}
-                    // sx={inputDate}
                     onChange={handleChange}
                     border="1px solid #ccc;"
                     _focusVisible={{ border: '2px solid #4285f4' }}
@@ -228,7 +217,7 @@ function Write() {
                   fontSize="16"
                   _focusVisible={{ border: '2px solid #4285f4' }}
                 />
-                {/* <MultiSelect
+                <MultiSelect
                   value={stack}
                   options={options}
                   onChange={setStack}
@@ -237,7 +226,7 @@ function Write() {
                   overrideStrings={{
                     selectSomeItems: '스택을 입력해주세요.',
                   }}
-                /> */}
+                />
               </Box>
             </GridItem>
             <GridItem colSpan={4}>
