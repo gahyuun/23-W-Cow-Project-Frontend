@@ -14,15 +14,16 @@ import {
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
-// import { MultiSelect } from 'react-multi-select-component';
-import { useLocation } from "react-router";
-import { stacks , swalFire } from '../helper/types';
+import { MultiSelect } from 'react-multi-select-component';
+import { useLocation } from 'react-router';
+import { stacks, swalFire } from '../helper/types';
 import 'react-datepicker/dist/react-datepicker.css';
-
+import StackItem  from '../component/StackItem';
 
 
 function Write() {
   const { state } = useLocation();
+  console.log(state)
   const dateStyle = {
     display: 'flex',
     justifyContent: 'space-between',
@@ -30,17 +31,18 @@ function Write() {
     fontSize: '16',
     alignItems: 'center',
   };
-
-
-  const [formData, setFormData] = React.useState(state || {
-    title: '',
-    detail: '',
-    summary: '',
-    startDate: '',
-    endDate: '',
-  });
+  const [formData, setFormData] = React.useState(
+    state || {
+      title: '',
+      detail: '',
+      summary: '',
+      startDate: '',
+      endDate: '',
+      image:'',
+  },
+  );
   const navigate = useNavigate();
-  // const [stack, setStack] = React.useState([]);
+  const [stack, setStack] = React.useState([]);
   const [file, setFile] = React.useState(null);
   const [imageUrl, setImageUrl] = React.useState(null);
   // const temp = [];
@@ -51,7 +53,7 @@ function Write() {
   //   temp.push(stack.label);
   //   console.log(temp);
   // };
-  // console.log(stack);
+  console.log(stack);
   const handleFileChange = (event) => {
     const selectedFile = event.target.files[0];
     setFile(selectedFile);
@@ -86,15 +88,6 @@ function Write() {
   let data = new FormData();
   const onSubmit = async () => {
     data.append('portfolioimg', file);
-    // eslint-disable-next-line no-restricted-syntax
-    // for (const key of data.keys()) {
-    //   console.log(key);
-    // }
-    // // eslint-disable-next-line no-restricted-syntax
-    // for (const value of data.values()) {
-    //   console.log(value);
-    // }
-    // console.log(file);
 
     // if (isError) {
     //   Swal.fire({
@@ -102,14 +95,13 @@ function Write() {
     //     html: '모든 항목을 입력해주세요!',
     //   });
     // }
-    // eslint-disable-next-line guard-for-in
     const techStack = [];
     // eslint-disable-next-line guard-for-in
-    // for (const i in stack) {
-    //   console.log(stack[i].value);
-    //   techStack.push(stack[i].value);
-    // }
-    // console.log(techStack);
+    for (const i in stack) {
+      console.log(stack[i].value);
+      techStack.push(stack[i].value);
+    }
+    console.log(techStack);
     await axios
       .post(
         '/api/portfolio/write',
@@ -158,7 +150,7 @@ function Write() {
             <Box>
               <Card borderRadius="15px" w="350px" h="300px">
                 <Box colSpan={2} m="auto">
-                  <input
+                  {!state ? <input
                     type="file"
                     id="file"
                     name="file"
@@ -166,8 +158,9 @@ function Write() {
                     textDecoration="none"
                     style={{ color: 'white', borderBox: 'white' }}
                     onChange={handleFileChange}
-                  />
-                  {file && <img src={imageUrl} alt="selected" />}
+                    objectFit="scale-down"
+                  />:  ``}
+                  {(state||file) && <img src={state?state.image:imageUrl} alt="selected" />}
                 </Box>
               </Card>
             </Box>
@@ -196,7 +189,6 @@ function Write() {
                     type="date"
                     fontSize="16"
                     value={formData.startDate}
-                    // sx={inputDate}
                     onChange={handleChange}
                     border="1px solid #ccc;"
                     _focusVisible={{ border: '2px solid #4285f4' }}
@@ -209,7 +201,6 @@ function Write() {
                     type="date"
                     fontSize="16"
                     value={formData.endDate}
-                    // sx={inputDate}
                     onChange={handleChange}
                     border="1px solid #ccc;"
                     _focusVisible={{ border: '2px solid #4285f4' }}
@@ -228,7 +219,16 @@ function Write() {
                   fontSize="16"
                   _focusVisible={{ border: '2px solid #4285f4' }}
                 />
-                {/* <MultiSelect
+               
+                {state? 
+                 <Box pt="2" fontSize="sm" display="flex">
+                 {state &&
+                   state.techStack.map((stackitem) => (
+                     <StackItem key={`detial-key-${stackitem}`} stack={stackitem}/>
+                   ))}
+               </Box>
+                  :
+                <MultiSelect
                   value={stack}
                   options={options}
                   onChange={setStack}
@@ -237,8 +237,9 @@ function Write() {
                   overrideStrings={{
                     selectSomeItems: '스택을 입력해주세요.',
                   }}
-                /> */}
-              </Box>
+                />
+             }
+           </Box>
             </GridItem>
             <GridItem colSpan={4}>
               <Box color="black">
@@ -268,7 +269,7 @@ function Write() {
                   colorScheme="blue"
                   variant="outline"
                 >
-                  등록
+                  {state?`수정`:`등록`}
                 </Button>
               </Box>
             </GridItem>

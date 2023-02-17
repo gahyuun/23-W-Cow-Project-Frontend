@@ -1,3 +1,4 @@
+/* eslint-disable import/no-named-as-default-member */
 import * as React from 'react';
 import {
   Box,
@@ -11,6 +12,7 @@ import {
 import { EditIcon, DeleteIcon } from '@chakra-ui/icons';
 import { useState, useEffect } from 'react';
 import Information from '../component/Information';
+// eslint-disable-next-line import/no-named-as-default
 import Board from '../component/Board';
 import { editMode } from '../helper/types';
 import BoardApi from '../api/portfolio';

@@ -23,12 +23,12 @@ const BoardApi = {
         });
         return res;
     },
-    async modifyBoard (id)  { 
-        const res = await axios.put(`/api/portfolio/${id}`,{
-            headers:{ Authorization }
-        });
-        return res;
-    },
+    // async modifyBoard (id)  { 
+    //     const res = await axios.put(`/api/portfolio/${id}`,{
+    //         headers:{ Authorization }
+    //     });
+    //     return res;
+    // },
 };
 
   export default BoardApi;
