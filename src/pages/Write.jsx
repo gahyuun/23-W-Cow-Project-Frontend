@@ -16,7 +16,7 @@ import { MultiSelect } from 'react-multi-select-component';
 import { useLocation } from 'react-router';
 import { stacks } from '../helper/types';
 import 'react-datepicker/dist/react-datepicker.css';
-import StackItem  from '../component/StackItem';
+import StackItem from '../component/StackItem';
 import BoardApi from '../api/portfolio';
 
 function Write() {
@@ -30,6 +30,10 @@ function Write() {
     alignItems: 'center',
   };
 
+  const style = {
+    fontSize: '16',
+    border: '1px solid #ccc;',
+  };
   const [formData, setFormData] = React.useState(
     state || {
       title: '',
@@ -37,14 +41,21 @@ function Write() {
       summary: '',
       startDate: '',
       endDate: '',
-  }
+    },
   );
 
   const navigate = useNavigate();
   const [stack, setStack] = React.useState([]);
   const [file, setFile] = React.useState(null);
   const [imageUrl, setImageUrl] = React.useState(null);
- 
+  const data = new FormData();
+  const techStack = [];
+  const date = new Date();
+  const today = `${date.getFullYear()}-${0}${
+    date.getMonth() + 1
+  }-${date.getDate()}`;
+
+  console.log(today);
   console.log(stack);
   const handleFileChange = (event) => {
     const selectedFile = event.target.files[0];
@@ -67,28 +78,25 @@ function Write() {
     setFormData(newForm);
   };
 
-  const data = new FormData();
-  const techStack = [];
-
   const fetchUploadBoard = async () => {
     data.append('portfolioimg', file);
-    stack.map((stackitem)=> techStack.push(stackitem.value));
+    stack.map((stackitem) => techStack.push(stackitem.value));
     const form = {
-         ...formData,
-        portfolioimg: file,
-        techStack,
-    }
+      ...formData,
+      portfolioimg: file,
+      techStack,
+    };
     const res = await BoardApi.uploadBoard(form);
-    res ? navigate('/'): console.log(res);
+    res ? navigate('/') : console.log(res);
   };
   const fetchUpdateBoard = async () => {
-      const res = await BoardApi.updateBoard(state.id, formData);
-      res ? navigate('/'): console.log(res);
+    const res = await BoardApi.updateBoard(state.id, formData);
+    res ? navigate('/') : console.log(res);
   };
   const onSubmit = async () => {
     state ? fetchUpdateBoard() : fetchUploadBoard();
   };
-  
+
   return (
     <Box w="850px" m="auto" mb="5">
       <Box my="10">
@@ -102,17 +110,22 @@ function Write() {
             <Box>
               <Card borderRadius="15px" w="350px" h="300px">
                 <Box colSpan={2} m="auto">
-                  {!state ? <input
-                    type="file"
-                    id="file"
-                    name="file"
-                    accept="image/*"
-                    textDecoration="none"
-                    style={{ color: 'white', borderBox: 'white' }}
-                    onChange={handleFileChange}
-                    objectFit="scale-down"
-                  />:  ``}
-                  {(state||file) && <img src={state?state.image:imageUrl} alt="selected" />}
+                  {!state ? (
+                    <input
+                      type="file"
+                      id="file"
+                      name="file"
+                      accept="image/*"
+                      textDecoration="none"
+                      onChange={handleFileChange}
+                      objectFit="scale-down"
+                    />
+                  ) : (
+                    ``
+                  )}
+                  {(state || file) && (
+                    <img src={state ? state.image : imageUrl} alt="selected" />
+                  )}
                 </Box>
               </Card>
             </Box>
@@ -124,78 +137,75 @@ function Write() {
                   value={formData.title}
                   onChange={handleChange}
                   mb="5"
-                  placeholder="프로젝트 명을 입력해주세요."
                   size="lg"
+                  placeholder="프로젝트 명을 입력해주세요."
                   maxLength={20}
-                  fontSize="16"
-                  border="1px solid #ccc;"
+                  sx={style}
                   _focusVisible={{
                     border: '2px solid #4285f4',
                   }}
                 />
                 <Box sx={dateStyle}>
                   <Input
-                    id="startDate"
                     name="startDate"
-                    size="lg"
                     type="date"
-                    fontSize="16"
+                    sx={style}
+                    max={today}
+                    size="lg"
                     value={formData.startDate}
                     onChange={handleChange}
-                    border="1px solid #ccc;"
-                    _focusVisible={{ border: '2px solid #4285f4' }}
                   />
                   ~
                   <Input
-                    id="endDate"
                     name="endDate"
-                    size="lg"
                     type="date"
-                    fontSize="16"
+                    size="lg"
+                    min={formData.startDate}
+                    max={today}
                     value={formData.endDate}
                     onChange={handleChange}
-                    border="1px solid #ccc;"
+                    sx={style}
                     _focusVisible={{ border: '2px solid #4285f4' }}
                   />
                 </Box>
                 <Input
-                  id="summary"
                   name="summary"
                   value={formData.summary}
                   onChange={handleChange}
                   mb="5"
                   maxLength={30}
                   placeholder="프로젝트 소개를 입력해주세요."
-                  border="1px solid #ccc;"
                   size="lg"
-                  fontSize="16"
+                  sx={style}
                   _focusVisible={{ border: '2px solid #4285f4' }}
                 />
-                {state ? 
-                 <Box pt="2" fontSize="sm" display="flex">
-                 {state &&
-                   state.techStack.map((stackitem) => (
-                     <StackItem key={`detial-key-${stackitem}`} stack={stackitem}/>
-                   ))}
-               </Box>
-                  :
-                <MultiSelect
-                  value={stack}
-                  options={options}
-                  onChange={setStack}
-                  mb="5"
-                  selectSomeItems="선택"
-                  overrideStrings={{
-                    selectSomeItems: '스택을 입력해주세요.',
-                  }}
-                />
-             }
-           </Box>
+                {state ? (
+                  <Box pt="2" fontSize="sm" display="flex">
+                    {state &&
+                      state.techStack.map((stackitem) => (
+                        <StackItem
+                          key={`detial-key-${stackitem}`}
+                          stack={stackitem}
+                        />
+                      ))}
+                  </Box>
+                ) : (
+                  <MultiSelect
+                    value={stack}
+                    options={options}
+                    onChange={setStack}
+                    mb="5"
+                    selectSomeItems="선택"
+                    overrideStrings={{
+                      selectSomeItems: '스택을 입력해주세요.',
+                    }}
+                  />
+                )}
+              </Box>
             </GridItem>
             <GridItem colSpan={4}>
               <Box color="black">
                 <Textarea
-                  id="detail"
                   name="detail"
                   value={formData.detail}
                   onChange={handleChange}
@@ -220,7 +230,7 @@ function Write() {
                   colorScheme="blue"
                   variant="outline"
                 >
-                  {state ? `수정`:`등록`}
+                  {state ? `수정` : `등록`}
                 </Button>
               </Box>
             </GridItem>
