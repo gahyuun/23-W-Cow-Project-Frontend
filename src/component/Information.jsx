@@ -24,7 +24,7 @@ function Information() {
               <Box>
                 <Heading size="xs">Email</Heading>
                 <Text pt="2" fontSize="sm">
-                  sebin0580@gmail.com
+                  {}
                 </Text>
               </Box>
               <Box>

@@ -15,6 +15,7 @@ import Information from '../component/Information';
 // eslint-disable-next-line import/no-named-as-default
 import Board from '../component/Board';
 import { editMode } from '../helper/types';
+import WriteBoard from '../component/WriteBoard';
 import BoardApi from '../api/portfolio';
 
 function My() {
@@ -92,6 +93,7 @@ function My() {
                     />
                   </div>
                 ))}
+                {edit ? '' : <WriteBoard />}
               </Flex>
             </VStack>
           </Box>
