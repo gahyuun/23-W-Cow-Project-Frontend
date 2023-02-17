@@ -25,7 +25,7 @@ function Board({ edit, board, setDeleteMode }) {
   };
   const modifyBoard = async (id) => {
     const res = await BoardApi.getBoard(id);
-    navigate('/portfolio/write', { state: res });
+    navigate('/write', { state: res });
   };
 
   const handleClickBtn = () => {
