@@ -1,3 +1,4 @@
+/* eslint-disable import/no-named-as-default-member */
 import * as React from 'react';
 import {
   Box,
@@ -11,6 +12,7 @@ import {
 import { EditIcon, DeleteIcon } from '@chakra-ui/icons';
 import { useState, useEffect } from 'react';
 import Information from '../component/Information';
+// eslint-disable-next-line import/no-named-as-default
 import Board from '../component/Board';
 import { editMode } from '../helper/types';
 import BoardApi from '../api/portfolio';
@@ -18,14 +20,16 @@ import BoardApi from '../api/portfolio';
 function My() {
   const [edit, setEdit] = useState(editMode.unEdit);
   const [myList, setList] = useState([]);
+  const [deleteMode, setDeleteMode] = useState('');
 
   const fetchMyBoardList = async () => {
     const res = await BoardApi.getMyBoardList();
     res ? setList(res) : console.log(res);
   };
   useEffect(() => {
+    console.log('실행');
     fetchMyBoardList();
-  }, [myList]);
+  }, [deleteMode]);
 
   const style = edit
     ? {
@@ -81,7 +85,11 @@ function My() {
               <Flex mx={3} justifyContent="space-around" wrap="wrap">
                 {myList.map((list) => (
                   <div style={style} key={`mypage__board-${list.id}`}>
-                    <Board edit={edit} board={list} />
+                    <Board
+                      edit={edit}
+                      board={list}
+                      setDeleteMode={setDeleteMode}
+                    />
                   </div>
                 ))}
               </Flex>

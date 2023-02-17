@@ -6,7 +6,7 @@ import Swal from 'sweetalert2';
 import { editMode, swalFire } from '../helper/types';
 import BoardApi from '../api/portfolio';
 
-function Board({ edit, board }) {
+function Board({ edit, board, setDeleteMode }) {
   const navigate = useNavigate();
 
   const getBoard = async (id) => {
@@ -20,7 +20,7 @@ function Board({ edit, board }) {
       html: `${board.title} 프로젝트를 삭제합니다.`,
     }).then(async () => {
       await BoardApi.deleteBoard(id);
-      window.location.replace('/my');
+      setDeleteMode(true);
     });
   };
   const modifyBoard = async (id) => {
@@ -59,10 +59,12 @@ function Board({ edit, board }) {
         />
       </Box>
       <Heading size="md" textTransform="uppercase" noOfLines={1}>
-        {board.title}
+        {' '}
+        {board.title}{' '}
       </Heading>
       <Text pt="2" fontSize="s" mb="10">
-        {board.summary}
+        {' '}
+        {board.summary}{' '}
       </Text>
       {/* <Flex pt='2' fontSize='sm' maxH='70px' overflow='hidden' wrap='wrap'>{board.techstack.map((stack)=>
                            <Box key={`board-${stack}`}><Stack stack={stack}/></Box>)}</Flex> */}

@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { useNavigate } from 'react-router';
 import { Flex, Box, Text } from '@chakra-ui/react';
+// eslint-disable-next-line import/no-named-as-default
 import Board from '../component/Board';
 
 import BoardApi from '../api/portfolio';
