@@ -58,7 +58,6 @@ function Login({ setIsLogin }) {
   const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
-    navigate('/');
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     const loginData = {
@@ -68,29 +67,17 @@ function Login({ setIsLogin }) {
     await axios
       .post('/auth/login', loginData)
       .then((res) => {
-        // API 요청하는 콜마다 헤더에 accessToken 담아 보내도록 설정
-        const userToken = res.data.data.token;
-        console.log(userToken);
-        localStorage.setItem('token', userToken);
-        axios.defaults.headers.common.Authorization = `Bearer ${userToken}`;
-        // Bearer 기본적인 의미는 정보의 신호 전달을 네트워크 단에서 손실 없이 있는 그대로 전달하는 서비스를 말한다
+        localStorage.setItem('token', res.data.data.token);
+        axios.defaults.headers.common.Authorization = `Bearer ${res.data.data.token}`;
         setIsLogin(true);
         Swal.fire({ ...swalFire, html: '로그인 성공' });
         navigate('/');
       })
-      .catch((err) => {
-        if (err.code === 409) {
-          Swal.fire({
-            ...swalFire,
-            html: '등록되지 않은 이메일입니다',
-          });
-        }
-        if (err.code === 401) {
-          Swal.fire({
-            ...swalFire,
-            html: '잘못된 정보입니다',
-          });
-        }
+      .catch(() => {
+        Swal.fire({
+          ...swalFire,
+          html: '잘못된 정보입니다',
+        });
       });
   }; // 로그인 submit 시 백엔드한테 post
 
