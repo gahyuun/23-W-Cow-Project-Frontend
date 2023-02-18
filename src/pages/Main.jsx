@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useNavigate } from 'react-router';
-import { Flex, Box, Text } from '@chakra-ui/react';
+import { Box, Text, Grid, GridItem } from '@chakra-ui/react';
 // eslint-disable-next-line import/no-named-as-default
 import Board from '../component/Board';
 
@@ -22,13 +22,19 @@ function Main({ title }) {
       <Text fontSize="4xl" as="b" mx="10px">
         {title} 모아보기
       </Text>
-      <Flex justifyContent="space-around" wrap="wrap">
+      <Grid
+        templateColumns={{
+          sm: 'repeat(1, 12fr)',
+          md: 'repeat(2, 6fr)',
+          lg: 'repeat(3, 4fr)',
+        }}
+      >
         {list.map((board) => (
-          <div key={`mainpage__board-${board.id}`}>
+          <GridItem key={board.id}>
             <Board board={board} />
-          </div>
+          </GridItem>
         ))}
-      </Flex>
+      </Grid>
     </Box>
   );
 }
