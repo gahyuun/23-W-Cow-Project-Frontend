@@ -1,4 +1,4 @@
-import { Box, Heading, Text, Image } from '@chakra-ui/react';
+import { Box, Heading, Text, Image, Flex } from '@chakra-ui/react';
 import * as React from 'react';
 // import Stack from './Stack';
 import { useNavigate } from 'react-router';
@@ -8,7 +8,7 @@ import BoardApi from '../api/portfolio';
 
 function Board({ edit, board, setDeleteMode }) {
   const navigate = useNavigate();
-
+  // const [techStack, setTechStack] = React.useState([]);
   const getBoard = async (id) => {
     const res = await BoardApi.getBoard(id);
     navigate('/detail', { state: res });
@@ -36,7 +36,12 @@ function Board({ edit, board, setDeleteMode }) {
         : modifyBoard(board.id)
       : getBoard(board.id);
   };
+  console.log(board.techStack);
 
+  // React.useEffect(() => {
+  //   setTechStack(JSON.parse(board.techStack));
+  // }, []);
+  // console.log(techStack);
   return (
     <Box
       w="450px"
@@ -59,15 +64,26 @@ function Board({ edit, board, setDeleteMode }) {
         />
       </Box>
       <Heading size="md" textTransform="uppercase" noOfLines={1}>
-        {' '}
-        {board.title}{' '}
+        {board.title}
       </Heading>
       <Text pt="2" fontSize="s" mb="10">
-        {' '}
-        {board.summary}{' '}
+        {board.summary}
       </Text>
-      {/* <Flex pt='2' fontSize='sm' maxH='70px' overflow='hidden' wrap='wrap'>{board.techstack.map((stack)=>
-                           <Box key={`board-${stack}`}><Stack stack={stack}/></Box>)}</Flex> */}
+      {/* <Flex pt="2" fontSize="sm" maxH="70px" overflow="hidden" wrap="wrap">
+        {board.techstack.map((stack) => (
+          <Box key={`board-${stack}`}>
+            <Stack stack={stack} />
+          </Box>
+        ))}
+      </Flex> */}
+
+      <Flex pt="2" fontSize="sm" maxH="70px" overflow="hidden" wrap="wrap">
+        {board.techStack.map((stack) => (
+          <Box>
+            <div>{stack}</div>
+          </Box>
+        ))}
+      </Flex>
     </Box>
   );
 }

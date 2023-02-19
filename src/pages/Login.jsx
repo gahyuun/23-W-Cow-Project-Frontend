@@ -14,52 +14,16 @@ import * as React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import Sign from '../component/Sign.jsx';
+import { setCookie } from '../helper/cookie.js';
+import { signStyle } from '../helper/style.js';
 
 function Login({ setIsLogin }) {
   const [showPW, setShowPW] = React.useState(false); // 비밀번호 보여주기 여부
-  const inputStyle = {
-    borderBottom: '1px solid black',
-    borderTop: 'none',
-    borderRight: 'none',
-    borderLeft: 'none',
-    borderRadius: '0px',
-  };
-  const buttonColor = {
-    backgroundColor: '#3182CE',
-    color: '#ffff',
-  };
-
-  const groupStyle = {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  }; // text와 inputgroup을 감싸는 박스의 스타일
-  const TextStyle = {
-    fontSize: 'xl',
-    fontWeight: '500',
-    mr: '10px',
-  }; // email, password등의 text 스타일
-
-  const inputGroupStyle = {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'flex-end',
-  }; // input 그룹과 formhelpertext를 그룹으로 묶는 스타일
-  const swalFire = {
-    width: 400,
-    height: 260,
-    showConfirmButton: false,
-    cancelButtonText: '확인',
-    cancelButtonColor: '#CF5E53',
-    showCancelButton: true,
-    timer: 3000,
-  };
-
   const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
-    navigate('/');
     event.preventDefault();
+    console.log('들어옴?');
     const data = new FormData(event.currentTarget);
     const loginData = {
       email: data.get('email'),
@@ -68,29 +32,17 @@ function Login({ setIsLogin }) {
     await axios
       .post('/auth/login', loginData)
       .then((res) => {
-        // API 요청하는 콜마다 헤더에 accessToken 담아 보내도록 설정
-        const userToken = res.data.data.token;
-        console.log(userToken);
-        localStorage.setItem('token', userToken);
-        axios.defaults.headers.common.Authorization = `Bearer ${userToken}`;
-        // Bearer 기본적인 의미는 정보의 신호 전달을 네트워크 단에서 손실 없이 있는 그대로 전달하는 서비스를 말한다
+        setCookie(res.data.data.token);
+        axios.defaults.headers.common.Authorization = `${res.data.data.token}`;
         setIsLogin(true);
-        Swal.fire({ ...swalFire, html: '로그인 성공' });
+        Swal.fire({ ...signStyle.swalFire, html: '로그인 성공' });
         navigate('/');
       })
-      .catch((err) => {
-        if (err.code === 409) {
-          Swal.fire({
-            ...swalFire,
-            html: '등록되지 않은 이메일입니다',
-          });
-        }
-        if (err.code === 401) {
-          Swal.fire({
-            ...swalFire,
-            html: '잘못된 정보입니다',
-          });
-        }
+      .catch(() => {
+        Swal.fire({
+          ...signStyle.swalFire,
+          html: '잘못된 정보입니다',
+        });
       });
   }; // 로그인 submit 시 백엔드한테 post
 
@@ -118,28 +70,28 @@ function Login({ setIsLogin }) {
               flexDirection="column"
               justifyContent="space-around"
             >
-              <Box sx={groupStyle}>
-                <Text sx={TextStyle}>Email</Text>
-                <Box sx={inputGroupStyle}>
+              <Box sx={signStyle.groupStyle}>
+                <Text sx={signStyle.TextStyle}>Email</Text>
+                <Box sx={signStyle.inputGroupStyle}>
                   <Input
                     name="email"
                     w="28.125rem"
                     placeholder="이메일을 입력해주세요"
-                    sx={inputStyle}
+                    sx={signStyle.inputStyle}
                     _focusVisible={{ borderColor: 'black' }}
                     _hover={{ borderColor: 'black' }}
                   />
                 </Box>
               </Box>
-              <Box sx={groupStyle}>
-                <Text sx={TextStyle}>Password</Text>
-                <Box sx={inputGroupStyle}>
+              <Box sx={signStyle.groupStyle}>
+                <Text sx={signStyle.TextStyle}>Password</Text>
+                <Box sx={signStyle.inputGroupStyle}>
                   <InputGroup w="450px">
                     <Input
                       name="password"
                       w="28.125rem"
                       placeholder="비밀번호를 입력해주세요"
-                      sx={inputStyle}
+                      sx={signStyle.inputStyle}
                       type={showPW ? 'text' : 'password'}
                       _focusVisible={{ borderColor: 'black' }}
                       _hover={{ borderColor: 'black' }}
@@ -162,7 +114,7 @@ function Login({ setIsLogin }) {
               mb="1.25rem"
               type="submit"
               id="submit"
-              sx={buttonColor}
+              sx={signStyle.buttonColor}
             >
               Login
             </Button>

@@ -8,6 +8,8 @@ import {
   VStack,
   Icon,
   Button,
+  Grid,
+  GridItem,
 } from '@chakra-ui/react';
 import { EditIcon, DeleteIcon } from '@chakra-ui/icons';
 import { useState, useEffect } from 'react';
@@ -83,7 +85,7 @@ function My() {
                   </Box>
                 )}
               </Box>
-              <Flex mx={3} justifyContent="space-around" wrap="wrap">
+              {/* <Flex mx={3} justifyContent="space-around" wrap="wrap">
                 {myList.map((list) => (
                   <div style={style} key={`mypage__board-${list.id}`}>
                     <Board
@@ -94,7 +96,29 @@ function My() {
                   </div>
                 ))}
                 {edit ? '' : <WriteBoard />}
-              </Flex>
+              </Flex> */}
+              <Grid
+                templateColumns={{
+                  md: 'repeat(1,1fr)',
+                  lg: 'repeat(1,1fr)',
+                  xl: 'repeat(2,1fr)',
+                }}
+              >
+                {myList.map((list) => (
+                  <GridItem
+                    tyle={style}
+                    key={`mypage__board-${list.id}`}
+                    item={3}
+                  >
+                    <Board
+                      edit={edit}
+                      board={list}
+                      setDeleteMode={setDeleteMode}
+                    />
+                  </GridItem>
+                ))}
+                {edit ? '' : <WriteBoard />}
+              </Grid>
             </VStack>
           </Box>
         </Box>

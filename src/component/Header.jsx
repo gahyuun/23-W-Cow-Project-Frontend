@@ -2,8 +2,9 @@ import { Box, Image, Select, Text } from '@chakra-ui/react';
 import * as React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
-import logo from '../img/pofolLogo.png';
+import logo from '../img/Logo.png';
 import { stacks } from '../helper/types.js';
+import { removeCookie } from '../helper/cookie';
 
 function Header({ isLogin, setIsLogin }) {
   const navigate = useNavigate('');
@@ -26,7 +27,7 @@ function Header({ isLogin, setIsLogin }) {
       timer: 3000,
     }).then((result) => {
       if (result.isConfirmed) {
-        localStorage.clear();
+        removeCookie();
         setIsLogin(false);
         navigate('/');
       }
@@ -71,12 +72,12 @@ function Header({ isLogin, setIsLogin }) {
             navigate('/');
           }}
           style={{ cursor: 'pointer' }}
-          w={{ sm: '4rem', md: '8rem', lg: '12.5rem' }}
-          height={{ sm: '3rem', md: '6rem', lg: '8.125rem' }}
+          w={{ sm: '5rem', md: '9rem', lg: '14rem' }}
+          height={{ sm: '2rem', md: '3rem', lg: '5rem' }}
         >
           <Image
-            w={{ sm: '4rem', md: '8rem', lg: '12.5rem' }}
-            height={{ sm: '3rem', md: '6rem', lg: '8.125rem' }}
+            w={{ sm: '5rem', md: '9rem', lg: '14rem' }}
+            height={{ sm: '2rem', md: '3rem', lg: '5rem' }}
             src={logo}
             alt="logo"
           />

@@ -16,50 +16,9 @@ import Swal from 'sweetalert2';
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import { useNavigate } from 'react-router-dom';
 import Sign from '../component/Sign.jsx';
+import { signStyle } from '../helper/style.js';
 
 function Join() {
-  const inputStyle = {
-    borderBottom: '1px solid black',
-    borderTop: 'none',
-    borderRight: 'none',
-    borderLeft: 'none',
-    borderRadius: '0px',
-  };
-  const buttonColor = {
-    backgroundColor: '#3182CE',
-    color: '#ffff',
-  };
-
-  const groupStyle = {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  }; // text와 inputgroup을 감싸는 박스의 스타일
-  const TextStyle = {
-    fontSize: 'xl',
-    fontWeight: '500',
-    mr: '10px',
-  }; // email, password등의 text 스타일
-  const FormHelperStyle = {
-    fontWeight: '500',
-    fontSize: '0.813rem',
-    color: '#ff0000',
-  };
-  const inputGroupStyle = {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'flex-end',
-  }; // input 그룹과 formhelpertext를 그룹으로 묶는 스타일
-  const swalFire = {
-    width: 400,
-    height: 260,
-    showConfirmButton: false,
-    cancelButtonText: '확인',
-    cancelButtonColor: '#CF5E53',
-    showCancelButton: true,
-    timer: 3000,
-  };
-
   // select에 들어갈 내용 예시
   const [nickname, setNickname] = React.useState('');
   const [showPW, setShowPW] = React.useState(false); // 비밀번호 보여주기 여부
@@ -96,12 +55,12 @@ function Join() {
     await axios
       .post('/auth/register', joinData)
       .then(() => {
-        Swal.fire({ ...swalFire, html: '회원가입 성공' });
+        Swal.fire({ ...signStyle.swalFire, html: '회원가입 성공' });
         navigate('/login');
       })
       .catch(() => {
         Swal.fire({
-          ...swalFire,
+          ...signStyle.swalFire,
           html: '이미 사용중인 이메일입니다',
         });
       });
@@ -112,10 +71,9 @@ function Join() {
     const emailRegrex =
       /([\w-.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
     const passwordRegrex = /^(?=.*[a-zA-Z])(?=.*[0-9]).{7,}$/;
-
     if (!nicknameCheck) {
       Swal.fire({
-        ...swalFire,
+        ...signStyle.swalFire,
         html: '닉네임 중복을 먼저 확인해주세요',
       });
       return;
@@ -127,16 +85,15 @@ function Join() {
       password: data.get('password'),
       nickname: data.get('nickname'),
     };
-    if (!emailRegrex.test(joinData.email)) {
-      setEmailError('이메일 형식이 올바르지 않습니다');
-    } else {
-      setEmailError('');
-    }
 
-    if (!passwordRegrex.test(joinData.password)) {
-      setPasswordError('영문 숫자포함 7자 이상의 비밀번호를 설정해주세요');
-    } else setPasswordError('');
-    // 유효성 검사
+    !emailRegrex.test(joinData.email)
+      ? setEmailError('이메일 형식이 올바르지 않습니다')
+      : setEmailError('');
+
+    !passwordRegrex.test(joinData.password)
+      ? setPasswordError('영문 숫자포함 7자 이상의 비밀번호를 설정해주세요')
+      : setPasswordError('');
+
     if (
       nicknameCheck &&
       emailRegrex.test(joinData.email) &&
@@ -172,30 +129,30 @@ function Join() {
               flexDirection="column"
               justifyContent="space-around"
             >
-              <Box sx={groupStyle}>
-                <Text sx={TextStyle}>Email</Text>
-                <Box sx={inputGroupStyle}>
+              <Box sx={signStyle.groupStyle}>
+                <Text sx={signStyle.TextStyle}>Email</Text>
+                <Box sx={signStyle.inputGroupStyle}>
                   <Input
                     name="email"
                     w="450px"
                     placeholder="이메일 입력 ex)abc@gmail.com"
-                    sx={inputStyle}
+                    sx={signStyle.inputStyle}
                     _focusVisible={{ borderColor: 'black' }}
                     _hover={{ borderColor: 'black' }}
                   />
-                  <FormHelperText sx={FormHelperStyle}>
+                  <FormHelperText sx={signStyle.FormHelperStyle}>
                     {emailError}
                   </FormHelperText>
                 </Box>
               </Box>
-              <Box sx={groupStyle}>
-                <Text sx={TextStyle}>Password</Text>
-                <Box sx={inputGroupStyle}>
+              <Box sx={signStyle.groupStyle}>
+                <Text sx={signStyle.TextStyle}>Password</Text>
+                <Box sx={signStyle.inputGroupStyle}>
                   <InputGroup w="450px">
                     <Input
                       name="password"
                       placeholder="영문 숫자 포함 7자 이상"
-                      sx={inputStyle}
+                      sx={signStyle.inputStyle}
                       type={showPW ? 'text' : 'password'}
                       _focusVisible={{ borderColor: 'black' }}
                       _hover={{ borderColor: 'black' }}
@@ -210,27 +167,27 @@ function Join() {
                       }}
                     />
                   </InputGroup>
-                  <FormHelperText sx={FormHelperStyle}>
+                  <FormHelperText sx={signStyle.FormHelperStyle}>
                     {passwordError}
                   </FormHelperText>
                 </Box>
               </Box>
-              <Box sx={groupStyle}>
-                <FormLabel sx={TextStyle}>Nickname</FormLabel>
-                <Box sx={inputGroupStyle}>
+              <Box sx={signStyle.groupStyle}>
+                <FormLabel sx={signStyle.TextStyle}>Nickname</FormLabel>
+                <Box sx={signStyle.inputGroupStyle}>
                   <Box w="450px" display="flex">
                     <Input
                       value={nickname}
                       onChange={handleNickNameChange}
                       name="nickname"
                       placeholder="닉네임을 입력해주세요"
-                      sx={inputStyle}
+                      sx={signStyle.inputStyle}
                       _focusVisible={{ borderColor: 'black' }}
                       _hover={{ borderColor: 'black' }}
                     />
                     <Button
                       _hover={{ backgroundColor: '#3182CE', opacity: '0.8' }}
-                      sx={buttonColor}
+                      sx={signStyle.buttonColor}
                       fontWeight="400"
                       onClick={handlenicknameCheck}
                       isDisabled={nicknameCheck}
@@ -253,7 +210,7 @@ function Join() {
               mb="20px"
               type="submit"
               id="submit"
-              sx={buttonColor}
+              sx={signStyle.buttonColor}
             >
               Join
             </Button>
