@@ -4,6 +4,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import logo from '../img/Logo.png';
 import { stacks } from '../helper/types.js';
+import { removeCookie } from '../api/cookie';
 
 function Header({ isLogin, setIsLogin }) {
   const navigate = useNavigate('');
@@ -26,7 +27,7 @@ function Header({ isLogin, setIsLogin }) {
       timer: 3000,
     }).then((result) => {
       if (result.isConfirmed) {
-        localStorage.clear();
+        removeCookie();
         setIsLogin(false);
         navigate('/');
       }

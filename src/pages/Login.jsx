@@ -14,9 +14,11 @@ import * as React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import Sign from '../component/Sign.jsx';
+import { setCookie } from '../api/cookie.js';
 
 function Login({ setIsLogin }) {
   const [showPW, setShowPW] = React.useState(false); // 비밀번호 보여주기 여부
+  const navigate = useNavigate();
   const inputStyle = {
     borderBottom: '1px solid black',
     borderTop: 'none',
@@ -55,8 +57,6 @@ function Login({ setIsLogin }) {
     timer: 3000,
   };
 
-  const navigate = useNavigate();
-
   const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -67,8 +67,8 @@ function Login({ setIsLogin }) {
     await axios
       .post('/auth/login', loginData)
       .then((res) => {
-        localStorage.setItem('token', res.data.data.token);
-        axios.defaults.headers.common.Authorization = `Bearer ${res.data.data.token}`;
+        setCookie(res.data.data.token);
+        axios.defaults.headers.common.Authorization = `${res.data.data.token}`;
         setIsLogin(true);
         Swal.fire({ ...swalFire, html: '로그인 성공' });
         navigate('/');
