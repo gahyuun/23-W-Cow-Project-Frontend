@@ -4,7 +4,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import logo from '../img/Logo.png';
 import { stacks } from '../helper/types.js';
-import { removeCookie } from '../api/cookie';
+import { removeCookie } from '../helper/cookie';
 
 function Header({ isLogin, setIsLogin }) {
   const navigate = useNavigate('');

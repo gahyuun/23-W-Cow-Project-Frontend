@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { getCookie } from './cookie';
+import { getCookie } from '../helper/cookie';
 // 에러처리하기
 
 const BoardApi = {
