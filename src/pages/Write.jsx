@@ -160,12 +160,12 @@ function Write() {
               <Box ml="4" mt="6" w="480px">
                 <Input
                   name="title"
+                  size="lg"
                   value={formData.title}
                   onChange={handleChange}
-                  mb="5"
-                  size="lg"
                   placeholder="프로젝트 명을 입력해주세요."
                   maxLength={20}
+                  mb="5"
                   sx={style}
                   _focusVisible={{
                     border: '2px solid #4285f4',
@@ -175,11 +175,12 @@ function Write() {
                   <Input
                     name="startDate"
                     type="date"
-                    sx={style}
-                    max={today}
                     size="lg"
+                    max={today}
                     value={formData.startDate}
                     onChange={handleChange}
+                    sx={style}
+                    _focusVisible={{ border: '2px solid #4285f4' }}
                   />
                   ~
                   <Input
@@ -196,12 +197,12 @@ function Write() {
                 </Box>
                 <Input
                   name="summary"
+                  size="lg"
                   value={formData.summary}
                   onChange={handleChange}
-                  mb="5"
-                  maxLength={30}
                   placeholder="프로젝트 소개를 입력해주세요."
-                  size="lg"
+                  maxLength={30}
+                  mb="5"
                   sx={style}
                   _focusVisible={{ border: '2px solid #4285f4' }}
                 />
@@ -235,11 +236,11 @@ function Write() {
                   name="detail"
                   value={formData.detail}
                   onChange={handleChange}
+                  w="850px"
+                  h="350px"
                   mt="5"
                   mb="5"
                   p="5"
-                  h="350px"
-                  w="850px"
                   border="1px solid #ccc;"
                   resize="none"
                   placeholder="프로젝트 설명을 입력해주세요."
