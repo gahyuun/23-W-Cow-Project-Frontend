@@ -26,7 +26,7 @@ import { signStyle } from '../helper/style.js';
 
 function Write() {
   const { state } = useLocation();
-
+  const buttonRef = React.useRef();
   const dateStyle = {
     display: 'flex',
     justifyContent: 'space-between',
@@ -81,24 +81,28 @@ function Write() {
     setFormData(newForm);
   };
 
-  const fetchUploadBoard = async () => {
+    async function fetchUploadBoard  ()  {
     data.append('portfolioimg', file);
     stack.map((stackitem) => techStack.push(stackitem.value));
+
     const form = {
       ...formData,
       portfolioimg: file,
       techStack,
     };
     const res = await BoardApi.uploadBoard(form);
-    res ? navigate('/my') : console.log(res);
+    
+    res ?( navigate('/my')) : console.log(res);
   };
-  const fetchUpdateBoard = async () => {
+    const  fetchUpdateBoard = async () => {
     const res = await BoardApi.updateBoard(state.id, formData);
     res ? navigate('/my') : console.log(res);
   };
   const onSubmit = async () => {
+    buttonRef.current.disabled = true;
     state ? fetchUpdateBoard() : fetchUploadBoard();
   };
+ 
   const required =
     techStack === [''] ||
     file === '' ||
@@ -255,6 +259,7 @@ function Write() {
                 <Button
                   w="350px"
                   h="50px"
+                  ref={buttonRef}
                   onClick={() => {
                     required
                       ? Swal.fire({
@@ -262,7 +267,8 @@ function Write() {
                           html: '모든 항목을 입력해주세요.',
                         })
                       : onSubmit();
-                  }}
+                  }
+                }
                   colorScheme="blue"
                   variant="outline"
                 >
