@@ -10,14 +10,18 @@ import {
   Card,
   FormControl,
   Textarea,
+  Image,
+  FormLabel,
 } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
 import { MultiSelect } from 'react-multi-select-component';
 import { useLocation } from 'react-router';
+import Swal from 'sweetalert2';
 import { stacks } from '../helper/types';
-import 'react-datepicker/dist/react-datepicker.css';
 import StackItem from '../component/StackItem';
 import BoardApi from '../api/portfolio';
+import imageIcon from '../img/BsImage.png';
+import { signStyle } from '../helper/style.js';
 
 function Write() {
   const { state } = useLocation();
@@ -96,6 +100,14 @@ function Write() {
   const onSubmit = async () => {
     state ? fetchUpdateBoard() : fetchUploadBoard();
   };
+  const required =
+    techStack === [''] ||
+    file === '' ||
+    formData.title === '' ||
+    formData.detail === '' ||
+    formData.summary === '' ||
+    formData.startDate === '' ||
+    formData.endDate === '';
 
   return (
     <Box w="850px" m="auto" mb="5">
@@ -111,20 +123,35 @@ function Write() {
               <Card borderRadius="15px" w="350px" h="300px">
                 <Box colSpan={2} m="auto">
                   {!state ? (
-                    <input
-                      type="file"
-                      id="file"
-                      name="file"
-                      accept="image/*"
-                      textDecoration="none"
-                      onChange={handleFileChange}
-                      objectFit="scale-down"
-                    />
+                    <Box>
+                      <FormLabel htmlFor="imageinput">
+                        <Box
+                          width="350"
+                          height="280"
+                          display="flex"
+                          justifyContent="center"
+                        >
+                          <Input
+                            type="file"
+                            id="imageinput"
+                            name="file"
+                            accept="image/*"
+                            display="none"
+                            onChange={handleFileChange}
+                            objectFit="scale-down"
+                          />
+                          <Image m="auto" src={imageIcon} alt="image" />
+                          {(state || file) && (
+                            <Image
+                              src={state ? state.image : imageUrl}
+                              alt="selected"
+                            />
+                          )}
+                        </Box>
+                      </FormLabel>
+                    </Box>
                   ) : (
                     ``
-                  )}
-                  {(state || file) && (
-                    <img src={state ? state.image : imageUrl} alt="selected" />
                   )}
                 </Box>
               </Card>
@@ -132,7 +159,6 @@ function Write() {
             <GridItem colSpan={2} color="black">
               <Box ml="4" mt="6" w="480px">
                 <Input
-                  id="title"
                   name="title"
                   value={formData.title}
                   onChange={handleChange}
@@ -226,7 +252,14 @@ function Write() {
                 <Button
                   w="350px"
                   h="50px"
-                  onClick={onSubmit}
+                  onClick={() => {
+                    required
+                      ? Swal.fire({
+                          ...signStyle.swalFire,
+                          html: '모든 항목을 입력해주세요.',
+                        })
+                      : onSubmit();
+                  }}
                   colorScheme="blue"
                   variant="outline"
                 >

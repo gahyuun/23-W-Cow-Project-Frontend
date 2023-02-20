@@ -2,7 +2,7 @@ import { Box, Image, Select, Text } from '@chakra-ui/react';
 import * as React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
-import logo from '../img/Logo.png';
+import logo from '../img/LOGO.png';
 import { stacks } from '../helper/types.js';
 import { removeCookie } from '../helper/cookie';
 
@@ -72,11 +72,11 @@ function Header({ isLogin, setIsLogin }) {
             navigate('/');
           }}
           style={{ cursor: 'pointer' }}
-          w={{ sm: '5rem', md: '9rem', lg: '14rem' }}
+          w={{ sm: '7rem', md: '11rem', lg: '17rem' }}
           height={{ sm: '2rem', md: '3rem', lg: '5rem' }}
         >
           <Image
-            w={{ sm: '5rem', md: '9rem', lg: '14rem' }}
+            w={{ sm: '7rem', md: '11rem', lg: '17rem' }}
             height={{ sm: '2rem', md: '3rem', lg: '5rem' }}
             src={logo}
             alt="logo"

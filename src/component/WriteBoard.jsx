@@ -11,12 +11,13 @@ function WriteBoard() {
   return (
     <Box
       w="450px"
-      h="450px"
+      h="400px"
       p={5}
       display="flex"
       justifyContent="center"
       boxShadow="2xl"
       rounded="md"
+      style={{ cursor: 'pointer' }}
       _hover={{ fontWeight: 'semibold', boxShadow: 'dark-lg' }}
       onClick={onClick}
     >
