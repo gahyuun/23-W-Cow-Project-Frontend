@@ -59,8 +59,6 @@ function Write() {
     date.getMonth() + 1
   }-${date.getDate()}`;
 
-  console.log(today);
-  console.log(stack);
   const handleFileChange = (event) => {
     const selectedFile = event.target.files[0];
     setFile(selectedFile);
@@ -91,11 +89,11 @@ function Write() {
       techStack,
     };
     const res = await BoardApi.uploadBoard(form);
-    res ? navigate('/') : console.log(res);
+    res ? navigate('/my') : console.log(res);
   };
   const fetchUpdateBoard = async () => {
     const res = await BoardApi.updateBoard(state.id, formData);
-    res ? navigate('/') : console.log(res);
+    res ? navigate('/my') : console.log(res);
   };
   const onSubmit = async () => {
     state ? fetchUpdateBoard() : fetchUploadBoard();
