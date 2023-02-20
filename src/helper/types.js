@@ -1,26 +1,24 @@
 export const stacks = {
-  Python: 'blue',
-  java: 'blue',
-  Spring: 'green',
+  Python: '#3776AB',
+  Spring: '#6DB33F',
   AWS: 'yellow',
-  oracle: 'red',
+  Oracle: '#F80000',
   iOS: 'black',
-  HTML: 'red',
-  MySQL: 'blue',
-  SQL: 'blue',
-  JavaScipt: 'yellow',
-  firebase: 'yellow',
-  Andriod: 'green',
-  mariaDB: 'green',
-  mongoDB: 'green',
-  'C/C++': 'blue',
-  React: 'blue',
-  vue: 'green',
-  angular: 'red',
-  node: 'green',
+  HTML: '#E34F26',
+  MySQL: '#4479A1',
+  JavaScipt: '#F7DF1E',
+  Firebase: '#FFCA28',
+  Andriod: '#3DDC84',
+  MariaDB: '#003545',
+  MongoDB: '#47A248',
+  C: '#A8B9CC',
+  React: '#61DAFB',
+  Vue: '#4FC08D',
+  Angular: '#DD0031',
+  Node: '#339933',
   express: 'black',
-  django: 'green',
-  flutter: 'blue',
+  Django: '#092E20',
+  Flutter: '#02569B',
 };
 
 export const editMode = {
@@ -29,12 +27,12 @@ export const editMode = {
   unEdit: false,
 };
 
-export const swalFire ={
-    width: 400,
-    height: 260,
-    showDenyButton: false,
-    showCancelButton: true,
-    confirmButtonText: 'Yes',
-    confirmButtonColor: '#CF5E53',
-    timer: 3000
-}
+export const swalFire = {
+  width: 400,
+  height: 260,
+  showDenyButton: false,
+  showCancelButton: true,
+  confirmButtonText: 'Yes',
+  confirmButtonColor: '#CF5E53',
+  timer: 3000,
+};
