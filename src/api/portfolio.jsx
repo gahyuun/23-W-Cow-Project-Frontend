@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { getCookie } from '../helper/cookie';
-// 에러처리하기
 
 const BoardApi = {
   async getBoardList() {
@@ -10,7 +9,7 @@ const BoardApi = {
   async getMyBoardList() {
     console.log(getCookie());
     const res = await axios.get('/api/my');
-    return res.data.data;
+    return res.data;
   },
   async getBoard(id) {
     const res = await axios.get(`/api/portfolio/${id}`);
