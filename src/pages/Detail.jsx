@@ -12,12 +12,12 @@ import {
   StackDivider,
   Stack,
 } from '@chakra-ui/react';
- import { useLocation } from "react-router";
- import StackItem  from '../component/StackItem';
+import { useLocation } from 'react-router';
+import StackItem from '../component/StackItem';
 
 function Detail() {
   const { state } = useLocation();
- console.log(state)
+  console.log(state);
 
   return (
     <Box w="850px" m="auto" mb="5" key={`detailpage-${state.id}`}>
@@ -30,7 +30,20 @@ function Detail() {
       <Box w="850px">
         <Grid color="white" gap={1} templateColumns="repeat(4, 1fr)">
           <GridItem colSpan={1} w="350px" h="300px">
-            <Image src={state.image} objectFit="fill" w="100%" h="100%" />
+            <Card
+              borderRadius="15px"
+              w="350px"
+              h="300px"
+              display="flex"
+              justifyContent="center"
+            >
+              <Image
+                src={state.image}
+                objectFit="scale-down"
+                width="350"
+                height="280"
+              />
+            </Card>
           </GridItem>
           <GridItem colSpan={3}>
             <Card>
@@ -59,10 +72,13 @@ function Detail() {
                     <Heading size="s" textTransform="uppercase">
                       techstack
                     </Heading>
-                    <Box pt="2" fontSize="sm" display="flex">
+                    <Box pt="2" fontSize="sm" display="flex" flexWrap="wrap">
                       {state &&
                         state.techStack.map((stack) => (
-                          <StackItem key={`detial-key-${stack}`} stack={stack}/>
+                          <StackItem
+                            key={`detial-key-${stack}`}
+                            stack={stack}
+                          />
                         ))}
                     </Box>
                   </Box>

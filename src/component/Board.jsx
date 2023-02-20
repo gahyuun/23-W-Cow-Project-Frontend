@@ -45,11 +45,12 @@ function Board({ edit, setEdit, board }) {
   return (
     <Box
       w="450px"
-      h="450px"
+      h="400px"
       p={5}
       m={5}
       boxShadow="2xl"
       rounded="md"
+      style={{ cursor: 'pointer' }}
       onClick={handleClickBtn}
       _hover={{ fontWeight: 'semibold', boxShadow: 'dark-lg' }}
     >
@@ -76,7 +77,6 @@ function Board({ edit, setEdit, board }) {
           </Box>
         ))}
       </Flex> */}
-
       <Flex pt="2" fontSize="sm" maxH="70px" overflow="hidden" wrap="wrap">
         {board.techStack.map((stack) => (
           <Box>
