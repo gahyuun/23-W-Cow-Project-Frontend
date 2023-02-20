@@ -9,6 +9,7 @@ import {
   GridItem,
   Card,
   FormControl,
+  Flex,
   Textarea,
   Image,
   FormLabel,
@@ -139,9 +140,9 @@ function Write() {
                             objectFit="scale-down"
                           />
                           <Image m="auto" src={imageIcon} alt="image" />
-                          {(state || file) && (
+                          {(file) && (
                             <Image
-                              src={state ? state.image : imageUrl}
+                              src={ imageUrl}
                               alt="selected"
                             />
                           )}
@@ -149,7 +150,10 @@ function Write() {
                       </FormLabel>
                     </Box>
                   ) : (
-                    ``
+                    <Image
+                    src={state.image}
+                    alt="selected"
+                  />
                   )}
                 </Box>
               </Card>
@@ -205,7 +209,7 @@ function Write() {
                   _focusVisible={{ border: '2px solid #4285f4' }}
                 />
                 {state ? (
-                  <Box pt="2" fontSize="sm" display="flex">
+                  <Flex pt="2" fontSize="sm" overflow="scroll" wrap="wrap" maxH="70px">
                     {state &&
                       state.techStack.map((stackitem) => (
                         <StackItem
@@ -213,7 +217,7 @@ function Write() {
                           stack={stackitem}
                         />
                       ))}
-                  </Box>
+                  </Flex>
                 ) : (
                   <MultiSelect
                     value={stack}

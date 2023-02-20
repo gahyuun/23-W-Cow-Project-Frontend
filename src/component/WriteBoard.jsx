@@ -11,7 +11,7 @@ function WriteBoard() {
   return (
     <Box
       w="450px"
-      h="400px"
+      h="420px"
       p={5}
       m={5}
       display="flex"

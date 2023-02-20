@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { getCookie } from '../helper/cookie';
 
 const BoardApi = {
   async getBoardList() {
@@ -7,7 +6,6 @@ const BoardApi = {
     return res.data.data;
   },
   async getMyBoardList() {
-    console.log(getCookie());
     const res = await axios.get('/api/my');
     return res.data;
   },
@@ -21,7 +19,7 @@ const BoardApi = {
   },
   async updateBoard(id, form) {
     const res = await axios.put(`/api/portfolio/${id}`, form);
-    return res.data.data;
+    return res;
   },
   async uploadBoard(form) {
     const res = await axios.post('/api/portfolio/write', form, {
