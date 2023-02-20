@@ -23,6 +23,7 @@ function Login({ setIsLogin }) {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    console.log('들어옴?');
     const data = new FormData(event.currentTarget);
     const loginData = {
       email: data.get('email'),

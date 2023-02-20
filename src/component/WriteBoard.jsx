@@ -13,7 +13,6 @@ function WriteBoard() {
       w="450px"
       h="400px"
       p={5}
-      m={5}
       display="flex"
       justifyContent="center"
       boxShadow="2xl"

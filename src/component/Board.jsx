@@ -1,17 +1,19 @@
 import { Box, Heading, Text, Image, Flex } from '@chakra-ui/react';
 import * as React from 'react';
+// import Stack from './Stack';
 import { useNavigate } from 'react-router';
 import Swal from 'sweetalert2';
 import { editMode, swalFire } from '../helper/types';
 import BoardApi from '../api/portfolio';
-import StackItem from './StackItem';
 
 function Board({ edit, setEdit, board }) {
   const navigate = useNavigate();
+  // const [techStack, setTechStack] = React.useState([]);
   const getBoard = async (id) => {
     const res = await BoardApi.getBoard(id);
     navigate('/detail', { state: res });
   };
+
   const deleteBoard = (id) => {
     Swal.fire({
       ...swalFire,
@@ -27,17 +29,23 @@ function Board({ edit, setEdit, board }) {
   };
 
   const handleClickBtn = () => {
+    console.log(edit, board.id);
     edit
       ? edit === editMode.delete
         ? deleteBoard(board.id)
         : modifyBoard(board.id)
       : getBoard(board.id);
   };
+  console.log(board.techStack);
 
+  // React.useEffect(() => {
+  //   setTechStack(JSON.parse(board.techStack));
+  // }, []);
+  // console.log(techStack);
   return (
     <Box
       w="450px"
-      h="420px"
+      h="400px"
       p={5}
       m={5}
       boxShadow="2xl"
@@ -50,8 +58,9 @@ function Board({ edit, setEdit, board }) {
         <Image
           src={board.image}
           w="auto"
-          h="200px"
+          h="auto"
           maxW="400px"
+          maxH="200px"
           objectFit="contain"
         />
       </Box>
@@ -61,10 +70,18 @@ function Board({ edit, setEdit, board }) {
       <Text pt="2" fontSize="s" mb="10">
         {board.summary}
       </Text>
-
-      <Flex pt="2" fontSize="sm" maxH="70px" overflow="hidden" wrap="wrap" >
+      {/* <Flex pt="2" fontSize="sm" maxH="70px" overflow="hidden" wrap="wrap">
+        {board.techstack.map((stack) => (
+          <Box key={`board-${stack}`}>
+            <Stack stack={stack} />
+          </Box>
+        ))}
+      </Flex> */}
+      <Flex pt="2" fontSize="sm" maxH="70px" overflow="hidden" wrap="wrap">
         {board.techStack.map((stack) => (
-            <StackItem key={`board-${board.id}-${stack}`} stack={stack}/>
+          <Box>
+            <div>{stack}</div>
+          </Box>
         ))}
       </Flex>
     </Box>

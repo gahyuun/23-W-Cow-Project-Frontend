@@ -11,13 +11,13 @@ import {
   CardBody,
   StackDivider,
   Stack,
-  Flex,
 } from '@chakra-ui/react';
 import { useLocation } from 'react-router';
 import StackItem from '../component/StackItem';
 
 function Detail() {
   const { state } = useLocation();
+  console.log(state);
 
   return (
     <Box w="850px" m="auto" mb="5" key={`detailpage-${state.id}`}>
@@ -72,12 +72,15 @@ function Detail() {
                     <Heading size="s" textTransform="uppercase">
                       techstack
                     </Heading>
-                    <Flex pt="2" fontSize="sm" wrap="wrap" overflow='scroll' maxH='70px'>
+                    <Box pt="2" fontSize="sm" display="flex" flexWrap="wrap">
                       {state &&
                         state.techStack.map((stack) => (
-                          <StackItem key={`detail-key-${stack}`} stack={stack}/>
+                          <StackItem
+                            key={`detial-key-${stack}`}
+                            stack={stack}
+                          />
                         ))}
-                    </Flex>
+                    </Box>
                   </Box>
                 </Stack>
               </CardBody>
