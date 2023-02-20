@@ -6,7 +6,7 @@ import Swal from 'sweetalert2';
 import { editMode, swalFire } from '../helper/types';
 import BoardApi from '../api/portfolio';
 
-function Board({ edit, board, setDeleteMode }) {
+function Board({ edit, setEdit, board }) {
   const navigate = useNavigate();
   // const [techStack, setTechStack] = React.useState([]);
   const getBoard = async (id) => {
@@ -20,7 +20,7 @@ function Board({ edit, board, setDeleteMode }) {
       html: `해당 프로젝트를 삭제합니다.`,
     }).then(async () => {
       await BoardApi.deleteBoard(id);
-      setDeleteMode(true);
+      setEdit(editMode.unEdit);
     });
   };
   const modifyBoard = async (id) => {
@@ -89,6 +89,7 @@ function Board({ edit, board, setDeleteMode }) {
 }
 Board.defaultProps = {
   edit: false,
+  setEdit: false,
   board: {
     title: '프로폴리오 Pro-Folio',
     image: '이미지 주소',

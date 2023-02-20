@@ -23,7 +23,6 @@ import BoardApi from '../api/portfolio';
 function My() {
   const [edit, setEdit] = useState(editMode.unEdit);
   const [myList, setList] = useState([]);
-  const [deleteMode, setDeleteMode] = useState('');
 
   const fetchMyBoardList = async () => {
     const res = await BoardApi.getMyBoardList();
@@ -32,7 +31,7 @@ function My() {
   useEffect(() => {
     console.log('실행');
     fetchMyBoardList();
-  }, [deleteMode]);
+  }, [edit]);
 
   const style = edit
     ? {
@@ -110,11 +109,7 @@ function My() {
                     key={`mypage__board-${list.id}`}
                     item={3}
                   >
-                    <Board
-                      edit={edit}
-                      board={list}
-                      setDeleteMode={setDeleteMode}
-                    />
+                    <Board edit={edit} setEdit={setEdit} board={list} />
                   </GridItem>
                 ))}
                 {edit ? '' : <WriteBoard />}
