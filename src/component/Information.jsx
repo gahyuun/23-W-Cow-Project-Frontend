@@ -11,7 +11,7 @@ import {
   CardBody,
 } from '@chakra-ui/react';
 
-function Information() {
+function Information({info}) {
   return (
     <Box w="350px">
       <Center w="250px">
@@ -24,13 +24,13 @@ function Information() {
               <Box>
                 <Heading size="xs">Email</Heading>
                 <Text pt="2" fontSize="sm">
-                  {}
+                  {info.email}
                 </Text>
               </Box>
               <Box>
                 <Heading size="xs">Nickname</Heading>
                 <Text pt="2" fontSize="sm">
-                  세빈공주
+                {info.nickname}
                 </Text>
               </Box>
             </Stack>
@@ -40,4 +40,6 @@ function Information() {
     </Box>
   );
 }
+
+
 export default Information;

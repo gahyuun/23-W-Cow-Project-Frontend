@@ -22,14 +22,14 @@ import BoardApi from '../api/portfolio';
 
 function My() {
   const [edit, setEdit] = useState(editMode.unEdit);
-  const [myList, setList] = useState([]);
+  const [mylist, setList] = useState([]);
+  const [info, setInfo] = useState({});
 
   const fetchMyBoardList = async () => {
     const res = await BoardApi.getMyBoardList();
-    res ? setList(res) : console.log(res);
+    res ? (setList(res.data), setInfo(res.userData)): console.log("ds");
   };
   useEffect(() => {
-    console.log('실행');
     fetchMyBoardList();
   }, [edit]);
 
@@ -44,7 +44,7 @@ function My() {
   return (
     <Box w="60%" m="auto" mt="20" mb="5">
       <Flex>
-        <Information />
+        <Information info={info} />
         <Box>
           <Box ml="10">
             <VStack
@@ -84,34 +84,27 @@ function My() {
                   </Box>
                 )}
               </Box>
-              {/* <Flex mx={3} justifyContent="space-around" wrap="wrap">
-                {myList.map((list) => (
-                  <div style={style} key={`mypage__board-${list.id}`}>
-                    <Board
-                      edit={edit}
-                      board={list}
-                      setDeleteMode={setDeleteMode}
-                    />
-                  </div>
-                ))}
-                {edit ? '' : <WriteBoard />}
-              </Flex> */}
-              <Grid
+              <Grid  
                 templateColumns={{
                   md: 'repeat(1,1fr)',
                   lg: 'repeat(1,1fr)',
                   xl: 'repeat(2,1fr)',
                 }}
               >
-                {myList.map((list) => (
-                  <GridItem
-                    tyle={style}
+                {
+                mylist.map((list) => (
+                  <GridItem 
+                    style={style}
                     key={`mypage__board-${list.id}`}
                     item={3}
                   >
-                    <Board edit={edit} setEdit={setEdit} board={list} />
+                    <Board
+                      edit={edit}
+                      board={list}
+                    />
                   </GridItem>
-                ))}
+                ))
+              }
                 {edit ? '' : <WriteBoard />}
               </Grid>
             </VStack>

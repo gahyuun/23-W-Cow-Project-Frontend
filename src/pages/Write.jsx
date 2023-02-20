@@ -12,6 +12,7 @@ import {
   Textarea,
   Image,
   FormLabel,
+  Flex,
 } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
 import { MultiSelect } from 'react-multi-select-component';
@@ -25,6 +26,7 @@ import { signStyle } from '../helper/style.js';
 
 function Write() {
   const { state } = useLocation();
+
 
   const dateStyle = {
     display: 'flex',
@@ -59,8 +61,6 @@ function Write() {
     date.getMonth() + 1
   }-${date.getDate()}`;
 
-  console.log(today);
-  console.log(stack);
   const handleFileChange = (event) => {
     const selectedFile = event.target.files[0];
     setFile(selectedFile);
@@ -91,10 +91,11 @@ function Write() {
       techStack,
     };
     const res = await BoardApi.uploadBoard(form);
-    res ? navigate('/') : console.log(res);
+    res ? navigate('/my') : console.log(res);
   };
   const fetchUpdateBoard = async () => {
     const res = await BoardApi.updateBoard(state.id, formData);
+    console.log(res)
     res ? navigate('/') : console.log(res);
   };
   const onSubmit = async () => {
@@ -141,9 +142,9 @@ function Write() {
                             objectFit="scale-down"
                           />
                           <Image m="auto" src={imageIcon} alt="image" />
-                          {(state || file) && (
+                          {file && (
                             <Image
-                              src={state ? state.image : imageUrl}
+                              src={ imageUrl }
                               alt="selected"
                             />
                           )}
@@ -151,7 +152,10 @@ function Write() {
                       </FormLabel>
                     </Box>
                   ) : (
-                    ``
+                    <Image
+                    src={ state.image }
+                    alt="selected"
+                  />
                   )}
                 </Box>
               </Card>
@@ -207,7 +211,7 @@ function Write() {
                   _focusVisible={{ border: '2px solid #4285f4' }}
                 />
                 {state ? (
-                  <Box pt="2" fontSize="sm" display="flex">
+                  <Flex pt="2" fontSize="sm" wrap='wrap' overflow='scroll' maxH='70px'>
                     {state &&
                       state.techStack.map((stackitem) => (
                         <StackItem
@@ -215,7 +219,7 @@ function Write() {
                           stack={stackitem}
                         />
                       ))}
-                  </Box>
+                  </Flex>
                 ) : (
                   <MultiSelect
                     value={stack}
