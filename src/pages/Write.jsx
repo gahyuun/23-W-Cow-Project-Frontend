@@ -81,7 +81,7 @@ function Write() {
     setFormData(newForm);
   };
 
-    async function fetchUploadBoard  ()  {
+  async function fetchUploadBoard() {
     data.append('portfolioimg', file);
     stack.map((stackitem) => techStack.push(stackitem.value));
 
@@ -91,10 +91,10 @@ function Write() {
       techStack,
     };
     const res = await BoardApi.uploadBoard(form);
-    
-    res ?( navigate('/my')) : console.log(res);
-  };
-    const  fetchUpdateBoard = async () => {
+
+    res ? navigate('/my') : console.log(res);
+  }
+  const fetchUpdateBoard = async () => {
     const res = await BoardApi.updateBoard(state.id, formData);
     res ? navigate('/my') : console.log(res);
   };
@@ -102,7 +102,7 @@ function Write() {
     buttonRef.current.disabled = true;
     state ? fetchUpdateBoard() : fetchUploadBoard();
   };
- 
+
   const required =
     techStack === [''] ||
     file === '' ||
@@ -144,20 +144,12 @@ function Write() {
                             objectFit="scale-down"
                           />
                           <Image m="auto" src={imageIcon} alt="image" />
-                          {(file) && (
-                            <Image
-                              src={ imageUrl}
-                              alt="selected"
-                            />
-                          )}
+                          {file && <Image src={imageUrl} alt="selected" />}
                         </Box>
                       </FormLabel>
                     </Box>
                   ) : (
-                    <Image
-                    src={state.image}
-                    alt="selected"
-                  />
+                    <Image src={state.image} alt="selected" />
                   )}
                 </Box>
               </Card>
@@ -169,7 +161,7 @@ function Write() {
                   size="lg"
                   value={formData.title}
                   onChange={handleChange}
-                  placeholder="프로젝트 명을 입력해주세요."
+                  placeholder="프로젝트 명을 입력해주세요(최대 20자)"
                   maxLength={20}
                   mb="5"
                   sx={style}
@@ -206,14 +198,20 @@ function Write() {
                   size="lg"
                   value={formData.summary}
                   onChange={handleChange}
-                  placeholder="프로젝트 소개를 입력해주세요."
+                  placeholder="프로젝트 소개를 입력해주세요(최대 30자)"
                   maxLength={30}
                   mb="5"
                   sx={style}
                   _focusVisible={{ border: '2px solid #4285f4' }}
                 />
                 {state ? (
-                  <Flex pt="2" fontSize="sm" overflow="scroll" wrap="wrap" maxH="70px">
+                  <Flex
+                    pt="2"
+                    fontSize="sm"
+                    overflow="scroll"
+                    wrap="wrap"
+                    maxH="70px"
+                  >
                     {state &&
                       state.techStack.map((stackitem) => (
                         <StackItem
@@ -267,8 +265,7 @@ function Write() {
                           html: '모든 항목을 입력해주세요.',
                         })
                       : onSubmit();
-                  }
-                }
+                  }}
                   colorScheme="blue"
                   variant="outline"
                 >

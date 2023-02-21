@@ -72,7 +72,13 @@ function Detail() {
                     <Heading size="s" textTransform="uppercase">
                       techstack
                     </Heading>
-                    <Flex pt="2" fontSize="sm" wrap="wrap" overflow='scroll' maxH='70px'>
+                    <Flex
+                      pt="2"
+                      fontSize="sm"
+                      wrap="wrap"
+                      overflow="scroll"
+                      maxH="70px"
+                    >
                       {state &&
                         state.techStack.map((stack) => (
                           <StackItem
@@ -91,7 +97,7 @@ function Detail() {
               borderRadius="15px"
               my="5"
               p="5"
-              h="350px"
+              minH="350px"
               w="850px"
               id="detail"
             >
