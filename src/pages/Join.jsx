@@ -17,6 +17,7 @@ import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import { useNavigate } from 'react-router-dom';
 import Sign from '../component/Sign.jsx';
 import { signStyle } from '../helper/style.js';
+import { emailRegrex, passwordRegrex } from '../helper/types.js';
 
 function Join() {
   // select에 들어갈 내용 예시
@@ -68,9 +69,6 @@ function Join() {
 
   const formValidate = (event) => {
     event.preventDefault();
-    const emailRegrex =
-      /([\w-.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
-    const passwordRegrex = /^(?=.*[a-zA-Z])(?=.*[0-9]).{7,}$/;
     if (!nicknameCheck) {
       Swal.fire({
         ...signStyle.swalFire,
@@ -101,9 +99,8 @@ function Join() {
     ) {
       handlePost(joinData);
     }
-
-    // 유효성 검사가 완료되면 백엔드로 post
   };
+  // 유효성 검사
 
   return (
     <Sign page="join">
