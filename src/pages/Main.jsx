@@ -4,7 +4,7 @@ import { Box, Divider, Flex, Grid, GridItem,Heading, Button } from '@chakra-ui/r
 // eslint-disable-next-line import/no-named-as-default
 import Board from '../component/Board';
 import BoardApi from '../api/portfolio';
-import { stackparser } from '../helper/parser';
+import { stackparser } from '../helper/parse';
 
 
 function Main() {
@@ -29,9 +29,9 @@ function Main() {
     <Box maxW="1500px" mx="auto" my="10">
       <Flex mx="10">
         <Heading mb={4} flex="1" textAlign='left'>{state ? `${state} 프로젝트 모아보기` : '최신 프로젝트'}</Heading>
-       { state ? <Button size='lg' colorScheme='green' onClick={()=>navigate('/', {state:false})}>
+       {state&&<Button size='lg' colorScheme='green' onClick={()=>navigate('/', {state:false})}>
           최신 프로젝트 살펴보기
-        </Button>: ''}
+        </Button>}
       </Flex>
       <Divider my={5}/>
       <Grid
