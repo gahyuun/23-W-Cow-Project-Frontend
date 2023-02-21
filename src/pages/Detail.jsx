@@ -1,112 +1,69 @@
 import * as React from 'react';
 import {
   Text,
-  Box,
-  Grid,
-  GridItem,
   Card,
   Image,
-  CardHeader,
   Heading,
   CardBody,
-  StackDivider,
-  Flex,
+  Divider,
   Stack,
+  AccordionItem,
+  AccordionPanel,
+  AccordionIcon,
+  AccordionButton,
+  Accordion,
+  Box,
 } from '@chakra-ui/react';
-import { useLocation } from 'react-router';
+ import { useLocation } from 'react-router';
 import StackItem from '../component/StackItem';
 
 function Detail() {
-  const { state } = useLocation();
+   const { state } = useLocation();
+   const arr =[];
+   arr.push({title:'Stack', content:state.techStack.map((stack)=>(<StackItem stack={stack}/>))});
+   arr.push({title:'Period', content: `${state.startDate} ~ ${state.endDate}`});
+   arr.push({title:'Author', content:state.nickname})
 
   return (
-    <Box w="850px" m="auto" mb="5" key={`detailpage-${state.id}`}>
-      <Box my="10">
-        <Text fontSize="3xl" as="b">
-          {state.title}
-        </Text>
-      </Box>
-
-      <Box w="850px">
-        <Grid color="white" gap={1} templateColumns="repeat(4, 1fr)">
-          <GridItem colSpan={1} w="350px" h="300px">
-            <Card
-              borderRadius="15px"
-              w="350px"
-              h="300px"
-              display="flex"
-              justifyContent="center"
-            >
-              <Image
-                src={state.image}
-                objectFit="scale-down"
-                width="350"
-                height="280"
-              />
-            </Card>
-          </GridItem>
-          <GridItem colSpan={3}>
-            <Card>
-              <CardHeader>
-                <Heading size="md">{state.title}</Heading>
-              </CardHeader>
-              <CardBody>
-                <Stack divider={<StackDivider />}>
-                  <Box>
-                    <Heading size="s" textTransform="uppercase">
-                      period
-                    </Heading>
-                    <Text pt="2" fontSize="sm">
-                      {state.startDate} ~ {state.endDate}
-                    </Text>
+    <Card w='850px' m='auto'>
+    <CardBody >
+        <Box display="flex" alignItems="center" justifyContent="center" w="800px" h="500px">
+          <Image
+                    src={state.image}
+                    w="auto"
+                    h="auth"
+                    maxW="800px"
+                    maxH="500px"
+                    m="auto"
+                  />
+          </Box>
+          <Stack mt='6' spacing='3'>
+            <Heading size='lg'>{state.title}</Heading>
+            <Text fontSize='xl'>{state.summary}</Text>
+            <Text> {state.detail} </Text>
+            <Box display="flex" flexFlow="row-reverse"> {state.date}  </Box>
+          </Stack>
+    </CardBody>
+    <Divider />
+    <Accordion defaultIndex={[0]} allowMultiple>
+            {arr.map((item)=>(
+              <AccordionItem>
+              <h2>
+                <AccordionButton>
+                  <Box flex='1' textAlign='left'>
+                        {item.title}
                   </Box>
-                  <Box>
-                    <Heading size="s" textTransform="uppercase">
-                      summary
-                    </Heading>
-                    <Text pt="2" fontSize="sm">
-                      {state.summary}
-                    </Text>
-                  </Box>
-                  <Box>
-                    <Heading size="s" textTransform="uppercase">
-                      techstack
-                    </Heading>
-                    <Flex
-                      pt="2"
-                      fontSize="sm"
-                      wrap="wrap"
-                      overflow="scroll"
-                      maxH="70px"
-                    >
-                      {state &&
-                        state.techStack.map((stack) => (
-                          <StackItem
-                            key={`detial-key-${stack}`}
-                            stack={stack}
-                          />
-                        ))}
-                    </Flex>
-                  </Box>
-                </Stack>
-              </CardBody>
-            </Card>
-          </GridItem>
-          <GridItem colSpan={4}>
-            <Card
-              borderRadius="15px"
-              my="5"
-              p="5"
-              minH="350px"
-              w="850px"
-              id="detail"
-            >
-              {state.detail}
-            </Card>
-          </GridItem>
-        </Grid>
-      </Box>
-    </Box>
+                  <AccordionIcon />
+                </AccordionButton>
+              </h2>
+              <AccordionPanel pb={4} display="flex" flexWrap="wrap" overflow="scroll">
+                    {item.content}
+              </AccordionPanel>
+            </AccordionItem>
+          
+            ))}
+    </Accordion>
+  </Card>
   );
 }
 
