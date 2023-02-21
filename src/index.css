@@ -44,12 +44,13 @@ code {
   .multi-select {
     --rmsc-h: 40px !important;
     --rmsc-p: 15px !important;
+    font-size: 15px;
   }
 }
 @media screen and (min-width: 62em) {
   .multi-select {
     --rmsc-h: 48px !important;
-    font-size: 16px;
     --rmsc-p: 15px !important;
+    font-size: 16px;
   }
 }
