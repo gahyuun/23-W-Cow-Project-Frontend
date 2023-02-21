@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { getCookie } from '../helper/cookie';
 
 const BoardApi = {
   async getBoardList() {
@@ -7,15 +6,11 @@ const BoardApi = {
     return res.data.data;
   },
   async getMyBoardList() {
-    const res = await axios.get('/api/my',{headers:{
-      Authorization:getCookie()
-    }});
+    const res = await axios.get('/api/my');
     return res.data;
   },
   async getStackBoardList(searchValue) {
-    const res = await axios.get(`/api/search?searchWord=${searchValue}`,{headers:{
-      Authorization:getCookie()
-    }});
+    const res = await axios.get(`/api/search?searchWord=${searchValue}`);
     return res.data.data;
   },
   async getBoard(id) {
@@ -23,22 +18,17 @@ const BoardApi = {
     return res.data.data;
   },
   async deleteBoard(id) {
-    const res = await axios.delete(`/api/portfolio/${id}`,{headers:{
-      Authorization:getCookie()
-    }});
+    const res = await axios.delete(`/api/portfolio/${id}`);
     return res;
   },
   async updateBoard(id, form) {
-    const res = await axios.put(`/api/portfolio/${id}`, form,{headers:{
-      Authorization:getCookie()
-    }});
+    const res = await axios.put(`/api/portfolio/${id}`, form);
     return res;
   },
   async uploadBoard(form) {
     const res = await axios.post('/api/portfolio/write', form, {
       headers: {
         'Content-Type': 'multipart/form-data',
-        Authorization:getCookie()
       },
     });
     return res;
