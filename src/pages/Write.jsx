@@ -13,7 +13,9 @@ import {
   Textarea,
   Image,
   FormLabel,
+  Icon,
 } from '@chakra-ui/react';
+import { EditIcon } from '@chakra-ui/icons';
 import { useNavigate } from 'react-router-dom';
 import { MultiSelect } from 'react-multi-select-component';
 import { useLocation } from 'react-router';
@@ -123,39 +125,65 @@ function Write() {
         <FormControl>
           <Grid color="white" gap={1}>
             <Box>
-              <Card borderRadius="15px" w="350px" h="300px">
-                <Box colSpan={2} m="auto">
+              <Card borderRadius="15px" w="350px" h="320px">
+                <Box m="auto">
                   {!state ? (
-                    <Box>
-                      <FormLabel htmlFor="imageinput">
-                        <Box
-                          width="350"
-                          height="280"
-                          display="flex"
-                          justifyContent="center"
-                        >
-                          <Input
-                            type="file"
-                            id="imageinput"
-                            name="file"
-                            accept="image/*"
-                            display="none"
-                            onChange={handleFileChange}
-                            objectFit="scale-down"
+                    <FormLabel htmlFor="imageinput" m="0">
+                      <Box justifyContent="center" objectFit="contain">
+                        <Input
+                          id="imageinput"
+                          name="file"
+                          type="file"
+                          accept="image/*"
+                          display="none"
+                          objectFit="scale-down"
+                          onChange={handleFileChange}
+                        />
+                        {imageUrl ? (
+                          <Icon
+                            w="5"
+                            h="5"
+                            float="right"
+                            mr="2"
+                            style={{ cursor: 'pointer' }}
+                            as={EditIcon}
                           />
-                          <Image m="auto" src={imageIcon} alt="image" />
-                          {file && <Image src={imageUrl} alt="selected" />}
-                        </Box>
-                      </FormLabel>
-                    </Box>
+                        ) : (
+                          <Image
+                            style={{ cursor: 'pointer' }}
+                            src={imageIcon}
+                            alt="image"
+                          />
+                        )}
+                        {file && (
+                          <Image
+                            width="340px"
+                            height="280px"
+                            m="auto"
+                            objectFit="scale-down"
+                            src={imageUrl}
+                            alt="selected"
+                          />
+                        )}
+                      </Box>
+                    </FormLabel>
                   ) : (
-                    <Image src={state.image} alt="selected" />
+                    <Box
+                      w="350px"
+                      h="280px"
+                      display="flex"
+                      justifyContent="center"
+                      alignContent="center"
+                      objectFit="scale-down"
+                    >
+                      <Image src={state.image} alt="selected" />
+                    </Box>
                   )}
                 </Box>
               </Card>
             </Box>
-            <GridItem colSpan={2} color="black">
-              <Box ml="4" mt="6" w="480px">
+            <GridItem m="auto" color="black">
+              <Box ml="4" w="480px">
                 <Input
                   name="title"
                   size="lg"
