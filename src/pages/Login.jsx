@@ -32,7 +32,6 @@ function Login({ setIsLogin }) {
       .post('/auth/login', loginData)
       .then((res) => {
         setCookie(res.data.data.token);
-        // axios.defaults.headers.common.Authorization = `${res.data.data.token}`;
         setIsLogin(true);
         Swal.fire({ ...signStyle.swalFire, html: '로그인 성공' });
         navigate('/');
