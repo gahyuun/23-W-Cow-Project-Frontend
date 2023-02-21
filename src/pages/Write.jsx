@@ -38,7 +38,6 @@ function Write() {
   };
 
   const style = {
-    fontSize: '16',
     border: '1px solid #ccc;',
   };
   const [formData, setFormData] = React.useState(
@@ -115,195 +114,205 @@ function Write() {
     formData.endDate === '';
 
   return (
-    <Box w="850px" m="auto" mb="5">
+    <Box
+      w={{ sm: '31.25rem', md: '46.875rem', lg: '53.125rem' }}
+      m="auto"
+      mb="5"
+    >
       <Box my="10">
-        <Text fontSize="3xl" as="b">
+        <Text fontSize={{ sm: 'md', md: 'xl', lg: '3xl' }} as="b">
           프로젝트를 작성해주세요.
         </Text>
       </Box>
-      <Box w="850px">
-        <FormControl>
-          <Grid color="white" gap={1}>
-            <Box>
-              <Card borderRadius="15px" w="350px" h="320px">
-                <Box m="auto">
-                  {!state ? (
-                    <FormLabel htmlFor="imageinput" m="0">
-                      <Box justifyContent="center" objectFit="contain">
-                        <Input
-                          id="imageinput"
-                          name="file"
-                          type="file"
-                          accept="image/*"
-                          display="none"
-                          objectFit="scale-down"
-                          onChange={handleFileChange}
+      <FormControl>
+        <Grid color="white" gap={1}>
+          <Box>
+            <Card
+              borderRadius="15px"
+              w={{ sm: '14rem', md: '18.75rem', lg: '21rem' }}
+              h={{ sm: '14.75rem', md: '17.5rem', lg: '20rem' }}
+            >
+              <Box m="auto">
+                {!state ? (
+                  <FormLabel htmlFor="imageinput" m="0">
+                    <Box justifyContent="center" objectFit="contain">
+                      <Input
+                        id="imageinput"
+                        name="file"
+                        type="file"
+                        accept="image/*"
+                        display="none"
+                        objectFit="scale-down"
+                        onChange={handleFileChange}
+                      />
+                      {imageUrl ? (
+                        <Icon
+                          w={[3, 4, 5]}
+                          h={[3, 4, 5]}
+                          float="right"
+                          mr="2"
+                          cursor="pointer"
+                          as={EditIcon}
                         />
-                        {imageUrl ? (
-                          <Icon
-                            w="5"
-                            h="5"
-                            float="right"
-                            mr="2"
-                            style={{ cursor: 'pointer' }}
-                            as={EditIcon}
-                          />
-                        ) : (
-                          <Image
-                            style={{ cursor: 'pointer' }}
-                            src={imageIcon}
-                            alt="image"
-                          />
-                        )}
-                        {file && (
-                          <Image
-                            width="340px"
-                            height="280px"
-                            m="auto"
-                            objectFit="scale-down"
-                            src={imageUrl}
-                            alt="selected"
-                          />
-                        )}
-                      </Box>
-                    </FormLabel>
-                  ) : (
-                    <Box
-                      w="350px"
-                      h="280px"
-                      display="flex"
-                      justifyContent="center"
-                      alignContent="center"
-                      objectFit="scale-down"
-                    >
-                      <Image src={state.image} alt="selected" />
+                      ) : (
+                        <Image cursor="pointer" src={imageIcon} alt="image" />
+                      )}
+                      {file && (
+                        <Image
+                          w={{ sm: '16rem', md: '18.75rem', lg: '21.25rem' }}
+                          h={{ sm: '12rem', md: '15rem', lg: '17.5rem' }}
+                          m="auto"
+                          objectFit="scale-down"
+                          src={imageUrl}
+                          alt="selected"
+                        />
+                      )}
                     </Box>
-                  )}
-                </Box>
-              </Card>
-            </Box>
-            <GridItem m="auto" color="black">
-              <Box ml="4" w="480px">
+                  </FormLabel>
+                ) : (
+                  <Box
+                    w={{ sm: '16rem', md: '18.75rem', lg: '21.25rem' }}
+                    h={{ sm: '12rem', md: '15rem', lg: '17.5rem' }}
+                    display="flex"
+                    justifyContent="center"
+                    alignContent="center"
+                    objectFit="scale-down"
+                  >
+                    <Image src={state.image} alt="selected" />
+                  </Box>
+                )}
+              </Box>
+            </Card>
+          </Box>
+          <GridItem m="auto" color="black">
+            <Box
+              ml={[1, 3, 4]}
+              w={{ sm: '16rem', md: '26.675rem', lg: '30rem' }}
+            >
+              <Input
+                mb="5"
+                size={{ sm: 'sm', md: 'md', lg: 'lg' }}
+                fontSize={[10, 12, 16]}
+                name="title"
+                sx={style}
+                value={formData.title}
+                onChange={handleChange}
+                maxLength={20}
+                _focusVisible={{
+                  border: '2px solid #4285f4',
+                }}
+                placeholder="프로젝트 명을 입력해주세요. (최대 20자)"
+              />
+              <Box sx={dateStyle}>
                 <Input
-                  name="title"
-                  size="lg"
-                  value={formData.title}
+                  name="startDate"
+                  type="date"
+                  size={{ sm: 'sm', md: 'md', lg: 'lg' }}
+                  fontSize={[10, 13, 16]}
+                  max={today}
+                  value={formData.startDate}
                   onChange={handleChange}
-                  placeholder="프로젝트 명을 입력해주세요. (최대 20자)"
-                  maxLength={20}
-                  mb="5"
-                  sx={style}
-                  _focusVisible={{
-                    border: '2px solid #4285f4',
-                  }}
-                />
-                <Box sx={dateStyle}>
-                  <Input
-                    name="startDate"
-                    type="date"
-                    size="lg"
-                    max={today}
-                    value={formData.startDate}
-                    onChange={handleChange}
-                    sx={style}
-                    _focusVisible={{ border: '2px solid #4285f4' }}
-                  />
-                  ~
-                  <Input
-                    name="endDate"
-                    type="date"
-                    size="lg"
-                    min={formData.startDate}
-                    max={today}
-                    value={formData.endDate}
-                    onChange={handleChange}
-                    sx={style}
-                    _focusVisible={{ border: '2px solid #4285f4' }}
-                  />
-                </Box>
-                <Input
-                  name="summary"
-                  size="lg"
-                  value={formData.summary}
-                  onChange={handleChange}
-                  placeholder="프로젝트 소개를 입력해주세요. (최대 30자)"
-                  maxLength={30}
-                  mb="5"
                   sx={style}
                   _focusVisible={{ border: '2px solid #4285f4' }}
                 />
-                {state ? (
-                  <Flex
-                    pt="2"
-                    fontSize="sm"
-                    overflow="scroll"
-                    wrap="wrap"
-                    maxH="70px"
-                  >
-                    {state &&
-                      state.techStack.map((stackitem) => (
-                        <StackItem
-                          key={`detial-key-${stackitem}`}
-                          stack={stackitem}
-                        />
-                      ))}
-                  </Flex>
-                ) : (
-                  <MultiSelect
-                    value={stack}
-                    options={options}
-                    onChange={setStack}
-                    mb="5"
-                    selectSomeItems="선택"
-                    overrideStrings={{
-                      selectSomeItems: '스택을 입력해주세요.',
-                    }}
-                  />
-                )}
-              </Box>
-            </GridItem>
-            <GridItem colSpan={4}>
-              <Box color="black">
-                <Textarea
-                  name="detail"
-                  value={formData.detail}
+                ~
+                <Input
+                  name="endDate"
+                  type="date"
+                  size={{ sm: 'sm', md: 'md', lg: 'lg' }}
+                  fontSize={[10, 13, 16]}
+                  min={formData.startDate}
+                  max={today}
+                  value={formData.endDate}
                   onChange={handleChange}
-                  w="850px"
-                  h="350px"
-                  mt="5"
-                  mb="5"
-                  p="5"
-                  border="1px solid #ccc;"
-                  resize="none"
-                  placeholder="프로젝트 설명을 입력해주세요."
-                  _focusVisible={{
-                    border: '2px solid #4285f4',
-                  }}
+                  sx={style}
+                  _focusVisible={{ border: '2px solid #4285f4' }}
                 />
               </Box>
-              <Box w="350px" h="50px" m="auto">
-                <Button
-                  w="350px"
-                  h="50px"
-                  ref={buttonRef}
-                  onClick={() => {
-                    required
-                      ? Swal.fire({
-                          ...signStyle.swalFire,
-                          html: '모든 항목을 입력해주세요.',
-                        })
-                      : onSubmit();
-                  }}
-                  colorScheme="blue"
-                  variant="outline"
+              <Input
+                name="summary"
+                size={{ sm: 'sm', md: 'md', lg: 'lg' }}
+                fontSize={[10, 13, 16]}
+                value={formData.summary}
+                onChange={handleChange}
+                placeholder="프로젝트 소개를 입력해주세요. (최대 30자)"
+                maxLength={30}
+                mb="5"
+                sx={style}
+                _focusVisible={{ border: '2px solid #4285f4' }}
+              />
+              {state ? (
+                <Flex
+                  pt="2"
+                  fontSize="sm"
+                  overflow="scroll"
+                  wrap="wrap"
+                  maxH="70px"
                 >
-                  {state ? `수정` : `등록`}
-                </Button>
-              </Box>
-            </GridItem>
-          </Grid>
-        </FormControl>
-      </Box>
+                  {state &&
+                    state.techStack.map((stackitem) => (
+                      <StackItem
+                        key={`detial-key-${stackitem}`}
+                        stack={stackitem}
+                      />
+                    ))}
+                </Flex>
+              ) : (
+                <MultiSelect
+                  value={stack}
+                  options={options}
+                  onChange={setStack}
+                  mb="5"
+                  selectSomeItems="선택"
+                  overrideStrings={{
+                    selectSomeItems: '스택을 입력해주세요.',
+                  }}
+                />
+              )}
+            </Box>
+          </GridItem>
+          <GridItem colSpan={4}>
+            <Box color="black">
+              <Textarea
+                name="detail"
+                value={formData.detail}
+                onChange={handleChange}
+                w={{ sm: '31rem', md: '46.875rem', lg: '53.125rem' }}
+                h={{ sm: '12rem', md: '18.75rem', lg: '21rem' }}
+                mt="5"
+                mb="5"
+                p="5"
+                border="1px solid #ccc;"
+                resize="none"
+                placeholder="프로젝트 설명을 입력해주세요."
+                _focusVisible={{
+                  border: '2px solid #4285f4',
+                }}
+              />
+            </Box>
+            <Box textAlign="center">
+              <Button
+                w={{ sm: '14rem', md: '18rem', lg: '21.875rem' }}
+                h={{ sm: '2rem', md: '2.5rem', lg: '3.125rem' }}
+                fontSize={['xs', 'sm', 'lg']}
+                ref={buttonRef}
+                onClick={() => {
+                  required
+                    ? Swal.fire({
+                        ...signStyle.swalFire,
+                        html: '모든 항목을 입력해주세요.',
+                      })
+                    : onSubmit();
+                }}
+                colorScheme="blue"
+                variant="outline"
+              >
+                {state ? `수정` : `등록`}
+              </Button>
+            </Box>
+          </GridItem>
+        </Grid>
+      </FormControl>
     </Box>
   );
 }

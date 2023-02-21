@@ -30,7 +30,26 @@ code {
   }
 }
 .multi-select {
-  --rmsc-h: 48px !important;
-  --rmsc-p: 15px !important;
   --rmsc-gray: #718096 !important;
+}
+
+@media screen and (min-width: 30em) {
+  .multi-select {
+    --rmsc-h: 30px !important;
+    --rmsc-p: 7px !important;
+    font-size: 14px;
+  }
+}
+@media screen and (min-width: 48em) {
+  .multi-select {
+    --rmsc-h: 40px !important;
+    --rmsc-p: 15px !important;
+  }
+}
+@media screen and (min-width: 62em) {
+  .multi-select {
+    --rmsc-h: 48px !important;
+    font-size: 16px;
+    --rmsc-p: 15px !important;
+  }
 }
