@@ -32,7 +32,7 @@ function App() {
         <Header isLogin={isLogin} setIsLogin={setIsLogin} />
         <Routes>
           <Route path="*" element={<>404</>} />
-          <Route path="/" element={<Main isLogin={false} />} />
+          <Route path="/" element={<Main />} />
           <Route
             path="/write"
             element={isLogin ? <Write /> : <Navigate to="/login" />}
