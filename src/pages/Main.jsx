@@ -1,27 +1,39 @@
 import * as React from 'react';
-import { useNavigate } from 'react-router';
-import { Box, Text, Grid, GridItem } from '@chakra-ui/react';
+ import { useNavigate, useLocation} from 'react-router';
+import { Box, Divider, Flex, Grid, GridItem,Heading, Button } from '@chakra-ui/react';
 // eslint-disable-next-line import/no-named-as-default
 import Board from '../component/Board';
-
 import BoardApi from '../api/portfolio';
+import { stackparser } from '../helper/parser';
 
-function Main({ title }) {
+
+function Main() {
   const navigate = useNavigate();
+  const { state } = useLocation();
   const [list, setList] = React.useState([]);
+
   const fetchBoardList = async () => {
     const res = await BoardApi.getBoardList();
     res ? setList(res) : console.log(res);
   };
+  const fetchStackBoardList = async () => {
+    const res = await BoardApi.getStackBoardList(state);
+    const parsedRes = stackparser(res);
+    res ? setList(parsedRes) : console.log(res);
+  };
   React.useEffect(() => {
-    fetchBoardList();
-  }, [navigate]);
+    state ? fetchStackBoardList(): fetchBoardList()
+  }, [list]);
 
   return (
     <Box maxW="1500px" mx="auto" my="10">
-      <Text fontSize="4xl" as="b" mx="10px">
-        {title} 모아보기
-      </Text>
+      <Flex mx="10">
+        <Heading mb={4} flex="1" textAlign='left'>{state ? `${state} 프로젝트 모아보기` : '최신 프로젝트'}</Heading>
+       { state ? <Button size='lg' colorScheme='green' onClick={()=>navigate('/', {state:false})}>
+          최신 프로젝트 살펴보기
+        </Button>: ''}
+      </Flex>
+      <Divider my={5}/>
       <Grid
         templateColumns={{
           sm: 'repeat(1, 12fr)',
@@ -30,7 +42,7 @@ function Main({ title }) {
         }}
       >
         {list.map((board) => (
-          <GridItem key={board.id}>
+          <GridItem key={`mainpage-board-${board.id}`}>
             <Board board={board} />
           </GridItem>
         ))}
@@ -38,8 +50,5 @@ function Main({ title }) {
     </Box>
   );
 }
-Main.defaultProps = {
-  title: '최신 프로젝트',
-  list: [1, 2, 3],
-};
+
 export default Main;

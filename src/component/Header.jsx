@@ -6,6 +6,7 @@ import logo from '../img/Logo.png';
 import { stacks } from '../helper/types.js';
 import { removeCookie } from '../helper/cookie';
 
+
 function Header({ isLogin, setIsLogin }) {
   const navigate = useNavigate('');
   const location = useLocation();
@@ -29,18 +30,18 @@ function Header({ isLogin, setIsLogin }) {
       if (result.isConfirmed) {
         removeCookie();
         setIsLogin(false);
-        navigate('/');
+        navigate('/', {state:false});
       }
     });
   };
-  const handleSearch = (e) => {
+  const handleSearch = async(e) => {
     e.preventDefault();
     const searchValue = e.target.value;
     if (searchValue === '') {
       setTechstack('');
       return;
     }
-    navigate(`/api/search?searchWord=${searchValue}`);
+    navigate('/', {state : searchValue});
   };
   React.useEffect(() => {
     const urlSearch = new URLSearchParams(location.search);
