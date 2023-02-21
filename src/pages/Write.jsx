@@ -189,7 +189,7 @@ function Write() {
                   size="lg"
                   value={formData.title}
                   onChange={handleChange}
-                  placeholder="프로젝트 명을 입력해주세요(최대 20자)"
+                  placeholder="프로젝트 명을 입력해주세요. (최대 20자)"
                   maxLength={20}
                   mb="5"
                   sx={style}
@@ -226,7 +226,7 @@ function Write() {
                   size="lg"
                   value={formData.summary}
                   onChange={handleChange}
-                  placeholder="프로젝트 소개를 입력해주세요(최대 30자)"
+                  placeholder="프로젝트 소개를 입력해주세요. (최대 30자)"
                   maxLength={30}
                   mb="5"
                   sx={style}

@@ -1,9 +1,9 @@
 export const stacks = {
   Python: '#3776AB',
   Spring: '#6DB33F',
-  AWS: 'yellow',
+  AWS: '#FF9900',
   Oracle: '#F80000',
-  IOS: 'black',
+  iOS: '#000000',
   HTML: '#E34F26',
   MySQL: '#4479A1',
   JavaScipt: '#F7DF1E',
@@ -16,7 +16,7 @@ export const stacks = {
   Vue: '#4FC08D',
   Angular: '#DD0031',
   Node: '#339933',
-  Express: 'black',
+  Express: '#000000',
   Django: '#092E20',
   Flutter: '#02569B',
 };
