@@ -104,23 +104,18 @@ function Join() {
 
   return (
     <Sign page="join">
-      <CardBody
-        display="flex"
-        justifyContent="center"
-        alignItems="center"
-        borderRadius="1.25rem"
-        boxShadow="0.625rem 0.625rem 1.875rem #c2c2c2"
-      >
+      <CardBody sx={signStyle.cardBody}>
         <form onSubmit={formValidate}>
           <Box
-            w="xl"
-            h="sm"
+            w={{ sm: '18rem', md: '20rem', lg: 'xl' }}
+            h={{ sm: '18rem', md: '20rem', lg: 'sm' }}
             display="flex"
             flexDirection="column"
             justifyContent="space-between"
+            border="1px solid red"
           >
             <FormControl
-              w="xl"
+              w={{ sm: '18rem', md: '20rem', lg: 'xl' }}
               h="18.75rem"
               display="flex"
               flexDirection="column"
@@ -131,7 +126,7 @@ function Join() {
                 <Box sx={signStyle.inputGroupStyle}>
                   <Input
                     name="email"
-                    w="450px"
+                    w={{ sm: '12rem', md: '18rem', lg: '28.125rem' }}
                     placeholder="이메일 입력 ex)abc@gmail.com"
                     sx={signStyle.inputStyle}
                     _focusVisible={{ borderColor: 'black' }}
@@ -145,7 +140,7 @@ function Join() {
               <Box sx={signStyle.groupStyle}>
                 <Text sx={signStyle.TextStyle}>Password</Text>
                 <Box sx={signStyle.inputGroupStyle}>
-                  <InputGroup w="450px">
+                  <InputGroup w={{ sm: '12rem', md: '18rem', lg: '28.125rem' }}>
                     <Input
                       name="password"
                       placeholder="영문 숫자 포함 7자 이상"
@@ -155,8 +150,8 @@ function Join() {
                       _hover={{ borderColor: 'black' }}
                     />
                     <Icon
-                      w="30px"
-                      h="30px"
+                      w={{ sm: '20px', md: '25px', lg: '30px' }}
+                      h={{ sm: '20px', md: '25px', lg: '30px' }}
                       mt="12px"
                       as={showPW ? ViewIcon : ViewOffIcon}
                       onClick={() => {
@@ -172,7 +167,10 @@ function Join() {
               <Box sx={signStyle.groupStyle}>
                 <FormLabel sx={signStyle.TextStyle}>Nickname</FormLabel>
                 <Box sx={signStyle.inputGroupStyle}>
-                  <Box w="450px" display="flex">
+                  <Box
+                    w={{ sm: '12rem', md: '18rem', lg: '28.125rem' }}
+                    display="flex"
+                  >
                     <Input
                       value={nickname}
                       onChange={handleNickNameChange}
@@ -185,17 +183,18 @@ function Join() {
                     <Button
                       _hover={{ backgroundColor: '#3182CE', opacity: '0.8' }}
                       sx={signStyle.buttonColor}
-                      fontWeight="400"
+                      fontWeight={{ sm: '200', md: '300', lg: '500' }}
                       onClick={handlenicknameCheck}
                       isDisabled={nicknameCheck}
+                      w={{ sm: '0.7rem', md: '2rem', lg: '3.5rem' }}
                     >
                       중복
                     </Button>
                   </Box>
                   <FormHelperText
                     color={nicknameCheck ? '#0AA322' : '#ff0000'}
-                    fontWeight="500"
-                    fontSize="0.813rem"
+                    fontWeight={{ sm: '300', md: '500', lg: '500' }}
+                    fontSize={{ sm: '0.2rem', md: '0.6rem', lg: '0.813rem' }}
                   >
                     {nicknameError}
                   </FormHelperText>
