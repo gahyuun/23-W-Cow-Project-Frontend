@@ -31,6 +31,10 @@ function Login({ setIsLogin }) {
     await axios
       .post('/auth/login', loginData)
       .then((res) => {
+        const submitBtn = document.getElementById('submit');
+        submitBtn.addEventListener('click', (e) => {
+          e.setAttribute('disabled', 'true');
+        });
         setCookie(res.data.data.token);
         setIsLogin(true);
         Swal.fire({ ...signStyle.swalFire, html: '로그인 성공' });
@@ -72,6 +76,7 @@ function Login({ setIsLogin }) {
                     sx={signStyle.inputStyle}
                     _focusVisible={{ borderColor: 'black' }}
                     _hover={{ borderColor: 'black' }}
+                    autoComplete="off"
                   />
                 </Box>
               </Box>
