@@ -1,11 +1,21 @@
-import { Box, Image, Select, Text } from '@chakra-ui/react';
+import {
+  Box,
+  IconButton,
+  Image,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
+  Select,
+  Text,
+} from '@chakra-ui/react';
 import * as React from 'react';
+import { HamburgerIcon } from '@chakra-ui/icons';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import logo from '../img/Logo.png';
 import { stacks } from '../helper/types.js';
 import { removeCookie } from '../helper/cookie';
-
 
 function Header({ isLogin, setIsLogin }) {
   const navigate = useNavigate('');
@@ -30,18 +40,18 @@ function Header({ isLogin, setIsLogin }) {
       if (result.isConfirmed) {
         removeCookie();
         setIsLogin(false);
-        navigate('/', {state:false});
+        navigate('/', { state: false });
       }
     });
   };
-  const handleSearch = async(e) => {
+  const handleSearch = async (e) => {
     e.preventDefault();
     const searchValue = e.target.value;
     if (searchValue === '') {
       setTechstack('');
       return;
     }
-    navigate('/', {state : searchValue});
+    navigate('/', { state: searchValue });
   };
   React.useEffect(() => {
     const urlSearch = new URLSearchParams(location.search);
@@ -99,12 +109,16 @@ function Header({ isLogin, setIsLogin }) {
             ))}
           </Select>
         </Box>
-
-        <Box>
+        {/* xs일떄 */}
+        <Box
+          sx={{
+            display: { sm: 'none', md: 'flex' },
+          }}
+        >
           {isLogin ? (
             <Box
               display="flex"
-              justifyContent="space-betwwen"
+              justifyContent="space-between"
               alignItems="center"
             >
               <Text
@@ -165,6 +179,50 @@ function Header({ isLogin, setIsLogin }) {
               </Text>
             </Box>
           )}
+        </Box>
+        {/* 화면 작아질때 헴버거 메뉴 */}
+        <Box
+          sx={{
+            display: { sm: 'block', md: 'none', lg: 'none' },
+          }}
+        >
+          <Menu>
+            <MenuButton
+              as={IconButton}
+              aria-label="Options"
+              icon={<HamburgerIcon />}
+              variant="outline"
+            />
+            {isLogin ? (
+              <MenuList>
+                <MenuItem
+                  onClick={() => {
+                    navigate('/my');
+                  }}
+                >
+                  My
+                </MenuItem>
+                <MenuItem onClick={handleLogout}>Logout</MenuItem>
+              </MenuList>
+            ) : (
+              <MenuList>
+                <MenuItem
+                  onClick={() => {
+                    navigate('/login');
+                  }}
+                >
+                  Login
+                </MenuItem>
+                <MenuItem
+                  onClick={() => {
+                    navigate('/join');
+                  }}
+                >
+                  Join
+                </MenuItem>
+              </MenuList>
+            )}
+          </Menu>
         </Box>
       </Box>
     </Box>
