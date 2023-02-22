@@ -46,23 +46,17 @@ function Login({ setIsLogin }) {
 
   return (
     <Sign page="login">
-      <CardBody
-        display="flex"
-        justifyContent="center"
-        alignItems="center"
-        borderRadius="1.25rem"
-        boxShadow="10px 10px 30px #c2c2c2"
-      >
+      <CardBody sx={signStyle.cardBody}>
         <form onSubmit={handleSubmit}>
           <Box
-            w="xl"
-            h="sm"
+            w={{ sm: '18rem', md: '20rem', lg: 'xl' }}
+            h={{ sm: '18rem', md: '20rem', lg: 'sm' }}
             display="flex"
             flexDirection="column"
             justifyContent="space-around"
           >
             <FormControl
-              w="xl"
+              w={{ sm: '18rem', md: '20rem', lg: 'xl' }}
               h="15rem"
               display="flex"
               flexDirection="column"
@@ -73,7 +67,7 @@ function Login({ setIsLogin }) {
                 <Box sx={signStyle.inputGroupStyle}>
                   <Input
                     name="email"
-                    w="28.125rem"
+                    w={{ sm: '12rem', md: '18rem', lg: '28.125rem' }}
                     placeholder="이메일을 입력해주세요"
                     sx={signStyle.inputStyle}
                     _focusVisible={{ borderColor: 'black' }}
@@ -84,10 +78,10 @@ function Login({ setIsLogin }) {
               <Box sx={signStyle.groupStyle}>
                 <Text sx={signStyle.TextStyle}>Password</Text>
                 <Box sx={signStyle.inputGroupStyle}>
-                  <InputGroup w="450px">
+                  <InputGroup w={{ sm: '12rem', md: '18rem', lg: '28.125rem' }}>
                     <Input
                       name="password"
-                      w="28.125rem"
+                      w={{ sm: '12rem', md: '18rem', lg: '28.125rem' }}
                       placeholder="비밀번호를 입력해주세요"
                       sx={signStyle.inputStyle}
                       type={showPW ? 'text' : 'password'}
@@ -95,8 +89,8 @@ function Login({ setIsLogin }) {
                       _hover={{ borderColor: 'black' }}
                     />
                     <Icon
-                      w="30px"
-                      h="30px"
+                      w={{ sm: '20px', md: '25px', lg: '30px' }}
+                      h={{ sm: '20px', md: '25px', lg: '30px' }}
                       mt="12px"
                       as={showPW ? ViewIcon : ViewOffIcon}
                       onClick={() => {
