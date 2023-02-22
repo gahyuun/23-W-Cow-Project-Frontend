@@ -17,8 +17,8 @@ function Board({ edit, setEdit, board }) {
     Swal.fire({
       ...swalFire,
       html: `해당 프로젝트를 삭제합니다.`,
-    }).then(async () => {
-      await BoardApi.deleteBoard(id);
+    }).then(async (result) => {
+      result.isConfirmed&&await BoardApi.deleteBoard(id);
       setEdit(editMode.unEdit);
     });
   };

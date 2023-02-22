@@ -20,8 +20,8 @@ import StackItem from '../component/StackItem';
 function Detail() {
    const { state } = useLocation();
    const arr =[];
-   arr.push({title:'Stack', content:state.techStack.map((stack)=>(<StackItem stack={stack}/>))});
-   arr.push({title:'Period', content: `${state.startDate} ~ ${state.endDate}`});
+   arr.push({title:'Stack', content:state.techStack.map((stack)=>(<StackItem key={`detail-stack-${state.id}-${stack}`}stack={stack}/>))});
+   arr.push({title:'Period',content: `${state.startDate} ~ ${state.endDate}`});
    arr.push({title:'Author', content:state.nickname})
 
   return (
@@ -47,20 +47,15 @@ function Detail() {
     <Divider />
     <Accordion defaultIndex={[0]} allowMultiple>
             {arr.map((item)=>(
-              <AccordionItem>
+              <AccordionItem key={`detail-item-${state.id}-${item.title}`}>
               <h2>
                 <AccordionButton>
-                  <Box flex='1' textAlign='left'>
-                        {item.title}
-                  </Box>
+                  <Box flex='1' textAlign='left'> {item.title}</Box>
                   <AccordionIcon />
                 </AccordionButton>
               </h2>
-              <AccordionPanel pb={4} display="flex" flexWrap="wrap" overflow="scroll">
-                    {item.content}
-              </AccordionPanel>
+              <AccordionPanel pb={4} display="flex" flexWrap="wrap" overflow="scroll"> {item.content} </AccordionPanel>
             </AccordionItem>
-          
             ))}
     </Accordion>
   </Card>

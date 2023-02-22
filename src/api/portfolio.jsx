@@ -9,6 +9,10 @@ const BoardApi = {
     const res = await axios.get('/api/my');
     return res.data;
   },
+  async getStackBoardList(searchValue) {
+    const res = await axios.get(`/api/search?searchWord=${searchValue}`);
+    return res.data.data;
+  },
   async getBoard(id) {
     const res = await axios.get(`/api/portfolio/${id}`);
     return res.data.data;
