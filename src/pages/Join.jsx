@@ -112,7 +112,6 @@ function Join() {
             display="flex"
             flexDirection="column"
             justifyContent="space-between"
-            border="1px solid red"
           >
             <FormControl
               w={{ sm: '18rem', md: '20rem', lg: 'xl' }}
