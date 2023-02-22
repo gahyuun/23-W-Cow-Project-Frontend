@@ -32,11 +32,7 @@ function Sign({ children, page }) {
   };
   return (
     <Box display="flex" justifyContent="center">
-      <Card
-        w={{ sm: 'lg', md: 'xl', lg: '2xl' }}
-        mt="7.5rem"
-        border="1px solid green"
-      >
+      <Card w={{ sm: 'lg', md: 'xl', lg: '2xl' }} mt="7.5rem">
         <CardHeader
           w={{ sm: 'lg', md: 'xl', lg: '2xl' }}
           h={{ sm: '4rem', md: '5rem', lg: '6rem' }}
