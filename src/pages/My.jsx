@@ -27,7 +27,7 @@ function My() {
 
   const fetchMyBoardList = async () => {
     const res = await BoardApi.getMyBoardList();
-    res ? (setList(res.data), setInfo(res.userData)): console.log(res)
+    res ? (setList(res.data), setInfo(res.userData)) : console.log(res);
   };
   useEffect(() => {
     fetchMyBoardList();
@@ -42,13 +42,13 @@ function My() {
     : {};
 
   return (
-    <Box w={{ sm: 'md', md: '3xl', lg: '5xl' }} m='auto'  mt="20" mb="5">
+    <Box w={{ sm: 'md', md: '3xl', lg: '5xl' }} m="auto" mt="20" mb="5">
       <Flex>
-        <Box  display={{ base:'none', xl:'block' }}>
-           <Information info={info} />
+        <Box display={{ base: 'none', xl: 'block' }}>
+          <Information info={info} />
         </Box>
         <Box m="auto">
-          <Box >
+          <Box>
             <VStack
               divider={<StackDivider border="solid 1px grey" />}
               spacing={4}
@@ -86,17 +86,17 @@ function My() {
                   </Box>
                 )}
               </Box>
-         
-              <Grid  templateColumns={{
-         lg :'repeat(2, 1fr)',
-         md: 'repeat(2, 1fr)',
-         sm: 'repeat(1, 1fr)'
-        }}  m="auto">
+
+              <Grid
+                templateColumns={{
+                  lg: 'repeat(2, 1fr)',
+                  md: 'repeat(2, 1fr)',
+                  sm: 'repeat(1, 1fr)',
+                }}
+                m="auto"
+              >
                 {myList.map((list) => (
-                  <GridItem
-                    style={style}
-                    key={`mypage__board-${list.id}`}
-                  >
+                  <GridItem style={style} key={`mypage__board-${list.id}`}>
                     <Board edit={edit} setEdit={setEdit} board={list} />
                   </GridItem>
                 ))}

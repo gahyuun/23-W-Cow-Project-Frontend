@@ -20,9 +20,6 @@ import Login from './pages/Login';
 import Detail from './pages/Detail';
 import { getCookie } from './helper/cookie';
 
-// 로그인시 /login, /join 접근시 My 페이지로 이동. /login, /join 접근 불가
-// 비로그인 상태에서 /mypage, /portfolio 페이지 접근 불가. Login 페이지로 이동
-
 function App() {
   const [isLogin, setIsLogin] = useState(getCookie());
 
