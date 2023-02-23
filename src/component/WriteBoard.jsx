@@ -10,8 +10,8 @@ function WriteBoard() {
   };
   return (
     <Box
-      w="450px"
-      h="420px"
+    w={{ sm: '20rem', md: '23rem', lg: '26rem' }}
+    h={{ sm: '22rem', md: '22.5rem', lg: '24rem' }}
       p={5}
       m={5}
       display="flex"

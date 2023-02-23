@@ -37,8 +37,8 @@ function Board({ edit, setEdit, board }) {
 
   return (
     <Box
-      w="450px"
-      h="420px"
+      w={{ sm: '20rem', md: '23rem', lg: '26rem' }}
+      h={{ sm: '22rem', md: '22.5rem', lg: '24rem' }}
       p={5}
       m={5}
       boxShadow="2xl"
@@ -47,19 +47,21 @@ function Board({ edit, setEdit, board }) {
       onClick={handleClickBtn}
       _hover={{ fontWeight: 'semibold', boxShadow: 'dark-lg' }}
     >
-      <Box mb="5" display="flex" alignItems="center" justifyContent="center">
+      <Box mb="5" display="flex" alignItems="center" justifyContent="center"
+      w={{ sm: '300', md: '300', lg: '400' }}
+      h={{ sm: '10rem', base:'200px'}}>
         <Image
           src={board.image}
           w="auto"
-          h="200px"
-          maxW="400px"
+          h={{ sm: '10rem', base:'200px'}}
+          maxW={{ sm: '17rem', base:'300px'}}
           objectFit="contain"
         />
       </Box>
-      <Heading size="md" textTransform="uppercase" noOfLines={1}>
+      <Heading fontSize={{ sm: 's', md: 'md', lg: 'lg' }} textTransform="uppercase" noOfLines={1}>
         {board.title}
       </Heading>
-      <Text pt="2" fontSize="s" mb="10">
+      <Text pt="2" fontSize={{ sm: 'xs', md: 's', lg: 'md' }}  mb={{ sm: '5', md: '10', lg: '10' }} >
         {board.summary}
       </Text>
      
@@ -74,16 +76,6 @@ function Board({ edit, setEdit, board }) {
 Board.defaultProps = {
   edit: false,
   setEdit: false,
-  board: {
-    title: '프로폴리오 Pro-Folio',
-    image: '이미지 주소',
-    period: '20200104 ~ 20201220',
-    summary:
-      '포트폴리오 저장소를 구현한 웹 사이트입니다. 혹시 엄청엄청 이 내용이 길어지면 어떻게 될까?',
-    techstack: ['java', 'JavaScipt', 'AWS', 'Python', 'node'],
-    detail: '2022년 12월 ~ 2023년 1월 까지 진행한 사이드 프로젝트',
-    id: 6,
-  },
 };
 
 export default Board;
