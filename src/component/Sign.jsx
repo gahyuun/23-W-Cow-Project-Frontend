@@ -26,7 +26,7 @@ function Sign({ children, page }) {
     fontSize: { sm: '1rem', md: '1.2rem', lg: 'xl' },
     fontWeight: { sm: '500', md: '600', lg: '600' },
     color: '#fff',
-  }; // 보여지는 컴포넌트의 헤더 스타일
+  };
   const hoverStyle = {
     boxShadow: '10px 10px 30px #c2c2c2',
   };
@@ -48,7 +48,6 @@ function Sign({ children, page }) {
           >
             로그인
           </Box>
-
           <Box
             sx={page === 'join' ? showHeaderStyle : notShowHeaderStyle}
             onClick={() => {

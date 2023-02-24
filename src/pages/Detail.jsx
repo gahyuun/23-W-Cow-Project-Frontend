@@ -14,51 +14,83 @@ import {
   Accordion,
   Box,
 } from '@chakra-ui/react';
- import { useLocation } from 'react-router';
+import { useLocation } from 'react-router';
 import StackItem from '../component/StackItem';
 
 function Detail() {
-   const { state } = useLocation();
-   const arr =[];
-   arr.push({title:'Stack', content:state.techStack.map((stack)=>(<StackItem key={`detail-stack-${state.id}-${stack}`}stack={stack}/>))});
-   arr.push({title:'Period',content: `${state.startDate} ~ ${state.endDate}`});
-   arr.push({title:'Author', content:state.nickname})
+  const { state } = useLocation();
+  const arr = [];
+  arr.push({
+    title: 'Stack',
+    content: state.techStack.map((stack) => (
+      <StackItem key={`detail-stack-${state.id}-${stack}`} stack={stack} />
+    )),
+  });
+  arr.push({
+    title: 'Period',
+    content: `${state.startDate} ~ ${state.endDate}`,
+  });
+  arr.push({ title: 'Author', content: state.nickname });
 
   return (
-    <Card w='850px' m='auto'>
-    <CardBody >
-        <Box display="flex" alignItems="center" justifyContent="center" w="800px" h="500px">
+    <Card w={{ sm: 'lg', md: '3xl', lg: '5xl' }} m="auto">
+      <CardBody>
+        <Box
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+          w={{ sm: 'lg', md: '3xl', lg: '5xl' }}
+          h={{ sm: '300px', md: '400px', lg: '500px' }}
+        >
           <Image
-                    src={state.image}
-                    w="auto"
-                    h="auth"
-                    maxW="800px"
-                    maxH="500px"
-                    m="auto"
-                  />
+            src={state.image}
+            w="auto"
+            h="auto"
+            maxW={{ sm: '400px', md: '600px', lg: '800px' }}
+            maxH={{ sm: '300px', md: '400px', lg: '500px' }}
+            objectFit="contain"
+          />
+        </Box>
+        <Stack mt="6" spacing="3">
+          <Heading fontSize={{ sm: 'lg', md: '2xl', lg: '4xl' }}>
+            {state.title}
+          </Heading>
+          <Text fontSize={{ sm: 'md', md: 'lg', lg: 'xl' }} as="b">
+            {state.summary}
+          </Text>
+          <Text fontSize={{ sm: 'sm', md: 'md', lg: 'lg' }}>
+            {state.detail}
+          </Text>
+          <Box display="flex" flexFlow="row-reverse">
+            {state.date}
           </Box>
-          <Stack mt='6' spacing='3'>
-            <Heading size='lg'>{state.title}</Heading>
-            <Text fontSize='xl'>{state.summary}</Text>
-            <Text> {state.detail} </Text>
-            <Box display="flex" flexFlow="row-reverse"> {state.date}  </Box>
-          </Stack>
-    </CardBody>
-    <Divider />
-    <Accordion defaultIndex={[0]} allowMultiple>
-            {arr.map((item)=>(
-              <AccordionItem key={`detail-item-${state.id}-${item.title}`}>
-              <h2>
-                <AccordionButton>
-                  <Box flex='1' textAlign='left'> {item.title}</Box>
-                  <AccordionIcon />
-                </AccordionButton>
-              </h2>
-              <AccordionPanel pb={4} display="flex" flexWrap="wrap" overflow="scroll"> {item.content} </AccordionPanel>
-            </AccordionItem>
-            ))}
-    </Accordion>
-  </Card>
+        </Stack>
+      </CardBody>
+      <Divider />
+      <Accordion defaultIndex={[0]} allowMultiple>
+        {arr.map((item) => (
+          <AccordionItem key={`detail-item-${state.id}-${item.title}`}>
+            <h2>
+              <AccordionButton>
+                <Box flex="1" textAlign="left">
+                  {' '}
+                  {item.title}
+                </Box>
+                <AccordionIcon />
+              </AccordionButton>
+            </h2>
+            <AccordionPanel
+              pb={4}
+              display="flex"
+              flexWrap="wrap"
+              overflow="scroll"
+            >
+              {item.content}
+            </AccordionPanel>
+          </AccordionItem>
+        ))}
+      </Accordion>
+    </Card>
   );
 }
 

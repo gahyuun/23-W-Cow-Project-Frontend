@@ -27,8 +27,9 @@ function My() {
 
   const fetchMyBoardList = async () => {
     const res = await BoardApi.getMyBoardList();
-    res ? (setList(res.data), setInfo(res.userData)): console.log(res)
+    res ? (setList(res.data), setInfo(res.userData)) : console.log(res);
   };
+
   useEffect(() => {
     fetchMyBoardList();
   }, [edit]);
@@ -42,19 +43,21 @@ function My() {
     : {};
 
   return (
-    <Box w="60%" m="auto" mt="20" mb="5">
+    <Box width={['md', 'xl', '3xl', '5xl']} m="auto" mt="20" mb="5">
       <Flex>
-        <Information info={info}/>
-        <Box>
-          <Box ml="10">
+        <Box display={{ base: 'none', xl: 'block' }}>
+          <Information info={info} />
+        </Box>
+        <Box m="auto">
+          <Box>
             <VStack
               divider={<StackDivider border="solid 1px grey" />}
               spacing={4}
-              w="fit-content"
+              w={{ sm: 'md', md: '3xl', lg: '4xl' }}
               align="stretch"
             >
               <Box display="flex">
-                <Text fontSize="4xl" as="b">
+                <Text fontSize={{ sm: 'lg', md: '2xl', lg: '4xl' }} as="b">
                   My Portfolio
                 </Text>
                 {edit ? (
@@ -84,24 +87,21 @@ function My() {
                   </Box>
                 )}
               </Box>
-         
+
               <Grid
                 templateColumns={{
-                  md: 'repeat(1,1fr)',
-                  lg: 'repeat(1,1fr)',
-                  xl: 'repeat(2,1fr)',
+                  lg: 'repeat(2, 1fr)',
+                  md: 'repeat(2, 1fr)',
+                  sm: 'repeat(1, 1fr)',
                 }}
+                m="auto"
               >
                 {myList.map((list) => (
-                  <GridItem
-                    style={style}
-                    key={`mypage__board-${list.id}`}
-                    item={3}
-                  >
+                  <GridItem style={style} key={`mypage__board-${list.id}`}>
                     <Board edit={edit} setEdit={setEdit} board={list} />
                   </GridItem>
                 ))}
-                {edit ? '' : <WriteBoard />}
+                {!edit && <WriteBoard />}
               </Grid>
             </VStack>
           </Box>
