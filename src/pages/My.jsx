@@ -29,6 +29,7 @@ function My() {
     const res = await BoardApi.getMyBoardList();
     res ? (setList(res.data), setInfo(res.userData)) : console.log(res);
   };
+
   useEffect(() => {
     fetchMyBoardList();
   }, [edit]);
@@ -42,7 +43,7 @@ function My() {
     : {};
 
   return (
-    <Box w={{ sm: 'md', md: '3xl', lg: '5xl' }} m="auto" mt="20" mb="5">
+    <Box width={['md', 'xl', '3xl', '5xl']} m="auto" mt="20" mb="5">
       <Flex>
         <Box display={{ base: 'none', xl: 'block' }}>
           <Information info={info} />
@@ -100,7 +101,7 @@ function My() {
                     <Board edit={edit} setEdit={setEdit} board={list} />
                   </GridItem>
                 ))}
-                {edit ? '' : <WriteBoard />}
+                {!edit && <WriteBoard />}
               </Grid>
             </VStack>
           </Box>

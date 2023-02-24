@@ -2,20 +2,20 @@ import axios from 'axios';
 
 const BoardApi = {
   async getBoardList() {
-    const res = await axios.get('/api/portfolio/');
-    return res.data.data;
+    const {data} = await axios.get('/api/portfolio/');
+    return data.data;
   },
   async getMyBoardList() {
-    const res = await axios.get('/api/my');
-    return res.data;
+    const  {data} = await axios.get('/api/my');
+    return data;
   },
   async getStackBoardList(searchValue) {
-    const res = await axios.get(`/api/search?searchWord=${searchValue}`);
-    return res.data.data;
+    const {data} = await axios.get(`/api/search?searchWord=${searchValue}`);
+    return data.data;
   },
   async getBoard(id) {
-    const res = await axios.get(`/api/portfolio/${id}`);
-    return res.data.data;
+    const {data} = await axios.get(`/api/portfolio/${id}`);
+    return data.data;
   },
   async deleteBoard(id) {
     const res = await axios.delete(`/api/portfolio/${id}`);
@@ -28,7 +28,7 @@ const BoardApi = {
   async uploadBoard(form) {
     const res = await axios.post('/api/portfolio/write', form, {
       headers: {
-        'Content-Type': 'multipart/form-data',
+        'Content-Type': 'multipart/form-data'
       },
     });
     return res;

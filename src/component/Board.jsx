@@ -1,5 +1,5 @@
 import { Box, Heading, Text, Image, Flex } from '@chakra-ui/react';
-import * as React from 'react';
+import React, {useCallback} from 'react';
 import { useNavigate } from 'react-router';
 import Swal from 'sweetalert2';
 import { editMode, swalFire } from '../helper/types';
@@ -8,32 +8,34 @@ import StackItem from './StackItem';
 
 function Board({ edit, setEdit, board }) {
   const navigate = useNavigate();
-  const getBoard = async (id) => {
-    const res = await BoardApi.getBoard(id);
-    navigate('/detail', { state: res });
-  };
 
-  const deleteBoard = (id) => {
-    Swal.fire({
+  const handleGetBoard = useCallback(async () => {
+    const res = await BoardApi.getBoard(board.id);
+    navigate('/detail', { state: res });
+  }, [board.id, navigate]);
+
+  const handleDeleteBoard = useCallback(async () => {
+    const result = await Swal.fire({
       ...swalFire,
       html: `해당 프로젝트를 삭제합니다.`,
-    }).then(async (result) => {
-      result.isConfirmed && (await BoardApi.deleteBoard(id));
-      setEdit(editMode.unEdit);
     });
-  };
-  const modifyBoard = async (id) => {
-    const res = await BoardApi.getBoard(id);
-    navigate('/write', { state: res });
-  };
+      result.isConfirmed && await BoardApi.deleteBoard(board.id);
+    setEdit(editMode.unEdit);
+  }, [board.id, editMode.unEdit, setEdit]);
 
-  const handleClickBtn = () => {
+  const handleModifyBoard = useCallback(async () => {
+    const res = await BoardApi.getBoard(board.id);
+    navigate('/write', { state: res });
+  }, [board.id, navigate]);
+
+
+  const handleClickBtn = useCallback(() => {
     edit
       ? edit === editMode.delete
-        ? deleteBoard(board.id)
-        : modifyBoard(board.id)
-      : getBoard(board.id);
-  };
+        ? handleDeleteBoard()
+        : handleModifyBoard()
+      : handleGetBoard();
+  }, [edit, handleDeleteBoard, handleGetBoard, handleModifyBoard]);
 
   return (
     <Box
