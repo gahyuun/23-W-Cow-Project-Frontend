@@ -11,3 +11,46 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+.css-rngjpw:focus-visible,
+.css-rngjpw[data-focus-visible] {
+  z-index: 3;
+  border-color: '#ffff !important';
+  box-shadow: 'none !important';
+}
+.css-rngjpw:hover,
+.css-rngjpw[data-hover] {
+  border-color: 'none !important';
+}
+@keyframes shakingBoard {
+  25% {
+    transform: rotate(-1deg);
+  }
+  50% {
+    transform: rotate(1deg);
+  }
+}
+.multi-select {
+  --rmsc-gray: #718096 !important;
+}
+
+@media screen and (min-width: 30em) {
+  .multi-select {
+    --rmsc-h: 30px !important;
+    --rmsc-p: 7px !important;
+    font-size: 14px;
+  }
+}
+@media screen and (min-width: 48em) {
+  .multi-select {
+    --rmsc-h: 40px !important;
+    --rmsc-p: 15px !important;
+    font-size: 15px;
+  }
+}
+@media screen and (min-width: 62em) {
+  .multi-select {
+    --rmsc-h: 48px !important;
+    --rmsc-p: 15px !important;
+    font-size: 16px;
+  }
+}
