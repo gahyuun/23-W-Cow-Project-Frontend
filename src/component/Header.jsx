@@ -13,7 +13,7 @@ import * as React from 'react';
 import { HamburgerIcon } from '@chakra-ui/icons';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
-import logo from '../img/Logo.png';
+import logo from '../img/LOGO.png';
 import { stacks } from '../helper/types.js';
 import { removeCookie } from '../helper/cookie';
 
