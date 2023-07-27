@@ -26,18 +26,32 @@
             <img src="https://avatars.githubusercontent.com/u/75975946?v=4" width="100px" />
         </a>
     </td>
+         <td>
+        <a >
+            <img src="https://avatars.githubusercontent.com/u/59240554?v=4" width="100px" />
+        </a>
+    </td>
+         <td>
+        <a href="https://github.com/doraemon49">
+            <img src="https://avatars.githubusercontent.com/u/59240554?v=4" width="100px" />
+        </a>
+    </td>
   </tr>
 
   <tr>
     <td><b>박가현</b></td>
     <td><b>김세빈</b></td>
     <td><b>모유경</b></td>
+     <td><b>이재혁</b></td>
+    <td><b>김민</b></td>
 
   </tr>
   <tr>
     <td><b>FE</b></td>
     <td><b>FE</b></td>
     <td><b>FE</b></td>
+    <td><b>BE</b></td>
+    <td><b>BE</b></td>
   </tr>
 </table>
 
