@@ -28,7 +28,7 @@
     </td>
          <td>
         <a >
-            <img src="https://avatars.githubusercontent.com/u/59240554?v=4" width="100px" />
+            <img src="https://avatars.githubusercontent.com/u/60644352?v=4" width="100px" />
         </a>
     </td>
          <td>
